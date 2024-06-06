@@ -1,0 +1,103 @@
+application {
+  config {
+    baseName TicketSale
+    packageName appPackage
+    applicationType monolith
+    
+
+
+  }
+}
+
+//Користувач
+entity User{
+  id Integer unique
+  firstName String
+  middleName String
+  lastName String
+  dateOfBirth LocalDate
+  gender String
+  email String unique required
+  phoneNumber String
+  password String required
+}
+
+//Квиток
+entity Ticket{
+  id Integer unique
+  departDateBooking LocalDate required
+  returnDateBooking LocalDate
+  registrationDateTicket LocalDate
+  returnDateTicket LocalDate
+  price Double required min(0)
+}
+
+
+
+//Потяг
+entity Train{
+  id Integer unique
+  amountOfSeats Integer min(0)
+  trainModel String
+}
+
+
+//Станції (автобусні, залізничні)
+entity Station{
+  id Integer unique
+  nameOfStation String required
+  addressLocation String required
+  stationPhone String
+}
+
+//Тип класу
+entity Economy{
+  id Integer unique
+  type String
+}
+
+
+//Вікова група клієнтів
+entity AgeGroup{
+  id Integer unique
+  type String
+}
+
+//Знижка клієнтів
+entity Discount{
+  id Integer unique
+  type String,
+  percent Double,
+  startAt LocalDate,
+  endAt LocalDate,
+}
+
+/////////////////////////////////
+relationship OneToOne{
+  User{user} to Ticket{tickets}
+}
+
+
+relationship OneToMany{
+  Station{tickets} to Ticket{startStation},
+  Station{tickets} to Ticket{endStation},
+}
+
+relationship OneToMany{
+  Train{trains} to Ticket{tickets}
+}
+
+
+relationship OneToMany{
+  Economy{economyClass} to Ticket{tickets}
+}
+
+
+relationship OneToMany{
+  AgeGroup{ageGroup} to Ticket{tickets}
+}
+
+
+relationship ManyToMany{
+  Discount{discount} to Ticket{tickets}
+}
