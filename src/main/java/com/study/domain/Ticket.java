@@ -12,7 +12,8 @@ public class Ticket {
     private LocalDate returnDateTicket; //optional
     private double price;
     private User user;
-    private Station station;
+    private Station startStation;
+    private Station endStation;
     private Train train;
     private Economy economy;
     private AgeGroup ageGroup;
@@ -21,13 +22,14 @@ public class Ticket {
     public Ticket(){ }
 
     public Ticket(int id, LocalDate departDateBooking, LocalDate registrationDateTicket, double price,
-                  User user, Station station, Train train, Economy economy, AgeGroup ageGroup) {
+                  User user, Station startStation, Station endStation, Train train, Economy economy, AgeGroup ageGroup) {
         this.id = id;
         this.departDateBooking = departDateBooking;
         this.registrationDateTicket = registrationDateTicket;
         this.price = price;
         this.user = user;
-        this.station = station;
+        this.startStation = startStation;
+        this.endStation = endStation;
         this.train = train;
         this.economy = economy;
         this.ageGroup = ageGroup;
@@ -68,12 +70,20 @@ public class Ticket {
         this.user = user;
     }
 
-    public Station getStation() {
-        return station;
+    public Station getStartStation() {
+        return startStation;
     }
 
-    public void setStation(Station station) {
-        this.station = station;
+    public void setStartStation(Station startStation) {
+        this.startStation = startStation;
+    }
+
+    public Station getEndStation() {
+        return endStation;
+    }
+
+    public void setEndStation(Station endStation) {
+        this.endStation = endStation;
     }
 
     public Train getTrain() {
@@ -154,7 +164,8 @@ public class Ticket {
                 ", returnDateTicket=" + returnDateTicket +
                 ", price=" + price +
                 ", user=" + user +
-                ", station=" + station +
+                ", startStation=" + startStation +
+                ", endStation=" + endStation +
                 ", train=" + train +
                 ", economy=" + economy +
                 ", ageGroup=" + ageGroup +
@@ -174,7 +185,8 @@ public class Ticket {
                 Objects.equals(registrationDateTicket, ticket.registrationDateTicket) &&
                 Objects.equals(returnDateTicket, ticket.returnDateTicket) &&
                 Objects.equals(user, ticket.user) &&
-                Objects.equals(station, ticket.station) &&
+                Objects.equals(startStation, ticket.startStation) &&
+                Objects.equals(endStation, ticket.endStation) &&
                 Objects.equals(train, ticket.train) &&
                 Objects.equals(economy, ticket.economy) &&
                 Objects.equals(ageGroup, ticket.ageGroup) &&
@@ -184,6 +196,6 @@ public class Ticket {
     @Override
     public int hashCode() {
         return Objects.hash(id, departDateBooking, returnDateBooking, registrationDateTicket,
-                returnDateTicket, price, user, station, train, economy, ageGroup, discount);
+                returnDateTicket, price, user, startStation, endStation, train, economy, ageGroup, discount);
     }
 }
