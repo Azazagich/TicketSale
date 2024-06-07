@@ -8,40 +8,35 @@ import java.util.Optional;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class AgeGroupRepository {
+public class AgeGroupRepository /*implements CrudRepository<AgeGroup>*/ {
 
     private static Integer id = 0;
 
-    // private static Logger LOGGER = LogManager.getLogger();
+    private static Logger LOGGER = LogManager.getLogger();
 
-    HashMap<Integer, AgeGroup> groups = new HashMap<>();
+    private static final HashMap<Integer, AgeGroup> groups = new HashMap<>();
 
     //CRUD
 
-    //boolean
     public AgeGroup save(AgeGroup ageGroup) {
         if (ageGroup != null) {
-            ageGroup.setId(id++);
+            ageGroup.setId(++id);
             groups.put(id, ageGroup);
-            return ageGroup;
         }
-        return new AgeGroup();
+        return ageGroup;
     }
 
     public Optional<AgeGroup> findById(Integer id){
-        Optional<AgeGroup> ageGroup;
-        if (id != null && groups.containsKey(id)) {
-            return Optional.of(groups.get(id));
-        }
-        return Optional.empty();
+        return Optional.of(groups.get(id));
     }
 
+    //@Override
     public boolean existById(Integer id){
-            return id != null && groups.containsKey(id);
+        return groups.containsKey(id);
     }
 
     public boolean updateById(Integer id, AgeGroup nwAgeGroup){
-        if (nwAgeGroup != null && groups.containsKey(id)){
+        if (nwAgeGroup != null){
             nwAgeGroup.setId(id);
             groups.put(id, nwAgeGroup);
             return true;
@@ -50,15 +45,11 @@ public class AgeGroupRepository {
     }
 
     public void deleteById(Integer id){
-        if (groups.containsKey(id) && id != null) {
             groups.remove(id);
-        }
     }
 
     public void delete(AgeGroup ageGroup){
-        if (groups.containsKey(id) && id != null && ageGroup != null) {
             groups.remove(ageGroup.getId(), ageGroup);
-        }
     }
 
     public void deleteAll(){
