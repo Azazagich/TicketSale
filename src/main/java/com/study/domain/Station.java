@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represents a train station with an ID, name, address, and optional phone number.
+ * It also maintains a set of tickets associated with the station.
+ * */
 public class Station {
     private int id;
     private String nameOfStation;
@@ -33,6 +37,11 @@ public class Station {
         return id;
     }
 
+    public Station id(int id) {
+        this.id = id;
+        return this;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -41,12 +50,22 @@ public class Station {
         return nameOfStation;
     }
 
+    public Station nameOfStation(String nameOfStation) {
+        this.nameOfStation = nameOfStation;
+        return this;
+    }
+
     public void setNameOfStation(String nameOfStation) {
         this.nameOfStation = nameOfStation;
     }
 
     public String getAddressLocation() {
         return addressLocation;
+    }
+
+    public Station addressLocation(String addressLocation) {
+        this.addressLocation = addressLocation;
+        return this;
     }
 
     public void setAddressLocation(String addressLocation) {
@@ -61,6 +80,12 @@ public class Station {
         return tickets;
     }
 
+    /**
+     * Sets the set of tickets associated with the station.
+     * If the station already has tickets, it disassociates them before setting the new tickets.
+     *
+     * @param tickets the set of tickets to associate with the station
+     * */
     public void setTickets(Set<Ticket> tickets) {
         if (this.tickets != null){
             for (Ticket ticket : this.tickets){

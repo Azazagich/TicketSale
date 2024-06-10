@@ -7,11 +7,9 @@ import java.util.Set;
 
 
 /**
- * Represents a ticket in the system with booking details and associated entities.
- * The Ticket class contains information about a ticket such as booking dates, price,
- * user information, start and end stations, train details, economy class, age group,
- * and optional discounts. The class provides constructors for creating tickets with
- * fields and optional methods to set additional fields.
+ * Represents a ticket for a train journey. A ticket includes details such as
+ * booking dates, registration dates, price, and associated entities like user, station,
+ * train, economy class, age group, and discounts.
  * */
 
 public class Ticket {
@@ -45,6 +43,11 @@ public class Ticket {
         this.ageGroup = ageGroup;
     }
 
+    public Ticket price(double price) {
+        this.price = price;
+        return this;
+    }
+
     public Ticket discount(Set<Discount> discount) {
         this.discounts = discount;
         return this;
@@ -68,6 +71,12 @@ public class Ticket {
         this.returnDateTicket = returnDateTicket;
     }
 
+    /**
+     * Sets the set of discounts associated with the ticket.
+     * If the ticket already has discounts, it disassociates them before setting the new discounts.
+     *
+     * @param discounts the set of discounts to associate with the ticket
+     * */
     public void setDiscounts(Set<Discount> discounts) {
         if (this.discounts != null){
             for (Discount discount : this.discounts) {
@@ -86,6 +95,11 @@ public class Ticket {
         return user;
     }
 
+    /**
+     * Sets the user associated with the ticket.
+     *
+     * @param user the user to set
+     */
     public void setUser(User user) {
         this.user = user;
         user.setTicket(this);
@@ -95,6 +109,11 @@ public class Ticket {
         return startStation;
     }
 
+    /**
+     * Sets the starting station of the journey.
+     *
+     * @param startStation the starting station to set
+     */
     public void setStartStation(Station startStation) {
         this.startStation = startStation;
         startStation.addTicket(this);
@@ -104,6 +123,11 @@ public class Ticket {
         return endStation;
     }
 
+    /**
+     * Sets the ending station of the journey.
+     *
+     * @param endStation the ending station to set
+     */
     public void setEndStation(Station endStation) {
         this.endStation = endStation;
         endStation.addTicket(this);
@@ -113,6 +137,11 @@ public class Ticket {
         return train;
     }
 
+    /**
+     * Sets the train associated with the ticket.
+     *
+     * @param train the train to set
+     */
     public void setTrain(Train train) {
         this.train = train;
         train.addTicket(this);
@@ -122,6 +151,11 @@ public class Ticket {
         return economy;
     }
 
+    /**
+     * Sets the economy class associated with the ticket.
+     *
+     * @param economy the economy class to set
+     */
     public void setEconomy(Economy economy) {
         this.economy = economy;
         economy.addTicket(this);
@@ -131,6 +165,11 @@ public class Ticket {
         return ageGroup;
     }
 
+    /**
+     * Sets the age group associated with the ticket.
+     *
+     * @param ageGroup the age group to set
+     */
     public void setAgeGroup(AgeGroup ageGroup) {
         this.ageGroup = ageGroup;
         ageGroup.addTicket(this);
@@ -144,12 +183,22 @@ public class Ticket {
         return id;
     }
 
+    public Ticket id(int id){
+        this.id = id;
+        return this;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
     public LocalDate getDepartDateBooking() {
         return departDateBooking;
+    }
+
+    public Ticket departDateBooking(LocalDate departDateBooking) {
+        this.departDateBooking = departDateBooking;
+        return this;
     }
 
     public void setDepartDateBooking(LocalDate departDateBooking) {
@@ -162,6 +211,11 @@ public class Ticket {
 
     public LocalDate getRegistrationDateTicket() {
         return registrationDateTicket;
+    }
+
+    public Ticket registrationDateTicket(LocalDate registrationDateTicket) {
+        this.registrationDateTicket = registrationDateTicket;
+        return this;
     }
 
     public void setRegistrationDateTicket(LocalDate registrationDateTicket) {

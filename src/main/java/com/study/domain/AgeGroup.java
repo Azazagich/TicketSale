@@ -2,6 +2,10 @@ package com.study.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents an age group with an ID and a type.
+ * Each age group can have a set of associated tickets.
+ * */
 public class AgeGroup {
     private int id;
     private String type;
@@ -18,12 +22,22 @@ public class AgeGroup {
         return type;
     }
 
+    public AgeGroup type(String type) {
+        this.type = type;
+        return this;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
 
     public int getId() {
         return id;
+    }
+
+    public AgeGroup id(int id){
+        this.id = id;
+        return this;
     }
 
     public void setId(int id) {
@@ -34,6 +48,13 @@ public class AgeGroup {
         return tickets;
     }
 
+
+    /**
+     * Sets the set of tickets associated with the age group.
+     * If the age group already has tickets, it disassociates them before setting the new tickets.
+     *
+     * @param tickets the set of tickets to associate with the age group
+     * */
     public void setTickets(Set<Ticket> tickets) {
         if (this.tickets != null){
             for (Ticket ticket : this.tickets){

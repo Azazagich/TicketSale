@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represents an economy class with an ID, type, and a set of associated tickets.
+ * */
 public class Economy {
     private int id;
     private String type;
-    private Set<Ticket> tickets = new HashSet<Ticket>();
+    private Set<Ticket> tickets = new HashSet<>();
 
     public Economy() { }
 
@@ -37,6 +40,12 @@ public class Economy {
         return tickets;
     }
 
+    /**
+     * Sets the set of tickets associated with the economy class.
+     * If the economy class already has tickets, it disassociates them before setting the new tickets.
+     *
+     * @param tickets the set of tickets to associate with the economy class
+     * */
     public void setTickets(Set<Ticket> tickets) {
         if (this.tickets != null){
             for (Ticket ticket : this.tickets){

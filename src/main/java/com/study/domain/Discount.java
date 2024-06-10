@@ -8,11 +8,10 @@ import java.util.Set;
 
 /**
  * Represents a discount in the system.
- *
  * The Discount class contains information about a discount such as its type,
  * percentage, and optional start and end dates. The class provides constructors for
  * creating discounts with mandatory fields and optional methods to set additional fields.
- */
+ * */
 
 public class Discount {
     private int id;
@@ -35,6 +34,11 @@ public class Discount {
         return id;
     }
 
+    public Discount id(int id) {
+        this.id = id;
+        return this;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -43,12 +47,22 @@ public class Discount {
         return type;
     }
 
+    public Discount type(String type) {
+        this.type = type;
+        return this;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
 
     public Double getPercent() {
         return percent;
+    }
+
+    public Discount percent(Double percent) {
+        this.percent = percent;
+        return this;
     }
 
     public void setPercent(Double percent) {
@@ -85,6 +99,12 @@ public class Discount {
         return tickets;
     }
 
+    /**
+     * Sets the set of tickets associated with the discount.
+     * If the discount already has tickets, it disassociates them before setting the new tickets.
+     *
+     * @param tickets the set of tickets to associate with the discount
+     * */
     public void setTickets(Set<Ticket> tickets) {
         if (this.tickets != null){
             for (Ticket ticket : this.tickets){

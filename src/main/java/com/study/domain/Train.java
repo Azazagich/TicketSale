@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represents a train with an ID, number of seats, and optional model.
+ * It also maintains a set of tickets associated with the train.
+ * */
 public class Train {
     private int id;
     private int amountOfSeats;
@@ -18,6 +22,11 @@ public class Train {
 
     public int getId() {
         return id;
+    }
+
+    public Train id(int id) {
+        this.id = id;
+        return this;
     }
 
     public void setId(int id) {
@@ -41,6 +50,11 @@ public class Train {
         return amountOfSeats;
     }
 
+    public Train amountOfSeats(int amountOfSeats) {
+        this.amountOfSeats = amountOfSeats;
+        return this;
+    }
+
     public void setAmountOfSeats(int amountOfSeats) {
         this.amountOfSeats = amountOfSeats;
     }
@@ -49,6 +63,12 @@ public class Train {
         return tickets;
     }
 
+    /**
+     * Sets the set of tickets associated with the train.
+     * If the train already has tickets, it disassociates them before setting the new tickets.
+     *
+     * @param tickets the set of tickets to associate with the train
+     * */
     public void setTickets(Set<Ticket> tickets) {
         if (this.tickets != null){
             for (Ticket ticket : this.tickets){

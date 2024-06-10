@@ -66,6 +66,11 @@ public class User {
         return id;
     }
 
+    public User id(int id) {
+        this.id = id;
+        return this;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -74,12 +79,22 @@ public class User {
         return firstName;
     }
 
+    public User firstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     public String getMiddleName() {
         return middleName;
+    }
+
+    public User lastName(String lastName){
+        this.lastName = lastName;
+        return this;
     }
 
     public String getLastName() {
@@ -94,6 +109,11 @@ public class User {
         return dateOfBirth;
     }
 
+    public User dateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+        return this;
+    }
+
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
@@ -104,6 +124,11 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public User email(String email) {
+        this.email = email;
+        return this;
     }
 
     public void setEmail(String email) {
@@ -118,6 +143,11 @@ public class User {
         return password;
     }
 
+    public User password(String password) {
+        this.password = password;
+        return this;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -126,6 +156,11 @@ public class User {
         return ticket;
     }
 
+    /**
+     * Sets the ticket associated with the user.
+     *
+     * @param ticket the ticket to set
+     * */
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
     }
