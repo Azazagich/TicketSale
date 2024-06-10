@@ -1,33 +1,17 @@
 package com.study.domain;
+import java.util.HashSet;
 import java.util.Set;
-
-
-//    public void addTicket(Ticket ticket){
-//        tickets.add(ticket);
-//    }
-//
-//    public void removeTicket(Ticket ticket){
-//        tickets.remove(ticket);
-//    }
 
 public class AgeGroup {
     private int id;
     private String type;
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
 
     public AgeGroup() { }
 
     public AgeGroup(int id, String type) {
         this.id = id;
         this.type = type;
-    }
-
-    public Set<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Set<Ticket> tickets) {
-        this.tickets = tickets;
     }
 
     public String getType() {
@@ -45,6 +29,34 @@ public class AgeGroup {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        if (this.tickets != null){
+            for (Ticket ticket : this.tickets){
+                ticket.setAgeGroup(null);
+            }
+        }
+        if (tickets != null){
+            for (Ticket ticket : tickets){
+                ticket.setAgeGroup(this);
+            }
+        }
+        this.tickets = tickets;
+    }
+
+
+    public void addTicket(Ticket ticket){
+        tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket){
+        tickets.remove(ticket);
+    }
+
 
     @Override
     public String toString(){

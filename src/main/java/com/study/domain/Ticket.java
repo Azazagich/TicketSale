@@ -1,8 +1,18 @@
 package com.study.domain;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+
+/**
+ * Represents a ticket in the system with booking details and associated entities.
+ * The Ticket class contains information about a ticket such as booking dates, price,
+ * user information, start and end stations, train details, economy class, age group,
+ * and optional discounts. The class provides constructors for creating tickets with
+ * fields and optional methods to set additional fields.
+ * */
 
 public class Ticket {
     private int id;
@@ -17,7 +27,7 @@ public class Ticket {
     private Train train;
     private Economy economy;
     private AgeGroup ageGroup;
-    private List<Discount> discount; //optional
+    private Set<Discount> discounts = new HashSet<>(); //optional
 
     public Ticket(){ }
 
@@ -35,8 +45,8 @@ public class Ticket {
         this.ageGroup = ageGroup;
     }
 
-    public Ticket discount(List<Discount> discount) {
-        this.discount = discount;
+    public Ticket discount(Set<Discount> discount) {
+        this.discounts = discount;
         return this;
     }
 
@@ -58,8 +68,18 @@ public class Ticket {
         this.returnDateTicket = returnDateTicket;
     }
 
-    public void setDiscount(List<Discount> discount) {
-        this.discount = discount;
+    public void setDiscounts(Set<Discount> discounts) {
+        if (this.discounts != null){
+            for (Discount discount : this.discounts) {
+                discount.setTickets(null);
+            }
+        }
+        if (discounts != null){
+            for (Discount discount : discounts){
+                discount.addTicket(this);
+            }
+        }
+        this.discounts = discounts;
     }
 
     public User getUser() {
@@ -68,6 +88,7 @@ public class Ticket {
 
     public void setUser(User user) {
         this.user = user;
+        user.setTicket(this);
     }
 
     public Station getStartStation() {
@@ -76,6 +97,7 @@ public class Ticket {
 
     public void setStartStation(Station startStation) {
         this.startStation = startStation;
+        startStation.addTicket(this);
     }
 
     public Station getEndStation() {
@@ -84,6 +106,7 @@ public class Ticket {
 
     public void setEndStation(Station endStation) {
         this.endStation = endStation;
+        endStation.addTicket(this);
     }
 
     public Train getTrain() {
@@ -92,6 +115,7 @@ public class Ticket {
 
     public void setTrain(Train train) {
         this.train = train;
+        train.addTicket(this);
     }
 
     public Economy getEconomy() {
@@ -100,6 +124,7 @@ public class Ticket {
 
     public void setEconomy(Economy economy) {
         this.economy = economy;
+        economy.addTicket(this);
     }
 
     public AgeGroup getAgeGroup() {
@@ -108,10 +133,11 @@ public class Ticket {
 
     public void setAgeGroup(AgeGroup ageGroup) {
         this.ageGroup = ageGroup;
+        ageGroup.addTicket(this);
     }
 
-    public List<Discount> getDiscount() {
-        return discount;
+    public Set<Discount> getDiscounts() {
+        return discounts;
     }
 
     public int getId() {
@@ -154,6 +180,14 @@ public class Ticket {
         this.price = price;
     }
 
+    public void addDiscount(Discount discount) {
+        this.discounts.add(discount);
+    }
+
+    public void removeDiscount(Discount discount) {
+        discounts.remove(discount);
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
@@ -169,7 +203,7 @@ public class Ticket {
                 ", train=" + train +
                 ", economy=" + economy +
                 ", ageGroup=" + ageGroup +
-                ", discount=" + discount +
+                ", discount=" + discounts +
                 '}';
     }
 
@@ -190,12 +224,12 @@ public class Ticket {
                 Objects.equals(train, ticket.train) &&
                 Objects.equals(economy, ticket.economy) &&
                 Objects.equals(ageGroup, ticket.ageGroup) &&
-                Objects.equals(discount, ticket.discount);
+                Objects.equals(discounts, ticket.discounts);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, departDateBooking, returnDateBooking, registrationDateTicket,
-                returnDateTicket, price, user, startStation, endStation, train, economy, ageGroup, discount);
+                returnDateTicket, price, user, startStation, endStation, train, economy, ageGroup, discounts);
     }
 }

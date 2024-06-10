@@ -3,6 +3,15 @@ package com.study.domain;
 import java.time.LocalDate;
 import java.util.Objects;
 
+
+/**
+ * Represents a user in the system with personal details and a ticket.
+ *
+ * The User class contains information about a user such as name, date of birth, gender, contact details,
+ * and an associated ticket. The class provides constructors for creating users with fields and
+ * optional methods to set additional fields.
+ * */
+
 public class User {
     private int id;
     private String firstName;
@@ -121,7 +130,6 @@ public class User {
         this.ticket = ticket;
     }
 
-
     @Override
     public String toString() {
         return "User{" +
@@ -161,55 +169,3 @@ public class User {
                 gender, email, phoneNumber, password, ticket);
     }
 }
-
-
-
-
-
-
-
-
-//                  Inner static class
-//    public static class UserBuilder{
-//        private int id;
-//        private String firstName;
-//        private String middleName; //optional
-//        private String lastName;
-//        private LocalDate dateOfBirth;
-//        private String gender; //optional
-//        private String email;
-//        private String phoneNumber; //optional
-//        private String password;
-//
-//
-//        //constructor for required fields
-//        public UserBuilder(int id, String firstName, String lastName, LocalDate dateOfBirth, String email, String password){
-//            this.id = id;
-//            this.firstName = firstName;
-//            this.lastName = lastName;
-//            this.dateOfBirth = dateOfBirth;
-//            this.email = email;
-//            this.password = password;
-//        }
-//
-//        public UserBuilder setMiddleName(String middleName){
-//            this.middleName = middleName;
-//            return this;
-//        }
-//
-//        public UserBuilder setGender(String gender){
-//            this.gender = gender;
-//            return this;
-//        }
-//
-//        public UserBuilder setPhoneNumber(String phoneNumber){
-//            this.phoneNumber = phoneNumber;
-//            return this;
-//        }
-//
-//        public User build(){
-//            return new User(this);
-//        }
-//
-//    }
-//}

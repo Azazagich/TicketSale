@@ -1,5 +1,6 @@
 package com.study.domain;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -9,7 +10,7 @@ public class Station {
     private String nameOfStation;
     private String addressLocation;
     private String stationPhone; //optional
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
 
     public Station() { }
 
@@ -61,7 +62,27 @@ public class Station {
     }
 
     public void setTickets(Set<Ticket> tickets) {
+        if (this.tickets != null){
+            for (Ticket ticket : this.tickets){
+                ticket.setStartStation(null);
+                ticket.setEndStation(null);
+            }
+        }
+        if (tickets != null){
+            for (Ticket ticket : tickets){
+                ticket.setStartStation(this);
+                ticket.setEndStation(this);
+            }
+        }
         this.tickets = tickets;
+    }
+
+    public void addTicket(Ticket ticket){
+        tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket){
+        tickets.remove(ticket);
     }
 
     @Override

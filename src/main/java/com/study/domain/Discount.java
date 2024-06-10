@@ -1,9 +1,18 @@
 package com.study.domain;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+/**
+ * Represents a discount in the system.
+ *
+ * The Discount class contains information about a discount such as its type,
+ * percentage, and optional start and end dates. The class provides constructors for
+ * creating discounts with mandatory fields and optional methods to set additional fields.
+ */
 
 public class Discount {
     private int id;
@@ -12,7 +21,7 @@ public class Discount {
     private LocalDate startAt; //optional
     private LocalDate endAt; //optional
 
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
 
     public Discount(){ }
 
@@ -21,7 +30,6 @@ public class Discount {
         this.type = type;
         this.percent = percent;
     }
-
 
     public int getId() {
         return id;
@@ -78,8 +86,27 @@ public class Discount {
     }
 
     public void setTickets(Set<Ticket> tickets) {
+        if (this.tickets != null){
+            for (Ticket ticket : this.tickets){
+                ticket.setDiscounts(null);
+            }
+        }
+        if (tickets != null){
+            for (Ticket ticket : tickets){
+                ticket.addDiscount(this);
+            }
+        }
         this.tickets = tickets;
     }
+
+    public void addTicket(Ticket ticket){
+        tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket){
+        tickets.remove(ticket);
+    }
+
 
     @Override
     public String toString() {

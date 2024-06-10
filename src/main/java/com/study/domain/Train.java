@@ -1,5 +1,6 @@
 package com.study.domain;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ public class Train {
     private int id;
     private int amountOfSeats;
     private String trainModel; //optional
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
     public Train(){ }
 
     public Train(int id, int amountOfSeats) {
@@ -49,7 +50,25 @@ public class Train {
     }
 
     public void setTickets(Set<Ticket> tickets) {
+        if (this.tickets != null){
+            for (Ticket ticket : this.tickets){
+                ticket.setTrain(null);
+            }
+        }
+        if (tickets != null){
+            for (Ticket ticket : tickets){
+                ticket.setTrain(this);
+            }
+        }
         this.tickets = tickets;
+    }
+
+    public void addTicket(Ticket ticket){
+        tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket){
+        tickets.remove(ticket);
     }
 
     @Override
