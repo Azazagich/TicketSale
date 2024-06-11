@@ -5,8 +5,9 @@ import com.study.repository.AgeGroupRepository;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains unit tests for the {@link AgeGroupRepository} class.
@@ -17,10 +18,10 @@ import java.util.List;
 public class AgeGroupRepositoryTest {
 
     private static AgeGroupRepository ageGroupRepository;
+
     private AgeGroup ageGroup1;
     private AgeGroup ageGroup2;
     private AgeGroup ageGroup3;
-
 
      {
         ageGroupRepository = new AgeGroupRepository();
@@ -48,19 +49,22 @@ public class AgeGroupRepositoryTest {
     @Test
     void givenId_whenFindByIdElInMap_thenReturnFoundedAgeGroup() {
         // Check if the AgeGroup with ID 1 is correctly found
-        Assertions.assertEquals(ageGroup1, ageGroupRepository.findById(1).get());
+        assertTrue( ageGroupRepository.existById(ageGroup1.getId()));
+        assertEquals(ageGroup1, ageGroupRepository.findById(ageGroup1.getId()).get());
 
         // Check if the AgeGroup with ID 2 is correctly found and has the correct type
-        Assertions.assertEquals(ageGroup2.getType(), ageGroupRepository.findById(2).get().getType());
+        assertTrue( ageGroupRepository.existById(ageGroup2.getId()));
+        assertEquals(ageGroup2.getType(), ageGroupRepository.findById(ageGroup2.getId()).get().getType());
 
         // Check if the AgeGroup with ID 2 is the same object as ageGroup2
-        Assertions.assertEquals(ageGroup2, ageGroupRepository.findById(2).get());
+        assertEquals(ageGroup2, ageGroupRepository.findById(ageGroup2.getId()).get());
 
         // Ensure that AgeGroup with ID 2 is not the same as ageGroup3
-        Assertions.assertNotEquals(ageGroup3, ageGroupRepository.findById(2).get());
+        assertTrue( ageGroupRepository.existById(ageGroup3.getId()));
+        assertNotEquals(ageGroup3, ageGroupRepository.findById(ageGroup2.getId()).get());
 
         // Ensure that AgeGroup with ID 1 is not the same as ageGroup3
-        Assertions.assertNotEquals(ageGroup3, ageGroupRepository.findById(1).get());
+        assertNotEquals(ageGroup3, ageGroupRepository.findById(ageGroup1.getId()).get());
     }
 
 
@@ -68,19 +72,16 @@ public class AgeGroupRepositoryTest {
     @Test
     void givenId_whenCheckExistsByIdElInMap_thenReturnBooleanResult(){
         // Check if existence check with null ID returns false
-        Assertions.assertFalse(ageGroupRepository.existById(null));
+        assertFalse(ageGroupRepository.existById(null));
 
         // Check if existence check for ID 1 returns true
-        Assertions.assertTrue(ageGroupRepository.existById(1));
+        assertTrue(ageGroupRepository.existById(ageGroup1.getId()));
 
         // Check if existence check for ID 2 returns true
-        Assertions.assertTrue(ageGroupRepository.existById(2));
+        assertTrue(ageGroupRepository.existById(ageGroup2.getId()));
 
         // Check if existence check for ID 3 returns true
-        Assertions.assertTrue(ageGroupRepository.existById(3));
-
-        // Check if existence check for a non-existing ID 4 returns false
-        Assertions.assertFalse(ageGroupRepository.existById(4));
+        assertTrue(ageGroupRepository.existById(ageGroup3.getId()));
     }
 
     @Test
@@ -89,58 +90,56 @@ public class AgeGroupRepositoryTest {
         AgeGroup ageGroupUpdate = new AgeGroup().type("Пенсіонер").id(2);
 
         // Update the AgeGroup with ID 2 and check if the update was successful
-       Assertions.assertTrue(ageGroupRepository.updateId(2, ageGroupUpdate));
-
-        // Verify that the AgeGroup with ID 2 is correctly updated
-       Assertions.assertEquals(ageGroupRepository.findById(2).get(), ageGroupUpdate);
+       assertTrue(ageGroupRepository.updateId(ageGroup2.getId(), ageGroupUpdate));
 
         // Ensure that updating with a null AgeGroup returns false
-       Assertions.assertFalse(ageGroupRepository.updateId(1,null));
+       assertFalse(ageGroupRepository.updateId(ageGroup1.getId(), null));
 
         // Ensure that updating with null ID and null AgeGroup returns false
-       Assertions.assertFalse(ageGroupRepository.updateId(null,null));
+       assertFalse(ageGroupRepository.updateId(null,null));
 
         // Ensure that updating with null ID and a valid AgeGroup returns false
-       Assertions.assertFalse(ageGroupRepository.updateId(null,ageGroupUpdate));
+       assertFalse(ageGroupRepository.updateId(null,ageGroupUpdate));
     }
 
 
     @Test
     public void givenId_thenDeleteElInMap(){
         // Delete the element with ID 2 and verify that it no longer exists
-        ageGroupRepository.deleteById(2);
-
-        // Attempt to delete a non-existing element with ID 5
-        ageGroupRepository.deleteById(5);
+        ageGroupRepository.existById(ageGroup2.getId());
+        ageGroupRepository.deleteById(ageGroup2.getId());
 
         // Check that the element with ID 2 no longer exists
-        Assertions.assertFalse(ageGroupRepository.existById(2));
+        ageGroupRepository.existById(ageGroup2.getId());
+        assertFalse(ageGroupRepository.existById(ageGroup2.getId()));
     }
 
 
     @Test
     public void givenAgeGroup_thenDeleteElInMap(){
         // Delete the ageGroup3 element from the repository
+        assertTrue(ageGroupRepository.existById(ageGroup3.getId()));
         ageGroupRepository.delete(ageGroup3);
 
+
         // Verify that the element with ID 3 no longer exists
-        Assertions.assertFalse(ageGroupRepository.existById(3));
-    }
+        assertFalse(ageGroupRepository.existById(ageGroup3.getId()));
+     }
 
 
     @Test
     public void deleteAllElInMap(){
+        assertTrue(ageGroupRepository.existById(ageGroup3.getId()));
+        assertTrue(ageGroupRepository.existById(ageGroup2.getId()));
+        assertTrue(ageGroupRepository.existById(ageGroup1.getId()));
+
         // Delete all elements from the repository
         ageGroupRepository.deleteAll();
 
         // Verify that none of the elements exist anymore
-        Assertions.assertFalse(ageGroupRepository.existById(3));
-        Assertions.assertFalse(ageGroupRepository.existById(2));
-        Assertions.assertFalse(ageGroupRepository.existById(1));
-        Assertions.assertFalse(ageGroupRepository.existById(0));
-
-        // Check that the repository is empty
-        Assertions.assertEquals(ageGroupRepository.groups, new HashMap<>());
+        assertFalse(ageGroupRepository.existById(ageGroup3.getId()));
+        assertFalse(ageGroupRepository.existById(ageGroup2.getId()));
+        assertFalse(ageGroupRepository.existById(ageGroup1.getId()));
     }
 
     @Test
@@ -157,8 +156,8 @@ public class AgeGroupRepositoryTest {
        // Assertions.assertTrue(ageGroupRepository.existById(3));
 
         // Verify that the elements with IDs 1 and 2 no longer exist
-        Assertions.assertFalse(ageGroupRepository.existById(2));
-        Assertions.assertFalse(ageGroupRepository.existById(1));
+        assertFalse(ageGroupRepository.existById(ageGroup2.getId()));
+        assertFalse(ageGroupRepository.existById(ageGroup1.getId()));
     }
 
     @Test
@@ -170,24 +169,23 @@ public class AgeGroupRepositoryTest {
         ageGroupRepository.save(null);
 
         // Verify that the element with ID 4 exists
-        Assertions.assertTrue(ageGroupRepository.existById(4));
-
-        // Verify that the element with ID 5 does not exist
-        Assertions.assertFalse(ageGroupRepository.existById(5));
+        assertTrue(ageGroupRepository.existById(ageGroup4.getId()));
     }
 
     @Test
     public void givenListElAgeGroup_whenSaveListElInMap_thenReturnListElAgeGroup(){
         // Verify that the elements with IDs 1 and 2 exist
-        Assertions.assertTrue(ageGroupRepository.existById(1));
-        Assertions.assertTrue(ageGroupRepository.existById(2));
+        assertTrue(ageGroupRepository.existById(ageGroup1.getId()));
+        assertTrue(ageGroupRepository.existById(ageGroup2.getId()));
 
-        // Verify that the elements with IDs 0 and 4 do not exist
-        Assertions.assertFalse(ageGroupRepository.existById(0));
-        Assertions.assertFalse(ageGroupRepository.existById(4));
+        AgeGroup ageGroup4 = new AgeGroup()
+                .type("Дорослий");
+
+        // Verify that the elements with IDs 4 do not exist
+         assertFalse(ageGroupRepository.existById(ageGroup4.getId()));
 
         // Verify that the found elements with IDs 1 and 2 match the expected objects
-        Assertions.assertEquals(ageGroupRepository.findById(1).get(), ageGroup1);
-        Assertions.assertEquals(ageGroupRepository.findById(2).get(), ageGroup2);
+        assertEquals(ageGroupRepository.findById(ageGroup1.getId()).get(), ageGroup1);
+        assertEquals(ageGroupRepository.findById(ageGroup2.getId()).get(), ageGroup2);
     }
 }

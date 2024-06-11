@@ -4,6 +4,7 @@ import com.study.domain.AgeGroup;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
@@ -28,7 +29,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     /**
      * Storage for AgeGroup entities, using a HashMap with IDs as keys.
      * */
-    public static final HashMap<Integer, AgeGroup> groups = new HashMap<>();
+    private static final HashMap<Integer, AgeGroup> groups = new HashMap<>();
 
     /**
      * Saves a single AgeGroup entity.
@@ -72,7 +73,8 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     @Override
     public Optional<AgeGroup> findById(Integer id){
         LOGGER.debug("Finding AgeGroup with id {}", id);
-        return Optional.of(groups.get(id));
+
+        return Optional.ofNullable(groups.get(id));
     }
 
     /**
@@ -135,7 +137,6 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     @Override
     public void deleteAll(){
         groups.clear();
-        id = 0;
         LOGGER.debug("Deleted all AgeGroups");
     }
 
