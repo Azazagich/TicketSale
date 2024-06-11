@@ -19,17 +19,26 @@ public class AgeGroupRepositoryTest {
 
     private static AgeGroupRepository ageGroupRepository;
 
+    private final String AGE_GROUP_ADULT_TYPE = "Дорослий";
+    private final String AGE_GROUP_NAME_CHILD_TYPE = "Дитина";
+    private final String AGE_GROUP_RETIREE_CHILD_TYPE = "Пенсіонер";
+
     private AgeGroup ageGroup1;
     private AgeGroup ageGroup2;
     private AgeGroup ageGroup3;
 
-     {
+    private AgeGroup createEntity(String type) {
+        return new AgeGroup().type(type);
+    }
+
+    @BeforeEach
+    void setUp() {
         ageGroupRepository = new AgeGroupRepository();
 
         // Initialize the repository and the age groups
-        ageGroup1 = new AgeGroup().type("Дорослий");
-        ageGroup2 = new AgeGroup().type("Дитина");
-        ageGroup3 = new AgeGroup().type("Дитина");
+        ageGroup1 = createEntity(AGE_GROUP_ADULT_TYPE);
+        ageGroup2 = createEntity(AGE_GROUP_NAME_CHILD_TYPE);
+        ageGroup3 = createEntity(AGE_GROUP_RETIREE_CHILD_TYPE);
 
         // Add the age groups to a list and save them in the repository
         List<AgeGroup> ageGroups = new ArrayList<>();
@@ -87,7 +96,8 @@ public class AgeGroupRepositoryTest {
     @Test
     void givenId_whenUpdateElInMap_thenReturnBooleanResult(){
 
-        AgeGroup ageGroupUpdate = new AgeGroup().type("Пенсіонер").id(2);
+        AgeGroup ageGroupUpdate = new AgeGroup().type(AGE_GROUP_RETIREE_CHILD_TYPE).id(ageGroup2.getId());
+
 
         // Update the AgeGroup with ID 2 and check if the update was successful
        assertTrue(ageGroupRepository.updateId(ageGroup2.getId(), ageGroupUpdate));
@@ -162,8 +172,7 @@ public class AgeGroupRepositoryTest {
 
     @Test
     public void givenElAgeGroup_whenSaveElInMap_thenReturnAgeGroup(){
-        AgeGroup ageGroup4 = new AgeGroup()
-                .type("Дорослий");
+        AgeGroup ageGroup4 = createEntity(AGE_GROUP_ADULT_TYPE);
 
         ageGroupRepository.save(ageGroup4);
         ageGroupRepository.save(null);
@@ -178,8 +187,7 @@ public class AgeGroupRepositoryTest {
         assertTrue(ageGroupRepository.existById(ageGroup1.getId()));
         assertTrue(ageGroupRepository.existById(ageGroup2.getId()));
 
-        AgeGroup ageGroup4 = new AgeGroup()
-                .type("Дорослий");
+        AgeGroup ageGroup4 = createEntity(AGE_GROUP_ADULT_TYPE);
 
         // Verify that the elements with IDs 4 do not exist
          assertFalse(ageGroupRepository.existById(ageGroup4.getId()));
