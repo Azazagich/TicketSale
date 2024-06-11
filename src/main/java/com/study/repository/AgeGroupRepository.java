@@ -28,7 +28,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     /**
      * Storage for AgeGroup entities, using a HashMap with IDs as keys.
      * */
-    private static final HashMap<Integer, AgeGroup> groups = new HashMap<>();
+    public static final HashMap<Integer, AgeGroup> groups = new HashMap<>();
 
     /**
      * Saves a single AgeGroup entity.
@@ -38,9 +38,10 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     @Override
     public AgeGroup save(AgeGroup ageGroup) {
         if (ageGroup != null) {
+            //TODO
             ageGroup.setId(++id);
             groups.put(id, ageGroup);
-            LOGGER.info("Saved AgeGroup with id {}", id);
+            LOGGER.debug("Saved AgeGroup with id {}", id);
         }
         return ageGroup;
     }
@@ -56,7 +57,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
             if (ageGroup != null) {
                 ageGroup.setId(++id);
                 groups.put(id, ageGroup);
-                LOGGER.info("Saved AgeGroup with id {}", id);
+                LOGGER.debug("Saved AgeGroup with id {}", id);
             }
         }
         return ageGroups;
@@ -70,7 +71,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
      * */
     @Override
     public Optional<AgeGroup> findById(Integer id){
-        LOGGER.info("Finding AgeGroup with id {}", id);
+        LOGGER.debug("Finding AgeGroup with id {}", id);
         return Optional.of(groups.get(id));
     }
 
@@ -82,22 +83,22 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     @Override
     public boolean existById(Integer id){
         boolean exist = id != null && groups.containsKey(id);
-        LOGGER.info("Existence check for AgeGroup with id {}: {}", id, exist);
+        LOGGER.debug("Existence check for AgeGroup with id {}: {}", id, exist);
         return exist;
     }
 
     /**
      * Updates the identifier of an AgeGroup entity.
-     * @param id The current identifier of the AgeGroup entity.
+     * @param id The old identifier of the AgeGroup entity.
      * @param nwAgeGroup The AgeGroup entity with the updated identifier.
      * @return true if the update was successful, otherwise false.
      * */
     @Override
     public boolean updateId(Integer id, AgeGroup nwAgeGroup){
-        if (nwAgeGroup != null){
-            nwAgeGroup.setId(id);
-            groups.put(id, nwAgeGroup);
-            LOGGER.info("Updated AgeGroup with id {}", id);
+        if (nwAgeGroup != null && id != null){
+            groups.remove(id);
+            groups.put(nwAgeGroup.getId(), nwAgeGroup);
+            LOGGER.debug("Updated AgeGroup with id {}", id);
             return true;
         }
         LOGGER.warn("Failed to update AgeGroup with id {}", id);
@@ -112,7 +113,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     public void deleteById(Integer id){
         if (id != null){
             groups.remove(id);
-            LOGGER.info("Deleted AgeGroup with id {}", id);
+            LOGGER.debug("Deleted AgeGroup with id {}", id);
         }
     }
 
@@ -124,7 +125,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     public void delete(AgeGroup ageGroup){
         if (ageGroup != null){
             deleteById(ageGroup.getId());
-            LOGGER.info("Deleted AgeGroup: {}", ageGroup);
+            LOGGER.debug("Deleted AgeGroup: {}", ageGroup);
         }
     }
 
@@ -134,7 +135,8 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     @Override
     public void deleteAll(){
         groups.clear();
-        LOGGER.info("Deleted all AgeGroups");
+        id = 0;
+        LOGGER.debug("Deleted all AgeGroups");
     }
 
     /**
@@ -147,7 +149,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
             for (AgeGroup ageGroup : ageGroups) {
                 if (ageGroup != null) {
                     deleteById(ageGroup.getId());
-                    LOGGER.info("Deleted ageGroup with id {}", ageGroup.getId());
+                    LOGGER.debug("Deleted ageGroup with id {}", ageGroup.getId());
                 }
             }
         }

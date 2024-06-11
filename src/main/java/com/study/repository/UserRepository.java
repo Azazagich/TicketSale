@@ -38,7 +38,7 @@ public class UserRepository implements CrudRepository<User>{
         if (user != null) {
             user.setId(++id);
             users.put(id, user);
-            LOGGER.info("Saved User with id {}", id);
+            LOGGER.debug("Saved User with id {}", id);
         }
         return user;
     }
@@ -54,7 +54,7 @@ public class UserRepository implements CrudRepository<User>{
             if (user != null) {
                 user.setId(++id);
                 this.users.put(id,user);
-                LOGGER.info("Saved User with id {}", id);
+                LOGGER.debug("Saved User with id {}", id);
             }
         }
         return users;
@@ -67,7 +67,7 @@ public class UserRepository implements CrudRepository<User>{
      * */
     @Override
     public Optional<User> findById(Integer id){
-        LOGGER.info("Finding User with id {}", id);
+        LOGGER.debug("Finding User with id {}", id);
         return Optional.of(users.get(id));
     }
 
@@ -79,7 +79,7 @@ public class UserRepository implements CrudRepository<User>{
     @Override
     public boolean existById(Integer id){
         boolean exist = id != null && users.containsKey(id);
-        LOGGER.info("Existence check for User with id {}: {}", id, exist);
+        LOGGER.debug("Existence check for User with id {}: {}", id, exist);
         return exist;
     }
 
@@ -92,9 +92,9 @@ public class UserRepository implements CrudRepository<User>{
     @Override
     public boolean updateId(Integer id, User nwUser){
         if (nwUser != null){
-            nwUser.setId(id);
-            users.put(id, nwUser);
-            LOGGER.info("Updated User with id {}", id);
+            users.remove(id);
+            users.put(nwUser.getId(), nwUser);
+            LOGGER.debug("Updated User with id {}", id);
             return true;
         }
         LOGGER.warn("Failed to update User with id {}", id);
@@ -109,7 +109,7 @@ public class UserRepository implements CrudRepository<User>{
     public void deleteById(Integer id){
         if (id != null){
             users.remove(id);
-            LOGGER.info("Deleted User with id {}", id);
+            LOGGER.debug("Deleted User with id {}", id);
 
         }
     }
@@ -122,7 +122,7 @@ public class UserRepository implements CrudRepository<User>{
     public void delete(User user){
         if (user != null){
             deleteById(user.getId());
-            LOGGER.info("Deleted User: {}", user);
+            LOGGER.debug("Deleted User: {}", user);
         }
     }
 
@@ -132,7 +132,7 @@ public class UserRepository implements CrudRepository<User>{
     @Override
     public void deleteAll(){
         users.clear();
-        LOGGER.info("Deleted all Users");
+        LOGGER.debug("Deleted all Users");
     }
 
     /**
@@ -145,7 +145,7 @@ public class UserRepository implements CrudRepository<User>{
             for (User user : users) {
                 if (user != null) {
                     deleteById(user.getId());
-                    LOGGER.info("Deleted User with id {}", user.getId());
+                    LOGGER.debug("Deleted User with id {}", user.getId());
                 }
             }
         }

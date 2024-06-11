@@ -38,7 +38,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
         if (economy != null) {
             economy.setId(++id);
             classEconomies.put(id, economy);
-            LOGGER.info("Saved Economy with id {}", id);
+            LOGGER.debug("Saved Economy with id {}", id);
         }
         return economy;
     }
@@ -54,7 +54,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
             if (economy != null) {
                 economy.setId(++id);
                 classEconomies.put(id, economy);
-                LOGGER.info("Saved Economy with id {}", id);
+                LOGGER.debug("Saved Economy with id {}", id);
             }
         }
         return economies;
@@ -67,7 +67,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
      * */
     @Override
     public Optional<Economy> findById(Integer id){
-        LOGGER.info("Finding Economy with id {}", id);
+        LOGGER.debug("Finding Economy with id {}", id);
         return Optional.of(classEconomies.get(id));
     }
 
@@ -79,7 +79,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
     @Override
     public boolean existById(Integer id){
         boolean exist = id != null && classEconomies.containsKey(id);
-        LOGGER.info("Existence check for Economy with id {}: {}", id, exist);
+        LOGGER.debug("Existence check for Economy with id {}: {}", id, exist);
         return exist;
     }
 
@@ -92,9 +92,9 @@ public class EconomyRepository implements CrudRepository<Economy>{
     @Override
     public boolean updateId(Integer id, Economy nwEconomy){
         if (nwEconomy != null){
-            nwEconomy.setId(id);
-            classEconomies.put(id, nwEconomy);
-            LOGGER.info("Updated Economy with id {}", id);
+            classEconomies.remove(id);
+            classEconomies.put(nwEconomy.getId(), nwEconomy);
+            LOGGER.debug("Updated Economy with id {}", id);
             return true;
         }
         LOGGER.warn("Failed to update Economy with id {}", id);
@@ -109,7 +109,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
     public void deleteById(Integer id){
         if (id != null){
             classEconomies.remove(id);
-            LOGGER.info("Deleted Economy with id {}", id);
+            LOGGER.debug("Deleted Economy with id {}", id);
         }
     }
 
@@ -121,7 +121,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
     public void delete(Economy economy){
         if (economy != null){
             deleteById(economy.getId());
-            LOGGER.info("Deleted Economy: {}", economy);
+            LOGGER.debug("Deleted Economy: {}", economy);
         }
     }
 
@@ -131,7 +131,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
     @Override
     public void deleteAll(){
         classEconomies.clear();
-        LOGGER.info("Deleted all Economies");
+        LOGGER.debug("Deleted all Economies");
     }
 
     /**
@@ -144,7 +144,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
             for (Economy economy : economies) {
                 if (economy != null) {
                     deleteById(economy.getId());
-                    LOGGER.info("Deleted Economy with id {}", economy.getId());
+                    LOGGER.debug("Deleted Economy with id {}", economy.getId());
                 }
             }
         }

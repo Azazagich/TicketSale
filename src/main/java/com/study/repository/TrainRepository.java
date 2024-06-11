@@ -40,7 +40,7 @@ public class TrainRepository implements CrudRepository<Train> {
         if (train != null) {
             train.setId(++id);
             trains.put(id, train);
-            LOGGER.info("Saved Train with id {}", id);
+            LOGGER.debug("Saved Train with id {}", id);
         }
         return train;
     }
@@ -56,7 +56,7 @@ public class TrainRepository implements CrudRepository<Train> {
             if (train != null) {
                 train.setId(++id);
                 this.trains.put(id, train);
-                LOGGER.info("Saved Train with id {}", id);
+                LOGGER.debug("Saved Train with id {}", id);
             }
         }
         return trains;
@@ -69,7 +69,7 @@ public class TrainRepository implements CrudRepository<Train> {
      * */
     @Override
     public Optional<Train> findById(Integer id){
-        LOGGER.info("Finding Train with id {}", id);
+        LOGGER.debug("Finding Train with id {}", id);
         return Optional.of(trains.get(id));
     }
 
@@ -81,7 +81,7 @@ public class TrainRepository implements CrudRepository<Train> {
     @Override
     public boolean existById(Integer id){
         boolean exist = id != null && trains.containsKey(id);
-        LOGGER.info("Existence check for Train with id {}: {}", id, exist);
+        LOGGER.debug("Existence check for Train with id {}: {}", id, exist);
         return exist;
     }
 
@@ -94,9 +94,9 @@ public class TrainRepository implements CrudRepository<Train> {
     @Override
     public boolean updateId(Integer id, Train nwTrain){
         if (nwTrain != null){
-            nwTrain.setId(id);
-            trains.put(id, nwTrain);
-            LOGGER.info("Updated Train with id {}", id);
+            trains.remove(id);
+            trains.put(nwTrain.getId(), nwTrain);
+            LOGGER.debug("Updated Train with id {}", id);
             return true;
         }
         LOGGER.warn("Failed to update Train with id {}", id);
@@ -111,7 +111,7 @@ public class TrainRepository implements CrudRepository<Train> {
     public void deleteById(Integer id){
         if (id != null){
             trains.remove(id);
-            LOGGER.info("Deleted Train with id {}", id);
+            LOGGER.debug("Deleted Train with id {}", id);
         }
     }
 
@@ -123,7 +123,7 @@ public class TrainRepository implements CrudRepository<Train> {
     public void delete(Train train){
         if (train != null){
             deleteById(train.getId());
-            LOGGER.info("Deleted Train: {}", train);
+            LOGGER.debug("Deleted Train: {}", train);
         }
     }
 
@@ -133,7 +133,7 @@ public class TrainRepository implements CrudRepository<Train> {
     @Override
     public void deleteAll(){
         trains.clear();
-        LOGGER.info("Deleted all Trains");
+        LOGGER.debug("Deleted all Trains");
     }
 
 
@@ -147,7 +147,7 @@ public class TrainRepository implements CrudRepository<Train> {
             for (Train train : trains) {
                 if (train != null) {
                     deleteById(train.getId());
-                    LOGGER.info("Deleted Train with id {}", train.getId());
+                    LOGGER.debug("Deleted Train with id {}", train.getId());
                 }
             }
         }

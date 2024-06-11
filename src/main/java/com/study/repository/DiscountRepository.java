@@ -38,7 +38,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
        if (discount != null){
            discount.setId(++id);
            discounts.put(id, discount);
-           LOGGER.info("Saved Discount with id {}", id);
+           LOGGER.debug("Saved Discount with id {}", id);
        }
        return discount;
     }
@@ -54,7 +54,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
             if (discount != null) {
                 discount.setId(++id);
                 this.discounts.put(id, discount);
-                LOGGER.info("Saved Discount with id {}", id);
+                LOGGER.debug("Saved Discount with id {}", id);
             }
         }
         return discounts;
@@ -67,7 +67,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
      * */
     @Override
     public Optional<Discount> findById(Integer id) {
-        LOGGER.info("Finding Discount with id {}", id);
+        LOGGER.debug("Finding Discount with id {}", id);
         return Optional.of(discounts.get(id));
     }
 
@@ -79,22 +79,22 @@ public class DiscountRepository implements CrudRepository<Discount>{
     @Override
     public boolean existById(Integer id) {
         boolean exist = id != null && discounts.containsKey(id);
-        LOGGER.info("Existence check for Discount with id {}: {}", id, exist);
+        LOGGER.debug("Existence check for Discount with id {}: {}", id, exist);
         return exist;
     }
 
     /**
      * Updates the identifier of a Discount entity.
-     * @param id The current identifier of the Discount entity.
+     * @param id The old identifier of the Discount entity.
      * @param nwDiscount The Discount entity with the updated identifier.
      * @return true if the update was successful, otherwise false.
      * */
     @Override
     public boolean updateId(Integer id, Discount nwDiscount) {
         if (nwDiscount != null){
-            nwDiscount.setId(id);
-            discounts.put(id, nwDiscount);
-            LOGGER.info("Updated Discount with id {}", id);
+            discounts.remove(id);
+            discounts.put(nwDiscount.getId(), nwDiscount);
+            LOGGER.debug("Updated Discount with id {}", id);
             return true;
         }
         LOGGER.warn("Failed to update Discount with id {}", id);
@@ -109,7 +109,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
     public void deleteById(Integer id) {
         if (id != null){
             discounts.remove(id);
-            LOGGER.info("Deleted Discount with id {}", id);
+            LOGGER.debug("Deleted Discount with id {}", id);
         }
     }
 
@@ -122,7 +122,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
     public void delete(Discount discount) {
         if (discount != null){
             deleteById(discount.getId());
-            LOGGER.info("Deleted Discount: {}", discount);
+            LOGGER.debug("Deleted Discount: {}", discount);
         }
     }
 
@@ -132,7 +132,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
     @Override
     public void deleteAll() {
         discounts.clear();
-        LOGGER.info("Deleted all Discounts");
+        LOGGER.debug("Deleted all Discounts");
     }
 
     /**
@@ -145,7 +145,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
             for (Discount discount : discounts) {
                 if (discount != null) {
                     deleteById(discount.getId());
-                    LOGGER.info("Deleted discount with id {}", discount.getId());
+                    LOGGER.debug("Deleted discount with id {}", discount.getId());
                 }
             }
         }

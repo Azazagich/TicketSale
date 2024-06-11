@@ -39,7 +39,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
         if (ticket != null) {
             ticket.setId(++id);
             tickets.put(id, ticket);
-            LOGGER.info("Saved Ticket with id {}", id);
+            LOGGER.debug("Saved Ticket with id {}", id);
         }
         return ticket;
     }
@@ -55,7 +55,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
             if (ticket != null) {
                 ticket.setId(++id);
                 this.tickets.put(id, ticket);
-                LOGGER.info("Saved Ticket with id {}", id);
+                LOGGER.debug("Saved Ticket with id {}", id);
             }
         }
         return tickets;
@@ -68,7 +68,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
      * */
     @Override
     public Optional<Ticket> findById(Integer id){
-        LOGGER.info("Finding Ticket with id {}", id);
+        LOGGER.debug("Finding Ticket with id {}", id);
         return Optional.of(tickets.get(id));
     }
 
@@ -80,7 +80,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
     @Override
     public boolean existById(Integer id){
         boolean exist = id != null && tickets.containsKey(id);
-        LOGGER.info("Existence check for Ticket with id {}: {}", id, exist);
+        LOGGER.debug("Existence check for Ticket with id {}: {}", id, exist);
         return exist;
     }
 
@@ -93,9 +93,9 @@ public class TicketRepository implements CrudRepository<Ticket>{
     @Override
     public boolean updateId(Integer id, Ticket nwTicket){
         if (nwTicket != null){
-            nwTicket.setId(id);
-            tickets.put(id, nwTicket);
-            LOGGER.info("Updated Ticket with id {}", id);
+            tickets.remove(id);
+            tickets.put(nwTicket.getId(), nwTicket);
+            LOGGER.debug("Updated Ticket with id {}", id);
             return true;
         }
         LOGGER.warn("Failed to update Ticket with id {}", id);
@@ -110,7 +110,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
     public void deleteById(Integer id){
         if (id != null){
             tickets.remove(id);
-            LOGGER.info("Deleted Ticket with id {}", id);
+            LOGGER.debug("Deleted Ticket with id {}", id);
         }
     }
 
@@ -122,7 +122,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
     public void delete(Ticket ticket){
         if (ticket != null){
             deleteById(ticket.getId());
-            LOGGER.info("Deleted Ticket: {}", ticket);
+            LOGGER.debug("Deleted Ticket: {}", ticket);
         }
     }
 
@@ -132,7 +132,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
     @Override
     public void deleteAll(){
         tickets.clear();
-        LOGGER.info("Deleted all Tickets");
+        LOGGER.debug("Deleted all Tickets");
 
     }
 
@@ -146,7 +146,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
             for (Ticket ticket : tickets) {
                 if (ticket != null) {
                     deleteById(ticket.getId());
-                    LOGGER.info("Deleted Ticket with id {}", ticket.getId());
+                    LOGGER.debug("Deleted Ticket with id {}", ticket.getId());
                 }
             }
         }

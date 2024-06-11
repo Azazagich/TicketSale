@@ -38,7 +38,7 @@ public class StationRepository implements CrudRepository<Station>{
         if (station != null) {
             station.setId(++id);
             stations.put(id, station);
-            LOGGER.info("Saved Station with id {}", id);
+            LOGGER.debug("Saved Station with id {}", id);
         }
         return station;
     }
@@ -54,7 +54,7 @@ public class StationRepository implements CrudRepository<Station>{
             if (station != null) {
                 station.setId(++id);
                 this.stations.put(id, station);
-                LOGGER.info("Saved Station with id {}", id);
+                LOGGER.debug("Saved Station with id {}", id);
             }
         }
         return stations;
@@ -67,7 +67,7 @@ public class StationRepository implements CrudRepository<Station>{
      * */
     @Override
     public Optional<Station> findById(Integer id){
-        LOGGER.info("Finding Station with id {}", id);
+        LOGGER.debug("Finding Station with id {}", id);
         return Optional.of(stations.get(id));
     }
 
@@ -79,7 +79,7 @@ public class StationRepository implements CrudRepository<Station>{
     @Override
     public boolean existById(Integer id){
         boolean exist = id != null && stations.containsKey(id);
-        LOGGER.info("Existence check for Station with id {}: {}", id, exist);
+        LOGGER.debug("Existence check for Station with id {}: {}", id, exist);
         return exist;
     }
 
@@ -93,9 +93,9 @@ public class StationRepository implements CrudRepository<Station>{
     @Override
     public boolean updateId(Integer id, Station nwStation){
         if (nwStation != null){
-            nwStation.setId(id);
-            stations.put(id, nwStation);
-            LOGGER.info("Updated Station with id {}", id);
+            stations.remove(id);
+            stations.put(nwStation.getId(), nwStation);
+            LOGGER.debug("Updated Station with id {}", id);
             return true;
         }
         LOGGER.warn("Failed to update Station with id {}", id);
@@ -110,7 +110,7 @@ public class StationRepository implements CrudRepository<Station>{
     public void deleteById(Integer id){
         if (id != null){
             stations.remove(id);
-            LOGGER.info("Deleted Station with id {}", id);
+            LOGGER.debug("Deleted Station with id {}", id);
         }
     }
 
@@ -122,7 +122,7 @@ public class StationRepository implements CrudRepository<Station>{
     public void delete(Station station){
         if (station != null){
             deleteById(station.getId());
-            LOGGER.info("Deleted Station: {}", station);
+            LOGGER.debug("Deleted Station: {}", station);
         }
     }
 
@@ -132,7 +132,7 @@ public class StationRepository implements CrudRepository<Station>{
     @Override
     public void deleteAll(){
         stations.clear();
-        LOGGER.info("Deleted all Stations");
+        LOGGER.debug("Deleted all Stations");
     }
 
     /**
@@ -145,7 +145,7 @@ public class StationRepository implements CrudRepository<Station>{
             for (Station station : stations) {
                 if (station != null) {
                     deleteById(station.getId());
-                    LOGGER.info("Deleted Station with id {}", station.getId());
+                    LOGGER.debug("Deleted Station with id {}", station.getId());
                 }
             }
         }
