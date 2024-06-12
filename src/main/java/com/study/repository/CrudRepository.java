@@ -31,6 +31,13 @@ public interface CrudRepository<E> {
      Optional<E> findById(Integer id);
 
      /**
+      * Finds all entities of type E in the provided list.
+      * @param entities The list of entities to search within.
+      * @return A list containing all entities of type E found in the provided list.
+      * */
+     List<E> findAll();
+
+     /**
       * Checks if an entity with the given identifier exists.
       * @param id | The identifier of the entity to check.
       * @return true if the entity exists, otherwise false.
@@ -67,4 +74,5 @@ public interface CrudRepository<E> {
       * @param entities The list of entities to be deleted.
       */
      void deleteAll(List<E> entities);
+
 }
