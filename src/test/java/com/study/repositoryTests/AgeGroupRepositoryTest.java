@@ -76,6 +76,18 @@ public class AgeGroupRepositoryTest {
     }
 
 
+    @Test
+    void findAll_thenReturnAllEntities(){
+        List<AgeGroup> ageGroups = new ArrayList<>();
+        ageGroups.add(ageGroup1);
+        ageGroups.add(ageGroup2);
+        ageGroups.add(ageGroup3);
+
+        assertEquals(ageGroupRepository.findAll(), ageGroups);
+        assertNotEquals(ageGroupRepository.findAll(), List.of(ageGroup1, ageGroup2));
+        assertEquals(ageGroupRepository.findAll(), List.of(ageGroup1, ageGroup2, ageGroup3));
+    }
+
 
     @Test
     void givenId_whenCheckExistsByIdElInMap_thenReturnBooleanResult(){
