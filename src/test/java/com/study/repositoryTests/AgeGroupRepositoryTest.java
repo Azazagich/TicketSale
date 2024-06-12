@@ -14,10 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * The tests cover various operations such as finding, checking existence,
  * updating, deleting, and saving {@link AgeGroup} entities in the repository.
  * */
-
 public class AgeGroupRepositoryTest {
-
-    private static AgeGroupRepository ageGroupRepository;
 
     private final String AGE_GROUP_ADULT_TYPE = "Дорослий";
     private final String AGE_GROUP_NAME_CHILD_TYPE = "Дитина";
@@ -26,6 +23,8 @@ public class AgeGroupRepositoryTest {
     private AgeGroup ageGroup1;
     private AgeGroup ageGroup2;
     private AgeGroup ageGroup3;
+
+    private static AgeGroupRepository ageGroupRepository;
 
     private AgeGroup createEntity(String type) {
         return new AgeGroup().type(type);
