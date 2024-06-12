@@ -1,6 +1,5 @@
 package com.study.repository;
 
-import com.study.domain.Station;
 import com.study.domain.Train;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -93,7 +92,7 @@ public class TrainRepository implements CrudRepository<Train> {
      * */
     @Override
     public boolean updateId(Integer id, Train nwTrain){
-        if (nwTrain != null){
+        if (nwTrain != null && id != null){
             trains.remove(id);
             trains.put(nwTrain.getId(), nwTrain);
             LOGGER.debug("Updated Train with id {}", id);

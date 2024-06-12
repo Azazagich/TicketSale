@@ -91,7 +91,7 @@ public class DiscountRepository implements CrudRepository<Discount>{
      * */
     @Override
     public boolean updateId(Integer id, Discount nwDiscount) {
-        if (nwDiscount != null){
+        if (nwDiscount != null && id != null){
             discounts.remove(id);
             discounts.put(nwDiscount.getId(), nwDiscount);
             LOGGER.debug("Updated Discount with id {}", id);

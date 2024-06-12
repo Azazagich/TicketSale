@@ -91,7 +91,7 @@ public class UserRepository implements CrudRepository<User>{
      * */
     @Override
     public boolean updateId(Integer id, User nwUser){
-        if (nwUser != null){
+        if (nwUser != null && id != null){
             users.remove(id);
             users.put(nwUser.getId(), nwUser);
             LOGGER.debug("Updated User with id {}", id);

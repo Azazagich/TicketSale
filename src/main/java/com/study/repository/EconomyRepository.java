@@ -91,7 +91,7 @@ public class EconomyRepository implements CrudRepository<Economy>{
      * */
     @Override
     public boolean updateId(Integer id, Economy nwEconomy){
-        if (nwEconomy != null){
+        if (nwEconomy != null && id != null){
             classEconomies.remove(id);
             classEconomies.put(nwEconomy.getId(), nwEconomy);
             LOGGER.debug("Updated Economy with id {}", id);

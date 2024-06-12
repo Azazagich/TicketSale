@@ -92,7 +92,7 @@ public class TicketRepository implements CrudRepository<Ticket>{
      * */
     @Override
     public boolean updateId(Integer id, Ticket nwTicket){
-        if (nwTicket != null){
+        if (nwTicket != null && id != null){
             tickets.remove(id);
             tickets.put(nwTicket.getId(), nwTicket);
             LOGGER.debug("Updated Ticket with id {}", id);

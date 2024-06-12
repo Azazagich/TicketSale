@@ -92,7 +92,7 @@ public class StationRepository implements CrudRepository<Station>{
      * */
     @Override
     public boolean updateId(Integer id, Station nwStation){
-        if (nwStation != null){
+        if (nwStation != null && id != null){
             stations.remove(id);
             stations.put(nwStation.getId(), nwStation);
             LOGGER.debug("Updated Station with id {}", id);

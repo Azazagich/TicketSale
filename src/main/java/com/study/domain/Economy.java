@@ -24,12 +24,22 @@ public class Economy {
         return id;
     }
 
+    public Economy id(int id){
+        this.id = id;
+        return this;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
     public String getType() {
         return type;
+    }
+
+    public Economy type(String type) {
+        this.type = type;
+        return this;
     }
 
     public void setType(String type) {
