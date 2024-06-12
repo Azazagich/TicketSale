@@ -85,8 +85,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
      */
     @Override
     public List<AgeGroup> findAll(){
-        return new ArrayList<>(groups.values());
-        //return groups.values().stream().toList();
+        return groups.values().stream().toList();
     }
 
     /**
