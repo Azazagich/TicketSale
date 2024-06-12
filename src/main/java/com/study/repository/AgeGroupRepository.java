@@ -2,10 +2,10 @@ package com.study.repository;
 
 import com.study.domain.AgeGroup;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.text.Collator;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +29,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     /**
      * Storage for AgeGroup entities, using a HashMap with IDs as keys.
      * */
-    private static final HashMap<Integer, AgeGroup> groups = new HashMap<>();
+    private static final Map<Integer, AgeGroup> groups = new HashMap<>();
 
     /**
      * Saves a single AgeGroup entity.
@@ -73,8 +73,20 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     @Override
     public Optional<AgeGroup> findById(Integer id){
         LOGGER.debug("Finding AgeGroup with id {}", id);
-
         return Optional.ofNullable(groups.get(id));
+    }
+
+    /**
+     * Retrieves all age groups from the repository.
+     * This method returns a list containing all the age groups that are currently stored
+     * in the repository. The list is a new ArrayList containing the values from the internal
+     * map, ensuring that modifications to the returned list do not affect the internal data.
+     * @return a list of all age groups in the repository.
+     */
+    @Override
+    public List<AgeGroup> findAll(){
+        return new ArrayList<>(groups.values());
+        //return groups.values().stream().toList();
     }
 
     /**
