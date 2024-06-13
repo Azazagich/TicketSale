@@ -78,7 +78,6 @@ public class TrainRepositoryTest {
 
     @Test
     void findAll_thenReturnAllEntities(){
-        assertTrue(trainRepository.findAll().containsAll(List.of(train1,train2,train3)));
         assertEquals(trainRepository.findAll(), List.of(train1, train2, train3));
     }
 

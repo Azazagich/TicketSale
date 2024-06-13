@@ -82,7 +82,6 @@ public class EconomyRepositoryTest {
 
     @Test
     void findAll_thenReturnAllEntities(){
-        assertTrue(economyRepository.findAll().containsAll(List.of(economy1, economy2, economy3)));
         assertEquals(economyRepository.findAll(), List.of(economy1, economy2, economy3));
     }
 

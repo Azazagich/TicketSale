@@ -85,7 +85,6 @@ public class DiscountRepositoryTest {
 
     @Test
     void findAll_thenReturnAllEntities(){
-        assertTrue(discountRepository.findAll().containsAll(List.of(discount1, discount2, discount3)));
         assertEquals(discountRepository.findAll(), List.of(discount1, discount2, discount3));
     }
     

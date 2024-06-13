@@ -82,7 +82,6 @@ public class TicketRepositoryTest {
 
     @Test
     void findAll_thenReturnAllEntities(){
-        assertTrue(ticketRepository.findAll().containsAll(List.of(ticket1, ticket2, ticket3)));
         assertEquals(ticketRepository.findAll(), List.of(ticket1, ticket2, ticket3));
     }
 

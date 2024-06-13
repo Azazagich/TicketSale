@@ -95,7 +95,6 @@ public class UserRepositoryTest {
     
     @Test
     void findAll_thenReturnAllEntities(){
-        assertTrue(userRepository.findAll().containsAll(List.of(user1, user2, user3)));
         assertEquals(userRepository.findAll(), List.of(user1, user2, user3));
     }
 

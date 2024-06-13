@@ -83,7 +83,6 @@ public class StationRepositoryTest {
 
     @Test
     void findAll_thenReturnAllEntities(){
-        assertTrue(stationRepository.findAll().containsAll(List.of(station1, station2, station3)));
         assertEquals(stationRepository.findAll(), List.of(station1, station2, station3));
     }
 
