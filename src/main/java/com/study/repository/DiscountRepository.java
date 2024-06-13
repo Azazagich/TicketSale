@@ -72,6 +72,17 @@ public class DiscountRepository implements CrudRepository<Discount>{
     }
 
     /**
+     * Retrieves all tickets from the repository.
+     * This method returns a list containing all the tickets that are currently stored
+     * in the repository.
+     * @return a list of all tickets in the repository.
+     * */
+    @Override
+    public List<Discount> findAll() {
+        return discounts.values().stream().toList();
+    }
+
+    /**
      * Checks if a Discount entity with the given identifier exists.
      * @param id The identifier of the Discount entity to check.
      * @return true if the Discount entity exists, otherwise false.

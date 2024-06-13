@@ -71,6 +71,18 @@ public class UserRepository implements CrudRepository<User>{
         return Optional.of(users.get(id));
     }
 
+
+    /**
+     * Retrieves all User objects from the repository.
+     * This method returns a list containing all the User objects that are currently stored
+     * in the repository.
+     * @return a list of all User objects in the repository.
+     */
+    @Override
+    public List<User> findAll() {
+        return users.values().stream().toList();
+    }
+
     /**
      * Checks if a User entity with the given identifier exists.
      * @param id The identifier of the User entity to check.

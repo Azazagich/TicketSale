@@ -1,5 +1,6 @@
 package com.study.repository;
 
+import com.study.domain.Economy;
 import com.study.domain.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,6 +70,17 @@ public class StationRepository implements CrudRepository<Station>{
     public Optional<Station> findById(Integer id){
         LOGGER.debug("Finding Station with id {}", id);
         return Optional.of(stations.get(id));
+    }
+
+    /**
+     * Retrieves all Station objects from the repository.
+     * This method returns a list containing all the Station objects that are currently stored
+     * in the repository.
+     * @return a list of all Station objects in the repository.
+     * */
+    @Override
+    public List<Station> findAll() {
+        return stations.values().stream().toList();
     }
 
     /**

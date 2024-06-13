@@ -79,8 +79,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     /**
      * Retrieves all age groups from the repository.
      * This method returns a list containing all the age groups that are currently stored
-     * in the repository. The list is a new ArrayList containing the values from the internal
-     * map, ensuring that modifications to the returned list do not affect the internal data.
+     * in the repository.
      * @return a list of all age groups in the repository.
      */
     @Override

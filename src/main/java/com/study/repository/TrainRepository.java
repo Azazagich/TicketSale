@@ -73,6 +73,17 @@ public class TrainRepository implements CrudRepository<Train> {
     }
 
     /**
+     * Retrieves all Train objects from the repository.
+     * This method returns a list containing all the Train objects that are currently stored
+     * in the repository.
+     * @return a list of all Train objects in the repository.
+     */
+    @Override
+    public List<Train> findAll() {
+        return trains.values().stream().toList();
+    }
+
+    /**
      * Checks if a Train entity with the given identifier exists.
      * @param id The identifier of the Train entity to check.
      * @return true if the Train entity exists, otherwise false.

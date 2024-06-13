@@ -73,6 +73,17 @@ public class TicketRepository implements CrudRepository<Ticket>{
     }
 
     /**
+     * Retrieves all Ticket objects from the repository.
+     * This method returns a list containing all the Ticket objects that are currently stored
+     * in the repository.
+     * @return a list of all Ticket objects in the repository.
+     * */
+    @Override
+    public List<Ticket> findAll() {
+        return tickets.values().stream().toList();
+    }
+
+    /**
      * Checks if a Ticket entity with the given identifier exists.
      * @param id The identifier of the Ticket entity to check.
      * @return true if the Ticket entity exists, otherwise false.

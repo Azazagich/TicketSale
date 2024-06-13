@@ -72,6 +72,17 @@ public class EconomyRepository implements CrudRepository<Economy>{
     }
 
     /**
+     * Retrieves all Economy objects from the repository.
+     * This method returns a list containing all the Economy objects that are currently stored
+     * in the repository.
+     * @return a list of all Economy objects in the repository.
+     * */
+    @Override
+    public List<Economy> findAll() {
+        return classEconomies.values().stream().toList();
+    }
+
+    /**
      * Checks if an Economy entity with the given identifier exists.
      * @param id The identifier of the Economy entity to check.
      * @return true if the Economy entity exist, otherwise false.
