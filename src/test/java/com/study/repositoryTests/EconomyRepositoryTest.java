@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class contains unit tests for the {@link EconomyRepository} class.
@@ -77,6 +78,11 @@ public class EconomyRepositoryTest {
         assertNotEquals(economy3, economyRepository.findById(economy1.getId()).get());
     }
 
+
+    @Test
+    void findAll_thenReturnAllEntities(){
+        assertTrue(economyRepository.findAll().containsAll(List.of(economy1, economy2, economy3)));
+    }
 
 
     @Test

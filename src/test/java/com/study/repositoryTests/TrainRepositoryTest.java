@@ -77,6 +77,10 @@ public class TrainRepositoryTest {
         assertNotEquals(train3, trainRepository.findById(train1.getId()).get());
     }
 
+    @Test
+    void findAll_thenReturnAllEntities(){
+        assertTrue(trainRepository.findAll().containsAll(List.of(train1,train2,train3)));
+    }
 
     @Test
     void givenId_whenCheckExistsByIdElInMap_thenReturnBooleanResult(){

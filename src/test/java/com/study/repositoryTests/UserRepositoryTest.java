@@ -91,6 +91,11 @@ public class UserRepositoryTest {
         assertTrue(userRepository.existById(user3.getId()));
     }
 
+    
+    @Test
+    void findAll_thenReturnAllEntities(){
+        assertTrue(userRepository.findAll().containsAll(List.of(user1, user2, user3)));
+    }
 
     @Test
     void givenId_whenUpdateElInMap_thenReturnBooleanResult(){

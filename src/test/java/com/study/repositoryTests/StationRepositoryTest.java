@@ -80,8 +80,12 @@ public class StationRepositoryTest {
         assertNotEquals(station3, stationRepository.findById(station1.getId()).get());
     }
 
+    @Test
+    void findAll_thenReturnAllEntities(){
+        assertTrue(stationRepository.findAll().containsAll(List.of(station1, station2, station3)));
+    }
 
-
+    
     @Test
     void givenId_whenCheckExistsByIdElInMap_thenReturnBooleanResult(){
         // Check if existence check with null ID returns false

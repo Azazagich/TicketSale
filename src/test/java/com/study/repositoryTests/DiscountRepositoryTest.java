@@ -83,6 +83,11 @@ public class DiscountRepositoryTest {
     }
 
     @Test
+    void findAll_thenReturnAllEntities(){
+        assertTrue(discountRepository.findAll().containsAll(List.of(discount1, discount2, discount3)));
+    }
+    
+    @Test
     void givenId_whenCheckExistsByIdElInMap_thenReturnBooleanResult(){
         // Check if existence check with null ID returns false
         assertFalse(discountRepository.existById(null));

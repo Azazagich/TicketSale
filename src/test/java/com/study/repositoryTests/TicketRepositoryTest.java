@@ -80,6 +80,11 @@ public class TicketRepositoryTest {
     }
 
     @Test
+    void findAll_thenReturnAllEntities(){
+        assertTrue(ticketRepository.findAll().containsAll(List.of(ticket1, ticket2, ticket3)));
+    }
+
+    @Test
     void givenId_whenCheckExistsByIdElInMap_thenReturnBooleanResult() {
         // Check if existence check with null ID returns false
         assertFalse(ticketRepository.existById(null));
