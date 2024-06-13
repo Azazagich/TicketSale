@@ -58,14 +58,6 @@ public class AgeGroupDTO implements Serializable {
     }
 
 
-    public void addTicket(TicketDTO ticket){
-        tickets.add(ticket);
-    }
-
-    public void removeTicket(TicketDTO ticket){
-        tickets.remove(ticket);
-    }
-
     @Override
     public String toString() {
         return "AgeGroupDTO{" +
@@ -79,12 +71,12 @@ public class AgeGroupDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AgeGroupDTO that = (AgeGroupDTO) o;
-        return id == that.id && Objects.equals(type, that.type) && Objects.equals(tickets, that.tickets);
+        AgeGroupDTO ageGroupDTO = (AgeGroupDTO) o;
+        return id == ageGroupDTO.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, tickets);
+        return Objects.hash(id);
     }
 }
