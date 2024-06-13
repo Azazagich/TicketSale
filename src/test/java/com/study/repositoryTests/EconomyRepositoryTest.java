@@ -3,6 +3,7 @@ package com.study.repositoryTests;
 import com.study.domain.Economy;
 import com.study.repository.EconomyRepository;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,8 +52,8 @@ public class EconomyRepositoryTest {
         economyRepository.saveAll(economies);
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    void tearDown() {
         economyRepository.deleteAll();
     }
 
@@ -82,6 +83,7 @@ public class EconomyRepositoryTest {
     @Test
     void findAll_thenReturnAllEntities(){
         assertTrue(economyRepository.findAll().containsAll(List.of(economy1, economy2, economy3)));
+        assertEquals(economyRepository.findAll(), List.of(economy1, economy2, economy3));
     }
 
 

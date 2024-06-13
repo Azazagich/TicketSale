@@ -3,6 +3,7 @@ package com.study.repositoryTests;
 import com.study.domain.User;
 import com.study.repository.UserRepository;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,8 +49,8 @@ public class UserRepositoryTest {
         userRepository.saveAll(users);
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    void tearDown() {
         userRepository.deleteAll();
     }
 
@@ -95,6 +96,7 @@ public class UserRepositoryTest {
     @Test
     void findAll_thenReturnAllEntities(){
         assertTrue(userRepository.findAll().containsAll(List.of(user1, user2, user3)));
+        assertEquals(userRepository.findAll(), List.of(user1, user2, user3));
     }
 
     @Test

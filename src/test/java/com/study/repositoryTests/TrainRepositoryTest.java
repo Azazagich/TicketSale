@@ -2,9 +2,7 @@ package com.study.repositoryTests;
 
 import com.study.domain.Train;
 import com.study.repository.TrainRepository;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,7 @@ public class TrainRepositoryTest {
     }
 
     @BeforeEach
-    void setUp() {
+     void setUp() {
         trainRepository = new TrainRepository();
 
         // Initialize the repository and the age groups
@@ -50,8 +48,9 @@ public class TrainRepositoryTest {
         trainRepository.saveAll(trains);
     }
 
-    @AfterAll
-    public static void tearDown() {
+
+    @AfterEach
+    void tearDown() {
         trainRepository.deleteAll();
     }
 
@@ -80,6 +79,7 @@ public class TrainRepositoryTest {
     @Test
     void findAll_thenReturnAllEntities(){
         assertTrue(trainRepository.findAll().containsAll(List.of(train1,train2,train3)));
+        assertEquals(trainRepository.findAll(), List.of(train1, train2, train3));
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.study.domain.Station;
 import com.study.repository.AgeGroupRepository;
 import com.study.repository.StationRepository;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,8 +54,8 @@ public class StationRepositoryTest {
         stationRepository.saveAll(stations);
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    void tearDown() {
         stationRepository.deleteAll();
     }
 
@@ -83,6 +84,7 @@ public class StationRepositoryTest {
     @Test
     void findAll_thenReturnAllEntities(){
         assertTrue(stationRepository.findAll().containsAll(List.of(station1, station2, station3)));
+        assertEquals(stationRepository.findAll(), List.of(station1, station2, station3));
     }
 
     

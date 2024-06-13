@@ -4,6 +4,7 @@ import com.study.domain.*;
 import com.study.domain.Ticket;
 import com.study.repository.TicketRepository;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,8 +53,8 @@ public class TicketRepositoryTest {
         ticketRepository.saveAll(ageGroups);
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    void tearDown() {
         ticketRepository.deleteAll();
     }
 
@@ -82,6 +83,7 @@ public class TicketRepositoryTest {
     @Test
     void findAll_thenReturnAllEntities(){
         assertTrue(ticketRepository.findAll().containsAll(List.of(ticket1, ticket2, ticket3)));
+        assertEquals(ticketRepository.findAll(), List.of(ticket1, ticket2, ticket3));
     }
 
     @Test

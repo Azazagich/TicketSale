@@ -3,6 +3,7 @@ package com.study.repositoryTests;
 import com.study.domain.Discount;
 import com.study.repository.DiscountRepository;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,8 +56,8 @@ public class DiscountRepositoryTest {
         discountRepository.saveAll(discounts);
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    void tearDown() {
         discountRepository.deleteAll();
     }
 
@@ -85,6 +86,7 @@ public class DiscountRepositoryTest {
     @Test
     void findAll_thenReturnAllEntities(){
         assertTrue(discountRepository.findAll().containsAll(List.of(discount1, discount2, discount3)));
+        assertEquals(discountRepository.findAll(), List.of(discount1, discount2, discount3));
     }
     
     @Test

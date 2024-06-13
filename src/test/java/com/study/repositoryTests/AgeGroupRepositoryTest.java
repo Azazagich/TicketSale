@@ -48,8 +48,8 @@ public class AgeGroupRepositoryTest {
         ageGroupRepository.saveAll(ageGroups);
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    void tearDown() {
         ageGroupRepository.deleteAll();
     }
 
@@ -79,6 +79,7 @@ public class AgeGroupRepositoryTest {
     @Test
     void findAll_thenReturnAllEntities(){
         assertTrue(ageGroupRepository.findAll().containsAll(List.of(ageGroup1, ageGroup2, ageGroup3)));
+        assertEquals(ageGroupRepository.findAll(), List.of(ageGroup1, ageGroup2, ageGroup3));
     }
 
 
