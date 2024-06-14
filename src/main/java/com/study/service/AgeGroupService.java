@@ -1,6 +1,5 @@
 package com.study.service;
 
-import com.study.domain.AgeGroup;
 import com.study.repository.AgeGroupRepository;
 import com.study.service.dto.AgeGroupDTO;
 import com.study.service.mapper.AgeGroupMapper;
@@ -20,26 +19,25 @@ public class AgeGroupService {
     /**
      * Repository for performing CRUD operations on AgeGroup entities.
      */
-    private AgeGroupRepository ageGroupRepository = new AgeGroupRepository();
+    private static AgeGroupRepository ageGroupRepository = new AgeGroupRepository();
 
     /**
      * Mapper for converting between AgeGroup entities and AgeGroupDTOs.
      */
-    private AgeGroupMapper ageGroupMapper = new AgeGroupMapper();
+    private static AgeGroupMapper ageGroupMapper = new AgeGroupMapper();
 
     /**
      * Logger for logging service operations.
      */
-    private static Logger LOGGER = LogManager.getLogger();
+    private final static Logger LOGGER = LogManager.getLogger();
 
-    public AgeGroupService(){ }
+    private AgeGroupService(){
 
-//    private AgeGroupService(){ }
-//
-//    public AgeGroupService(AgeGroupRepository ageGroupRepository) {
-//        this();
-//        this.ageGroupRepository = ageGroupRepository;
-//    }
+    }
+
+    public AgeGroupService(AgeGroupMapper ageGroupMapper, AgeGroupRepository ageGroupRepository) {
+        this();
+    }
 
     /**
      * Saves a new AgeGroup entity based on the provided AgeGroupDTO.
@@ -47,9 +45,9 @@ public class AgeGroupService {
      * @param ageGroupDTO the AgeGroupDTO containing the details of the AgeGroup to be saved
      * @return the saved AgeGroup entity
      */
-    public AgeGroup save(AgeGroupDTO ageGroupDTO){
+    public AgeGroupDTO save(AgeGroupDTO ageGroupDTO){
         LOGGER.debug("Saving AgeGroupDTO: {}", ageGroupDTO);
-        return ageGroupRepository.save(ageGroupMapper.toEntity(ageGroupDTO));
+        return ageGroupMapper.toDTO(ageGroupRepository.save(ageGroupMapper.toEntity(ageGroupDTO)));
     }
 
     /**
@@ -58,9 +56,9 @@ public class AgeGroupService {
      * @param ageGroupsDTO the list of AgeGroupDTOs to be saved
      * @return the list of saved AgeGroup entities
      */
-    public List<AgeGroup> saveAll(List<AgeGroupDTO> ageGroupsDTO){
+    public List<AgeGroupDTO> saveAll(List<AgeGroupDTO> ageGroupsDTO){
         LOGGER.debug("Saving all AgeGroupsDTO");
-        return ageGroupRepository.saveAll(ageGroupMapper.toEntity(ageGroupsDTO));
+        return ageGroupMapper.toDTO(ageGroupRepository.saveAll(ageGroupMapper.toEntity(ageGroupsDTO)));
     }
 
     /**
@@ -71,7 +69,7 @@ public class AgeGroupService {
      */
     public Optional<AgeGroupDTO> findById(Integer id){
         LOGGER.debug("Find AgeGroupDTO by id {}", id);
-        return ageGroupMapper.toOptionalDTO(ageGroupRepository.findById(id));
+        return ageGroupMapper.toDTO(ageGroupRepository.findById(id));
     }
 
     /**
