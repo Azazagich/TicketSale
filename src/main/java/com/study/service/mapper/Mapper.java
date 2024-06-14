@@ -25,7 +25,7 @@ public interface Mapper<DTO, Entity> {
      * @param entity the Optional entity to convert
      * @return an Optional containing the corresponding DTO if the entity is present, otherwise an empty Optional
      */
-    Optional<DTO> toOptionalDTO(Optional<Entity> entity);
+    Optional<DTO> toDTO(Optional<Entity> entity);
 
     /**
      * Converts a list of entities to a list of corresponding DTOs.
