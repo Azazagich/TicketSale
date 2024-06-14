@@ -26,8 +26,11 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
      */
     @Override
     public AgeGroupDTO toDTO(AgeGroup ageGroup) {
-        LOGGER.debug("Converted from ageGroup to AgeGroupDTO: {}", ageGroup);
-        return new AgeGroupDTO().id(ageGroup.getId()).type(ageGroup.getType());
+        if (ageGroup != null) {
+            LOGGER.debug("Converted from ageGroup to AgeGroupDTO: {}", ageGroup);
+            return new AgeGroupDTO().id(ageGroup.getId()).type(ageGroup.getType());
+        }
+        return new AgeGroupDTO();
     }
 
     /**
@@ -37,11 +40,12 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
      * @return an optional containing the converted AgeGroupDTO, or empty if the input was empty
      */
     @Override
-    public Optional<AgeGroupDTO> toOptionalDTO(Optional<AgeGroup> ageGroup){
-        LOGGER.debug("Converted from Optional<ageGroup> to Optional<AgeGroupDTO> {}:", ageGroup);
-        return Optional.of(toDTO(ageGroup.get()));
-//      return Optional.of(new AgeGroupDTO().id(ageGroup.get().getId())
-//                                          .type(ageGroup.get().getType()));
+    public Optional<AgeGroupDTO> toDTO(Optional<AgeGroup> ageGroup){
+        if (ageGroup.isPresent()){
+            LOGGER.debug("Converted from Optional<ageGroup> to Optional<AgeGroupDTO> {}:", ageGroup);
+            return Optional.of(toDTO(ageGroup.get()));
+        }
+        return Optional.empty();
     }
 
     /**
@@ -52,15 +56,11 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
      */
     @Override
     public List<AgeGroupDTO> toDTO(List<AgeGroup> ageGroups) {
-        LOGGER.debug("Converting list of AgeGroups to list of AgeGroupDTOs");
-        List<AgeGroupDTO> ageGroupsDTO = List.of();
-        for (AgeGroup ageGroup : ageGroups){
-            if (ageGroup != null){
-                ageGroupsDTO.add(toDTO(ageGroup));
-                LOGGER.debug("Converted AgeGroup to AgeGroupDTO: {}", ageGroup);
-            }
+        if (ageGroups.isEmpty()){
+            return ageGroups.stream().filter(ageGroup -> ageGroup != null)
+                                     .map(ageGroup -> toDTO(ageGroup)).toList();
         }
-        return ageGroupsDTO;
+        return List.of();
     }
 
     /**
@@ -72,7 +72,10 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
     @Override
     public AgeGroup toEntity(AgeGroupDTO ageGroupDTO) {
         LOGGER.debug("Converted from AgeGroupDTO to AgeGroup: {}", ageGroupDTO);
-        return new AgeGroup().id(ageGroupDTO.getId()).type(ageGroupDTO.getType());
+        if (ageGroupDTO != null){
+            return new AgeGroup().id(ageGroupDTO.getId()).type(ageGroupDTO.getType());
+        }
+        return new AgeGroup();
     }
 
     /**
@@ -83,14 +86,10 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
      */
     @Override
     public List<AgeGroup> toEntity(List<AgeGroupDTO> ageGroupsDTO) {
-        LOGGER.debug("Converting list of AgeGroupDTOs to list of AgeGroups");
-        List<AgeGroup> ageGroups = List.of();
-        for (AgeGroupDTO ageGroupDTO : ageGroupsDTO){
-            if (ageGroupDTO != null){
-                ageGroups.add(toEntity(ageGroupDTO));
-                LOGGER.debug("Converted AgeGroupDTO to AgeGroup: {}", ageGroupDTO);
-            }
+        if (ageGroupsDTO.isEmpty()){
+            return ageGroupsDTO.stream().filter(ageGroupDTO -> ageGroupDTO != null)
+                .map(ageGroupDTO -> toEntity(ageGroupDTO)).toList();
         }
-        return ageGroups;
+        return List.of();
     }
 }
