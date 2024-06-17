@@ -18,28 +18,28 @@ public class TicketDTO implements Serializable {
     private LocalDate registrationDateTicket;
     private LocalDate returnDateTicket; //optional
     private double price;
-    private User user;
-    private Station startStation;
-    private Station endStation;
-    private Train train;
-    private Economy economy;
-    private AgeGroup ageGroup;
+    private UserDTO user;
+    private StationDTO startStation;
+    private StationDTO endStation;
+    private TrainDTO train;
+    private EconomyDTO economy;
+    private AgeGroupDTO ageGroup;
     private Set<DiscountDTO> discounts = new HashSet<>(); //optional
 
     public TicketDTO(){ }
 
     public TicketDTO(int id, LocalDate departDateBooking, LocalDate registrationDateTicket, double price,
-                  User user, Station startStation, Station endStation, Train train, Economy economy, AgeGroup ageGroup) {
+                  UserDTO userDTO, StationDTO startStationDTO, StationDTO endStationDTO, TrainDTO trainDTO, EconomyDTO economyDTO, AgeGroupDTO ageGroupDTO) {
         this.id = id;
         this.departDateBooking = departDateBooking;
         this.registrationDateTicket = registrationDateTicket;
         this.price = price;
-        this.user = user;
-        this.startStation = startStation;
-        this.endStation = endStation;
-        this.train = train;
-        this.economy = economy;
-        this.ageGroup = ageGroup;
+        this.user = userDTO;
+        this.startStation = startStationDTO;
+        this.endStation = endStationDTO;
+        this.train = trainDTO;
+        this.economy = economyDTO;
+        this.ageGroup = ageGroupDTO;
     }
 
     public TicketDTO price(double price) {
@@ -47,8 +47,8 @@ public class TicketDTO implements Serializable {
         return this;
     }
 
-    public TicketDTO discount(Set<DiscountDTO> discount) {
-        this.discounts = discount;
+    public TicketDTO discount(Set<DiscountDTO> discountsDTO) {
+        this.discounts = discountsDTO;
         return this;
     }
 
@@ -70,58 +70,58 @@ public class TicketDTO implements Serializable {
         this.returnDateTicket = returnDateTicket;
     }
 
-    public void setDiscounts(Set<DiscountDTO> discounts) {
-        this.discounts = discounts;
+    public void setDiscounts(Set<DiscountDTO> discountsDTO) {
+        this.discounts = discountsDTO;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 
-    public Station getStartStation() {
+    public StationDTO getStartStation() {
         return startStation;
     }
 
-    public void setStartStation(Station startStation) {
+    public void setStartStation(StationDTO startStation) {
         this.startStation = startStation;
     }
 
-    public Station getEndStation() {
+    public StationDTO getEndStation() {
         return endStation;
     }
 
-    public void setEndStation(Station endStation) {
+    public void setEndStation(StationDTO endStation) {
         this.endStation = endStation;
     }
 
-    public Train getTrain() {
+    public TrainDTO getTrain() {
         return train;
     }
 
 
-    public void setTrain(Train train) {
+    public void setTrain(TrainDTO train) {
         this.train = train;
     }
 
-    public Economy getEconomy() {
+    public EconomyDTO getEconomy() {
         return economy;
     }
 
 
-    public void setEconomy(Economy economy) {
+    public void setEconomy(EconomyDTO economy) {
         this.economy = economy;
     }
 
-    public AgeGroup getAgeGroup() {
+    public AgeGroupDTO getAgeGroup() {
         return ageGroup;
     }
 
 
-    public void setAgeGroup(AgeGroup ageGroup) {
+    public void setAgeGroup(AgeGroupDTO ageGroup) {
         this.ageGroup = ageGroup;
     }
 
