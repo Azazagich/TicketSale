@@ -6,17 +6,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Mapper class for converting between AgeGroup entities and AgeGroupDTOs.
+ * Mapper class for converting between AgeGroup entities and AgeGroupsDTO.
  */
 public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
 
-    /**
-     * Logger for this class.
-     * */
-    private static Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Converts an AgeGroup entity to an AgeGroupDTO.
@@ -28,7 +26,9 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
     public AgeGroupDTO toDTO(AgeGroup ageGroup) {
         if (ageGroup != null) {
             LOGGER.debug("Converted from ageGroup to AgeGroupDTO: {}", ageGroup);
-            return new AgeGroupDTO().id(ageGroup.getId()).type(ageGroup.getType());
+            return new AgeGroupDTO()
+                    .id(ageGroup.getId())
+                    .type(ageGroup.getType());
         }
         return new AgeGroupDTO();
     }
@@ -56,9 +56,12 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
      */
     @Override
     public List<AgeGroupDTO> toDTO(List<AgeGroup> ageGroups) {
-        if (ageGroups.isEmpty()){
-            return ageGroups.stream().filter(ageGroup -> ageGroup != null)
-                                     .map(ageGroup -> toDTO(ageGroup)).toList();
+        if (!ageGroups.isEmpty()){
+            LOGGER.debug("Converting list of AgeGroups to list of AgeGroupDTOs");
+            return ageGroups.stream()
+                    .filter(Objects::nonNull)
+                    .map(this::toDTO)
+                    .toList();
         }
         return List.of();
     }
@@ -73,7 +76,9 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
     public AgeGroup toEntity(AgeGroupDTO ageGroupDTO) {
         LOGGER.debug("Converted from AgeGroupDTO to AgeGroup: {}", ageGroupDTO);
         if (ageGroupDTO != null){
-            return new AgeGroup().id(ageGroupDTO.getId()).type(ageGroupDTO.getType());
+            return new AgeGroup()
+                    .id(ageGroupDTO.getId())
+                    .type(ageGroupDTO.getType());
         }
         return new AgeGroup();
     }
@@ -86,9 +91,12 @@ public class AgeGroupMapper implements Mapper<AgeGroupDTO, AgeGroup> {
      */
     @Override
     public List<AgeGroup> toEntity(List<AgeGroupDTO> ageGroupsDTO) {
-        if (ageGroupsDTO.isEmpty()){
-            return ageGroupsDTO.stream().filter(ageGroupDTO -> ageGroupDTO != null)
-                .map(ageGroupDTO -> toEntity(ageGroupDTO)).toList();
+        if (!ageGroupsDTO.isEmpty()){
+            LOGGER.debug("Converting list of AgeGroupsDTO to list of AgeGroups");
+            return ageGroupsDTO.stream()
+                    .filter(Objects::nonNull)
+                    .map(this::toEntity)
+                    .toList();
         }
         return List.of();
     }
