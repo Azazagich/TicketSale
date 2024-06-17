@@ -5,6 +5,7 @@ import com.study.domain.Ticket;
 import com.study.domain.User;
 import com.study.service.dto.StationDTO;
 import com.study.service.dto.TicketDTO;
+import com.study.service.dto.UserDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +38,7 @@ public class TicketMapper implements Mapper<TicketDTO, Ticket>{
              ticketDTO.setRegistrationDateTicket(ticket.getRegistrationDateTicket());
              ticketDTO.setReturnDateTicket(ticket.getReturnDateTicket());
              ticketDTO.setPrice(ticket.getPrice());
-             ticketDTO.setUser(new UserMapper().toDTO(ticket.getUser()));
+             ticketDTO.setUser(toDTO(ticket.getUser()));
              ticketDTO.setStartStation(new StationMapper().toDTO(ticket.getStartStation()));
              ticketDTO.setEndStation(new StationMapper().toDTO(ticket.getEndStation()));
              ticketDTO.setTrain(new TrainMapper().toDTO(ticket.getTrain()));
@@ -48,6 +49,21 @@ public class TicketMapper implements Mapper<TicketDTO, Ticket>{
         }
         return new TicketDTO();
     }
+
+    protected UserDTO toDTO(User user) {
+        if (user != null) {
+            LOGGER.debug("Converted from User to UserDTO: {}", user);
+            return new UserDTO()
+                    .id(user.getId())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .dateOfBirth(user.getDateOfBirth())
+                    .phoneNumber(user.getPhoneNumber());
+        }
+        return new UserDTO();
+    }
+
+
 
     /**
      * Converts an Optional<Ticket> object to an Optional<TicketDTO> object.
