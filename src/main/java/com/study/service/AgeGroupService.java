@@ -19,24 +19,25 @@ public class AgeGroupService {
     /**
      * Repository for performing CRUD operations on AgeGroup entities.
      */
-    private static AgeGroupRepository ageGroupRepository = new AgeGroupRepository();
+    private final AgeGroupRepository ageGroupRepository;
 
     /**
      * Mapper for converting between AgeGroup entities and AgeGroupDTOs.
      */
-    private static AgeGroupMapper ageGroupMapper = new AgeGroupMapper();
+    private final AgeGroupMapper ageGroupMapper;
 
     /**
      * Logger for logging service operations.
      */
     private final static Logger LOGGER = LogManager.getLogger();
 
-    private AgeGroupService(){
-
+    public AgeGroupService(){
+        this(new AgeGroupRepository(), new AgeGroupMapper());
     }
 
-    public AgeGroupService(AgeGroupMapper ageGroupMapper, AgeGroupRepository ageGroupRepository) {
-        this();
+    public AgeGroupService(AgeGroupRepository ageGroupRepository, AgeGroupMapper ageGroupMapper) {
+        this.ageGroupRepository = ageGroupRepository;
+        this.ageGroupMapper = ageGroupMapper;
     }
 
     /**
