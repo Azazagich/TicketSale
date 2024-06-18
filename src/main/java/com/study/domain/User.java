@@ -163,6 +163,7 @@ public class User {
      * */
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
+        //ticket.setUser(this);
     }
 
     @Override
@@ -186,21 +187,18 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(middleName, user.middleName) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(dateOfBirth, user.dateOfBirth) &&
-                Objects.equals(gender, user.gender) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(ticket, user.ticket);
+        return id == user.id && Objects.equals(firstName, user.firstName)
+                && Objects.equals(middleName, user.middleName)
+                && Objects.equals(lastName, user.lastName)
+                && Objects.equals(dateOfBirth, user.dateOfBirth)
+                && Objects.equals(gender, user.gender)
+                && Objects.equals(email, user.email)
+                && Objects.equals(phoneNumber, user.phoneNumber)
+                && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, middleName, lastName, dateOfBirth,
-                gender, email, phoneNumber, password, ticket);
+        return Objects.hash(id, firstName, middleName, lastName, dateOfBirth, gender, email, phoneNumber, password);
     }
 }

@@ -117,6 +117,7 @@ public class Station {
                 ", nameOfStation='" + nameOfStation + '\'' +
                 ", addressLocation='" + addressLocation + '\'' +
                 ", stationPhone='" + stationPhone + '\'' +
+                ", ticket=" + tickets +
                 '}';
     }
 
@@ -125,7 +126,10 @@ public class Station {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Station station = (Station) o;
-        return id == station.id && Objects.equals(nameOfStation, station.nameOfStation) && Objects.equals(addressLocation, station.addressLocation) && Objects.equals(stationPhone, station.stationPhone);
+        return id == station.id &&
+                Objects.equals(nameOfStation, station.nameOfStation) &&
+                Objects.equals(addressLocation, station.addressLocation) &&
+                Objects.equals(stationPhone, station.stationPhone);
     }
 
     @Override

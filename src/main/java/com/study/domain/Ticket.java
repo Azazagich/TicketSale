@@ -263,27 +263,17 @@ public class Ticket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ticket ticket = (Ticket) o;
-        return id == ticket.id &&
-                Double.compare(price, ticket.price) == 0 &&
-                Objects.equals(departDateBooking, ticket.departDateBooking) &&
-                Objects.equals(returnDateBooking, ticket.returnDateBooking) &&
-                Objects.equals(registrationDateTicket, ticket.registrationDateTicket) &&
-                Objects.equals(returnDateTicket, ticket.returnDateTicket) &&
-                Objects.equals(user, ticket.user) &&
-                Objects.equals(startStation, ticket.startStation) &&
-                Objects.equals(endStation, ticket.endStation) &&
-                Objects.equals(train, ticket.train) &&
-                Objects.equals(economy, ticket.economy) &&
-                Objects.equals(ageGroup, ticket.ageGroup) &&
-                Objects.equals(discounts, ticket.discounts);
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof Ticket)){
+            return false;
+        }
+        return id == ((Ticket)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, departDateBooking, returnDateBooking, registrationDateTicket,
-                returnDateTicket, price, user, startStation, endStation, train, economy, ageGroup, discounts);
+        return getClass().hashCode();
     }
 }

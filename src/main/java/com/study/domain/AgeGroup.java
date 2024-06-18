@@ -1,5 +1,6 @@
 package com.study.domain;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -84,11 +85,13 @@ public class AgeGroup {
         return "AgeGroup {" +
                 "id" + id +
                 "type" + type +
+                ", ticket=" + tickets +
                 "}";
     }
 
+
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || obj.getClass() != getClass()) return false;
         AgeGroup ageGroup = (AgeGroup) obj;
@@ -96,10 +99,7 @@ public class AgeGroup {
     }
 
     @Override
-    public int hashCode(){
-       int hash = 17;
-       hash *= 31 + Integer.hashCode(id);
-       if (type != null) hash *= 31 + type.hashCode();
-       return hash;
+    public int hashCode() {
+        return Objects.hash(id, type);
     }
 }

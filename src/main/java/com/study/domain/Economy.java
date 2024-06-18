@@ -83,6 +83,7 @@ public class Economy {
         return "Economy{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
+                ", ticket=" + tickets +
                 '}';
     }
 

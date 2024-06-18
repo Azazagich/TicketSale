@@ -136,6 +136,7 @@ public class Discount {
                 ", percent=" + percent +
                 ", startAt=" + startAt +
                 ", endAt=" + endAt +
+                ", ticket=" + tickets +
                 '}';
     }
 
