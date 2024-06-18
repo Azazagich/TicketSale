@@ -16,7 +16,6 @@ public class StationDTO implements Serializable {
     private String nameOfStation;
     private String addressLocation;
     private String stationPhone; //optional
-    private Set<TicketDTO> tickets = new HashSet<>();
 
     public StationDTO() { }
 
@@ -78,15 +77,6 @@ public class StationDTO implements Serializable {
         return stationPhone;
     }
 
-    public Set<TicketDTO> getTickets() {
-        return tickets;
-    }
-
-
-    public void setTickets(Set<TicketDTO> tickets) {
-        this.tickets = tickets;
-    }
-
 
     @Override
     public String toString() {
@@ -95,20 +85,23 @@ public class StationDTO implements Serializable {
                 ", nameOfStation='" + nameOfStation + '\'' +
                 ", addressLocation='" + addressLocation + '\'' +
                 ", stationPhone='" + stationPhone + '\'' +
-                ", tickets=" + tickets +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StationDTO stationDTO = (StationDTO) o;
-        return id == stationDTO.id;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof StationDTO)){
+            return false;
+        }
+        return id == ((StationDTO)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
+
 }

@@ -206,15 +206,18 @@ public class TicketDTO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TicketDTO ticketDTO = (TicketDTO) o;
-        return id == ticketDTO.id;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof TicketDTO)){
+            return false;
+        }
+        return id == ((TicketDTO)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 
 }

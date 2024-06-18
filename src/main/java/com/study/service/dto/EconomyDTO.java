@@ -14,7 +14,6 @@ import java.util.Set;
 public class EconomyDTO implements Serializable {
     private int id;
     private String type;
-    private Set<TicketDTO> tickets = new HashSet<>();
 
     public EconomyDTO() { }
 
@@ -49,36 +48,28 @@ public class EconomyDTO implements Serializable {
         this.type = type;
     }
 
-    public Set<TicketDTO> getTickets() {
-        return tickets;
-    }
-
-
-    public void setTickets(Set<TicketDTO> tickets) {
-        this.tickets = tickets;
-    }
-
 
     @Override
     public String toString() {
         return "EconomyDTO{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
-                ", tickets=" + tickets +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EconomyDTO economyDTO = (EconomyDTO) o;
-        return id == economyDTO.id;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof EconomyDTO)){
+            return false;
+        }
+        return id == ((EconomyDTO)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
-
 }

@@ -16,7 +16,6 @@ public class TrainDTO implements Serializable {
     private int id;
     private int amountOfSeats;
     private String trainModel; //optional
-    private Set<Ticket> tickets = new HashSet<>();
     public TrainDTO(){ }
 
     public TrainDTO(int id, int amountOfSeats) {
@@ -63,34 +62,28 @@ public class TrainDTO implements Serializable {
         this.amountOfSeats = amountOfSeats;
     }
 
-    public Set<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Set<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
     @Override
     public String toString() {
         return "TrainDTO{" +
                 "id=" + id +
                 ", amountOfSeats=" + amountOfSeats +
                 ", trainModel='" + trainModel + '\'' +
-                ", tickets=" + tickets +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TrainDTO trainDTO = (TrainDTO) o;
-        return id == trainDTO.id;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof TrainDTO)){
+            return false;
+        }
+        return id == ((TrainDTO)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

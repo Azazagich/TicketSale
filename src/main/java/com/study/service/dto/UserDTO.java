@@ -5,7 +5,9 @@ import com.study.domain.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.study.domain.User} entity.
@@ -20,7 +22,6 @@ public class UserDTO implements Serializable {
     private String email;
     private String phoneNumber; //optional
     private String password;
-    private Ticket ticket;
 
     public UserDTO(){ }
 
@@ -150,13 +151,6 @@ public class UserDTO implements Serializable {
         this.password = password;
     }
 
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
 
 
     @Override
@@ -171,20 +165,24 @@ public class UserDTO implements Serializable {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
-                ", ticket=" + ticket +
                 '}';
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return id == userDTO.id;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof UserDTO)){
+            return false;
+        }
+        return id == ((UserDTO)o).id;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

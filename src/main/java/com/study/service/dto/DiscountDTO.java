@@ -18,7 +18,6 @@ public class DiscountDTO implements Serializable {
     private LocalDate startAt; //optional
     private LocalDate endAt; //optional
 
-    private Set<TicketDTO> tickets = new HashSet<>();
 
     public DiscountDTO(){ }
 
@@ -93,14 +92,6 @@ public class DiscountDTO implements Serializable {
         this.endAt = endAt;
     }
 
-    public Set<TicketDTO> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Set<TicketDTO> tickets) {
-        this.tickets = tickets;
-    }
-
 
     @Override
     public String toString() {
@@ -110,20 +101,22 @@ public class DiscountDTO implements Serializable {
                 ", percent=" + percent +
                 ", startAt=" + startAt +
                 ", endAt=" + endAt +
-                ", tickets=" + tickets +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DiscountDTO discountDTO = (DiscountDTO) o;
-        return id == discountDTO.id;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof DiscountDTO)){
+            return false;
+        }
+        return id == ((DiscountDTO)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

@@ -14,7 +14,6 @@ import java.util.Set;
 public class AgeGroupDTO implements Serializable {
     private int id;
     private String type;
-    private Set<TicketDTO> tickets = new HashSet<>();
 
     public AgeGroupDTO() { }
 
@@ -49,34 +48,28 @@ public class AgeGroupDTO implements Serializable {
         this.id = id;
     }
 
-    public Set<TicketDTO> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Set<TicketDTO> tickets) {
-        this.tickets = tickets;
-    }
-
 
     @Override
     public String toString() {
         return "AgeGroupDTO{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
-                ", tickets=" + tickets +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AgeGroupDTO ageGroupDTO = (AgeGroupDTO) o;
-        return id == ageGroupDTO.id;
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof AgeGroupDTO)){
+            return false;
+        }
+        return id == ((AgeGroupDTO)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }
