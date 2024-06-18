@@ -31,10 +31,9 @@ public interface CrudRepository<E> {
      Optional<E> findById(Integer id);
 
      /**
-      * Finds all entities of type E in the provided list.
-      * @param entities The list of entities to search within.
-      * @return A list containing all entities of type E found in the provided list.
-      * */
+      * Retrieves all entities.
+      * @return A list containing all entities.
+      */
      List<E> findAll();
 
      /**

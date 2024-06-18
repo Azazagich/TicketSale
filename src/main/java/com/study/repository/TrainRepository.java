@@ -14,9 +14,6 @@ import java.util.Optional;
  */
 public class TrainRepository implements CrudRepository<Train> {
 
-    /**
-     * Logger for this class.
-     */
     private static Logger LOGGER = LogManager.getLogger();
 
     /**

@@ -13,9 +13,6 @@ import java.util.Optional;
  * */
 public class DiscountRepository implements CrudRepository<Discount>{
 
-    /**
-     * Logger for this class.
-     * */
     private static Logger LOGGER = LogManager.getLogger();
 
     /**

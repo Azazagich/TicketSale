@@ -13,9 +13,6 @@ import java.util.Optional;
  * */
 public class UserRepository implements CrudRepository<User>{
 
-    /**
-     * Logger for this class.
-     * */
     private static Logger LOGGER = LogManager.getLogger();
 
     /**

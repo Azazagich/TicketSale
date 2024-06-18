@@ -13,9 +13,6 @@ import java.util.Optional;
  * */
 public class EconomyRepository implements CrudRepository<Economy>{
 
-    /**
-     * Logger for this class.
-     * */
     private static Logger LOGGER = LogManager.getLogger();
 
     /**

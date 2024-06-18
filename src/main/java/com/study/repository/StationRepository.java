@@ -14,9 +14,6 @@ import java.util.Optional;
  * */
 public class StationRepository implements CrudRepository<Station>{
 
-    /**
-     * Logger for this class.
-     * */
     private static Logger LOGGER = LogManager.getLogger();
 
     /**

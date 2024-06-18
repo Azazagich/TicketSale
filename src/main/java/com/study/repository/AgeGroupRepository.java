@@ -16,9 +16,6 @@ import org.apache.logging.log4j.LogManager;
  * */
 public class AgeGroupRepository implements CrudRepository<AgeGroup> {
 
-    /**
-     * Logger for this class.
-     * */
     private static Logger LOGGER = LogManager.getLogger();
 
     /**
@@ -39,7 +36,6 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
     @Override
     public AgeGroup save(AgeGroup ageGroup) {
         if (ageGroup != null) {
-            //TODO
             ageGroup.setId(++id);
             groups.put(id, ageGroup);
             LOGGER.debug("Saved AgeGroup with id {}", id);
@@ -54,14 +50,7 @@ public class AgeGroupRepository implements CrudRepository<AgeGroup> {
      * */
     @Override
     public List<AgeGroup> saveAll(List<AgeGroup> ageGroups) {
-        for (AgeGroup ageGroup : ageGroups){
-            if (ageGroup != null) {
-                ageGroup.setId(++id);
-                groups.put(id, ageGroup);
-                LOGGER.debug("Saved AgeGroup with id {}", id);
-            }
-        }
-        return ageGroups;
+        return ageGroups.stream().map(this::save).toList();
     }
 
 
