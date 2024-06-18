@@ -81,22 +81,10 @@ public class DiscountMapper implements Mapper<DiscountDTO, Discount>{
      */
     public Set<DiscountDTO> toDTO(Set<Discount> discounts) {
         if (!discounts.isEmpty()){
-            LOGGER.debug("Converting list of Discounts to list of DiscountsDTO");
+            LOGGER.debug("Converting set of Discounts to set of DiscountsDTO");
             return discounts.stream()
                     .filter(Objects::nonNull)
                     .map(this::toDTO)
-                    .collect(Collectors.toSet());
-        }
-        return Collections.emptySet();
-    }
-
-
-    public Set<Discount> toEntity(Set<DiscountDTO> discounts) {
-        if (!discounts.isEmpty()){
-            LOGGER.debug("Converting list of Discounts to list of DiscountsDTO");
-            return discounts.stream()
-                    .filter(Objects::nonNull)
-                    .map(this::toEntity)
                     .collect(Collectors.toSet());
         }
         return Collections.emptySet();
@@ -140,5 +128,16 @@ public class DiscountMapper implements Mapper<DiscountDTO, Discount>{
                     .toList();
         }
         return List.of();
+    }
+
+    public Set<Discount> toEntity(Set<DiscountDTO> discounts) {
+        if (!discounts.isEmpty()){
+            LOGGER.debug("Converting set of DiscountsDTO to set of Discounts");
+            return discounts.stream()
+                    .filter(Objects::nonNull)
+                    .map(this::toEntity)
+                    .collect(Collectors.toSet());
+        }
+        return Collections.emptySet();
     }
 }

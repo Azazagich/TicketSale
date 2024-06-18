@@ -67,14 +67,14 @@ public class TicketMapperTest {
     @Test
     void testToEntity() {
         assertEquals(ticketMapper.toEntity(ticketDTO), new Ticket().price(350));
-        assertInstanceOf(TicketDTO.class, ticketMapper.toEntity(new TicketDTO()));
+        assertInstanceOf(Ticket.class, ticketMapper.toEntity(new TicketDTO()));
     }
 
-//    @Test
-//    void testToEntities() {
-//        TrainDTO train2DTO = new TrainDTO().id(3).amountOfSeats(50);
-//        List<TrainDTO> trainsDTO = List.of(trainDTO, train2DTO);
-//        List<Train> expectedEntities = List.of(new Train().amountOfSeats(50), new Train().id(3).amountOfSeats(50));
-//        assertEquals(trainMapper.toEntity(trainsDTO), expectedEntities);
-//    }
+    @Test
+    void testToEntities() {
+        TicketDTO ticket2DTO = new TicketDTO().id(3).price(350);
+        List<TicketDTO> ticketsDTO = List.of(ticketDTO, ticket2DTO);
+        List<Ticket> expectedEntities = List.of(new Ticket().price(500), new Ticket().id(3).price(500));
+        assertEquals(ticketMapper.toEntity(ticketsDTO), expectedEntities);
+    }
 }

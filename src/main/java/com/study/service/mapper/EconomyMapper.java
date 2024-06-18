@@ -80,7 +80,9 @@ public class EconomyMapper implements Mapper<EconomyDTO, Economy>{
     public Economy toEntity(EconomyDTO economyDTO) {
         LOGGER.debug("Converted from EconomyDTO to Economy: {}", economyDTO);
         if (economyDTO != null){
-            return new Economy().id(economyDTO.getId()).type(economyDTO.getType());
+            return new Economy()
+                    .id(economyDTO.getId())
+                    .type(economyDTO.getType());
         }
         return new Economy();
     }
