@@ -14,7 +14,7 @@ import java.util.Optional;
  * Service class for managing AgeGroupDTO entities.
  * Provides methods for CRUD operations and other business logic related to AgeGroups.
  */
-public class AgeGroupService {
+public class AgeGroupService implements CrudService<AgeGroupDTO>{
 
     /**
      * Repository for performing CRUD operations on AgeGroup entities.
@@ -26,9 +26,6 @@ public class AgeGroupService {
      */
     private final AgeGroupMapper ageGroupMapper;
 
-    /**
-     * Logger for logging service operations.
-     */
     private final static Logger LOGGER = LogManager.getLogger();
 
     public AgeGroupService(){
@@ -46,6 +43,7 @@ public class AgeGroupService {
      * @param ageGroupDTO the AgeGroupDTO containing the details of the AgeGroup to be saved
      * @return the saved AgeGroup entity
      */
+    @Override
     public AgeGroupDTO save(AgeGroupDTO ageGroupDTO){
         LOGGER.debug("Saving AgeGroupDTO: {}", ageGroupDTO);
         return ageGroupMapper.toDTO(ageGroupRepository.save(ageGroupMapper.toEntity(ageGroupDTO)));
@@ -57,6 +55,7 @@ public class AgeGroupService {
      * @param ageGroupsDTO the list of AgeGroupDTOs to be saved
      * @return the list of saved AgeGroup entities
      */
+    @Override
     public List<AgeGroupDTO> saveAll(List<AgeGroupDTO> ageGroupsDTO){
         LOGGER.debug("Saving all AgeGroupsDTO");
         return ageGroupMapper.toDTO(ageGroupRepository.saveAll(ageGroupMapper.toEntity(ageGroupsDTO)));
@@ -68,6 +67,7 @@ public class AgeGroupService {
      * @param id the ID of the AgeGroup to be found
      * @return an Optional containing the AgeGroupDTO if found, or empty if not found
      */
+    @Override
     public Optional<AgeGroupDTO> findById(Integer id){
         LOGGER.debug("Find AgeGroupDTO by id {}", id);
         return ageGroupMapper.toDTO(ageGroupRepository.findById(id));
@@ -78,6 +78,7 @@ public class AgeGroupService {
      *
      * @return the list of AgeGroupDTOs
      */
+    @Override
     public List<AgeGroupDTO> findAll(){
         LOGGER.debug("Find All AgeGroupsDTO elements");
         return ageGroupMapper.toDTO(ageGroupRepository.findAll());
@@ -89,6 +90,7 @@ public class AgeGroupService {
      * @param id the ID of the AgeGroup to be checked
      * @return true if the AgeGroup exists, false otherwise
      */
+    @Override
     public boolean existById(Integer id){
         LOGGER.debug("Checking existence of AgeGroup by ID: {}", id);
         return ageGroupRepository.existById(id);
@@ -101,6 +103,7 @@ public class AgeGroupService {
      * @param nwAgeGroupDTO the AgeGroupDTO containing new values
      * @return true if the update was successful, false otherwise
      */
+    @Override
     public boolean updateId(Integer id, AgeGroupDTO nwAgeGroupDTO){
         LOGGER.debug("Updating AgeGroup with ID: {}", id);
         if (id != null && nwAgeGroupDTO != null){
@@ -114,6 +117,7 @@ public class AgeGroupService {
      *
      * @param id the ID of the AgeGroup to be deleted
      */
+    @Override
     public void deleteById(Integer id){
         LOGGER.debug("Deleting AgeGroup by ID: {}", id);
         ageGroupRepository.deleteById(id);
@@ -124,6 +128,7 @@ public class AgeGroupService {
      *
      * @param ageGroupDTO the AgeGroupDTO of the AgeGroup to be deleted
      */
+    @Override
     public void delete(AgeGroupDTO ageGroupDTO){
         LOGGER.debug("Deleting AgeGroup: {}", ageGroupDTO);
         ageGroupRepository.delete(ageGroupMapper.toEntity(ageGroupDTO));
@@ -132,6 +137,7 @@ public class AgeGroupService {
     /**
      * Deletes all AgeGroups.
      */
+    @Override
     public void deleteAll(){
         LOGGER.debug("Deleting all AgeGroups");
         ageGroupRepository.deleteAll();
@@ -142,9 +148,9 @@ public class AgeGroupService {
      *
      * @param ageGroupsDTO the list of AgeGroupDTOs of the AgeGroups to be deleted
      */
+    @Override
     public void deleteAll(List<AgeGroupDTO> ageGroupsDTO){
         LOGGER.debug("Deleting all AgeGroups list");
         ageGroupRepository.deleteAll(ageGroupMapper.toEntity(ageGroupsDTO));
     }
-
 }
