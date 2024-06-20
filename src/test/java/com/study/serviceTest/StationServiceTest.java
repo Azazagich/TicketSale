@@ -29,6 +29,9 @@ public class StationServiceTest {
     private final int SECOND_ELEMENT_STATION = 1;
     private final int PRIMARY_LIST_STATION_SIZE = 3;
 
+    private final int EXPECTED_SIZE_ADDITION = 1;
+    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
+
     private StationDTO stationDTO1;
     private StationDTO stationDTO2;
     private StationDTO stationDTO3;
@@ -60,6 +63,7 @@ public class StationServiceTest {
 
     @Test
     void save() {
+        int sizeBeforeSave = stationService.findAll().size();
         StationDTO saved = stationService.save(createDTO(STATION_MOGPOD));
 
         assertTrue(stationService.existById(saved.getId()));
@@ -68,10 +72,12 @@ public class StationServiceTest {
 
         assertEquals(STATION_MOGPOD, saved.getNameOfStation());
         assertEquals(saved2.getNameOfStation(), saved.getNameOfStation());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, stationService.findAll().size());
     }
 
     @Test
     void saveAll() {
+        int sizeBeforeSaveAll = stationService.findAll().size();
         List<StationDTO> stationsDTO = new ArrayList<>();
 
         StationDTO stationDTO4 = createDTO(STATION_MOGPOD);
@@ -86,6 +92,7 @@ public class StationServiceTest {
         assertTrue(stationService.existById(stationDTOS.get(SECOND_ELEMENT_STATION).getId()));
         assertEquals(stationDTO4.getNameOfStation(), stationDTOS.get(FIRST_ELEMENT_STATION).getNameOfStation());
         assertEquals(stationDTO5.getNameOfStation(), stationDTOS.get(SECOND_ELEMENT_STATION).getNameOfStation());
+        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, stationService.findAll().size());
     }
 
     @Test
@@ -106,22 +113,28 @@ public class StationServiceTest {
 
     @Test
     void updateId() {
+        int sizeBeforeUpdate = stationService.findAll().size();
         StationDTO stationDTO4 = createDTO(STATION_MOGPOD);
 
         assertTrue(stationService.updateId(stationDTO2.getId(), stationDTO4));
         assertTrue(stationService.existById(stationDTO4.getId()));
         assertEquals(stationDTO4.getNameOfStation(), stationService.findById(stationDTO4.getId()).get().getNameOfStation());
+        assertEquals(sizeBeforeUpdate, stationService.findAll().size());
     }
 
     @Test
     void delete() {
+        int sizeBeforeDelete = stationService.findAll().size();
+
         assertTrue(stationService.existById(stationDTO1.getId()));
         stationService.delete(stationDTO1);
         assertFalse(stationService.existById(stationDTO1.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, stationService.findAll().size());
     }
 
     @Test
     void deleteAll() {
+        int sizeBeforeDeleteAll = stationService.findAll().size();
         List<StationDTO> stationsDTODelete = List.of(stationDTO1, stationDTO2);
 
         assertTrue(stationService.existById(stationDTO1.getId()));
@@ -132,5 +145,6 @@ public class StationServiceTest {
         assertFalse(stationService.existById(stationDTO1.getId()));
         assertFalse(stationService.existById(stationDTO2.getId()));
         assertTrue(stationService.existById(stationDTO3.getId()));
+        assertEquals(sizeBeforeDeleteAll - EXPECTED_SIZE_ADDITION_LIST, stationService.findAll().size());
     }
 }
