@@ -23,7 +23,7 @@ public class AgeGroupServiceTest {
     private final String AGE_GROUP_ADULT_TYPE = "Дорослий";
     private final String AGE_GROUP_NAME_CHILD_TYPE = "Дитина";
     private final String AGE_GROUP_NAME_BABIES_TYPE = "Малюки";
-    private final String AGE_GROUP_RETIREE_CHILD_TYPE = "Пенсіонер";
+    private final String AGE_GROUP_RETIREE_TYPE = "Пенсіонер";
 
     private final int FIRST_ELEMENT_AGE_GROUP = 0;
     private final int SECOND_ELEMENT_AGE_GROUP = 1;
@@ -49,7 +49,7 @@ public class AgeGroupServiceTest {
         ageGroupService = new AgeGroupService(ageGroupRepository, ageGroupMapper);
 
         ageGroupDTO1 = ageGroupService.save(createDTO(AGE_GROUP_ADULT_TYPE));
-        ageGroupDTO2 = ageGroupService.save(createDTO(AGE_GROUP_RETIREE_CHILD_TYPE));
+        ageGroupDTO2 = ageGroupService.save(createDTO(AGE_GROUP_RETIREE_TYPE));
         ageGroupDTO3 = ageGroupService.save(createDTO(AGE_GROUP_NAME_CHILD_TYPE));
     }
 
@@ -76,7 +76,7 @@ public class AgeGroupServiceTest {
         List<AgeGroupDTO> ageGroupsDTO = new ArrayList<>();
 
         AgeGroupDTO ageGroupDTO4 = createDTO(AGE_GROUP_NAME_BABIES_TYPE);
-        AgeGroupDTO ageGroupDTO5 = createDTO(AGE_GROUP_RETIREE_CHILD_TYPE);
+        AgeGroupDTO ageGroupDTO5 = createDTO(AGE_GROUP_RETIREE_TYPE);
 
         ageGroupsDTO.add(ageGroupDTO4);
         ageGroupsDTO.add(ageGroupDTO5);
@@ -86,9 +86,8 @@ public class AgeGroupServiceTest {
         assertTrue(ageGroupService.existById(ageGroupDTOS.get(FIRST_ELEMENT_AGE_GROUP).getId()));
         assertTrue(ageGroupService.existById(ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getId()));
         assertEquals(ageGroupDTO4.getType(), ageGroupDTOS.get(FIRST_ELEMENT_AGE_GROUP).getType());
-        assertEquals(ageGroupDTO5.getType(), ageGroupDTOS.get(FIRST_ELEMENT_AGE_GROUP).getType());
+        assertEquals(ageGroupDTO5.getType(), ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getType());
     }
-
 
     @Test
     void findById() {
@@ -107,7 +106,6 @@ public class AgeGroupServiceTest {
         assertNotNull(ageGroupService.findAll());
     }
 
-
     @Test
     void updateId() {
         AgeGroupDTO ageGroupDTO4 = createDTO(AGE_GROUP_NAME_BABIES_TYPE);
@@ -117,14 +115,12 @@ public class AgeGroupServiceTest {
         assertEquals(ageGroupDTO4.getType(), ageGroupService.findById(ageGroupDTO4.getId()).get().getType());
     }
 
-
     @Test
     void delete() {
         assertTrue(ageGroupService.existById(ageGroupDTO1.getId()));
         ageGroupService.delete(ageGroupDTO1);
         assertFalse(ageGroupService.existById(ageGroupDTO1.getId()));
     }
-
 
     @Test
     void deleteAll() {
