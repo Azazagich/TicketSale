@@ -1,8 +1,6 @@
 package com.study.serviceTest.mapperTest;
 
-import com.study.domain.Train;
 import com.study.domain.User;
-import com.study.service.dto.TrainDTO;
 import com.study.service.dto.UserDTO;
 import com.study.service.mapper.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,57 +13,83 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
- * Test class for {@link UserMapper}.
- * This class contains unit tests for the {@link UserMapper} class which converts
- * between {@link User} and {@link UserDTO} objects.
+ * This class contains unit tests for the {@link UserMapper} class.
+ * The tests cover various operations such as converting entities to DTOs,
+ * converting DTOs to entities, and handling optional and list conversions.
  */
 public class UserMapperTest {
+
+    private final String[] NAMES_USERS = {"Олександр", "Андрій"};
 
     private UserMapper userMapper;
 
     private UserDTO userDTO;
     private User user;
 
+    private UserDTO createDTO(){
+        return new UserDTO();
+    }
+
+    private UserDTO createDTO(String name){
+        return new UserDTO().firstName(name);
+    }
+
+    private UserDTO createDTO(int id, String name){
+        return new UserDTO().id(id).firstName(name);
+    }
+
+    private User createEntity(){
+        return new User();
+    }
+
+    private User createEntity(String name){
+        return new User().firstName(name);
+    }
+
+    private User createEntity(int id, String name){
+        return new User().id(id).firstName(name);
+    }
+
     @BeforeEach
     void setUp() {
         userMapper = new UserMapper();
 
-        userDTO = new UserDTO().firstName("Андрій");
-        user = new User().firstName("Олександр");
+        userDTO = new UserDTO().firstName(NAMES_USERS[1]);
+        user = new User().firstName(NAMES_USERS[0]);
     }
 
     @Test
     void testToDTO() {
-        assertEquals(userMapper.toDTO(user), new UserDTO().firstName("Олександр"));
-        assertEquals(userMapper.toDTO(new User()), new UserDTO());
-        assertInstanceOf(UserDTO.class, userMapper.toDTO(new User()));
+        assertEquals(userMapper.toDTO(user), createDTO(NAMES_USERS[0]));
+        assertEquals(userMapper.toDTO(createEntity()), createDTO());
+        assertInstanceOf(UserDTO.class, userMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
-        User user2 = new User().id(3).firstName("Олександр");
+        User user2 = createEntity(3, NAMES_USERS[0]);
         List<User> users = List.of(user, user2);
-        List<UserDTO> expectedDTOs = List.of(new UserDTO().firstName("Олександр"), new UserDTO().id(3).firstName("Олександр"));
+        List<UserDTO> expectedDTOs = List.of(createDTO(NAMES_USERS[0]), createDTO(3, NAMES_USERS[0]));
         assertEquals(userMapper.toDTO(users), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<User> user = Optional.of(new User().id(1).firstName("Андрій"));
-        assertEquals(userMapper.toDTO(user), Optional.of(new UserDTO().id(1)));
+        Optional<User> user = Optional.of(createEntity(1, NAMES_USERS[1]));
+        assertEquals(userMapper.toDTO(user), Optional.of(createDTO().id(1)));
     }
 
     @Test
     void testToEntity() {
-        assertEquals(userMapper.toEntity(userDTO), new User().firstName("Андрій"));
-        assertInstanceOf(User.class, userMapper.toEntity(new UserDTO()));
+        assertEquals(userMapper.toEntity(userDTO), createEntity(NAMES_USERS[1]));
+        assertInstanceOf(User.class, userMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
-        UserDTO user2DTO = new UserDTO().id(3).firstName("Андрій");
+        UserDTO user2DTO = createDTO(3, NAMES_USERS[1]);
         List<UserDTO> usersDTO = List.of(userDTO, user2DTO);
-        List<User> expectedEntities = List.of(new User().firstName("Андрій"), new User().id(3).firstName("Андрій"));
+        List<User> expectedEntities = List.of(createEntity(NAMES_USERS[1]), createEntity(3, NAMES_USERS[1]));
         assertEquals(userMapper.toEntity(usersDTO), expectedEntities);
     }
 }

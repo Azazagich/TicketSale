@@ -13,57 +13,84 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
- * Test class for {@link StationMapper}.
- * This class contains unit tests for the {@link StationMapper} class which converts
- * between {@link Station} and {@link StationDTO} objects.
+ * This class contains unit tests for the {@link StationMapper} class.
+ * The tests cover various operations such as converting entities to DTOs,
+ * converting DTOs to entities, and handling optional and list conversions.
  */
 public class StationMapperTest {
+
+    private final String STATION_KYIV = "KYIV Station";
+    private final String STATION_VINNYTSIA = "Vinnytsia Station";
 
     private StationMapper stationMapper;
 
     private StationDTO stationDTO;
     private Station station;
 
+    private StationDTO createDTO(){
+        return new StationDTO();
+    }
+
+    private StationDTO createDTO(String nameOfStation){
+        return new StationDTO().nameOfStation(nameOfStation);
+    }
+
+    private StationDTO createDTO(int id, String nameOfStation){
+        return new StationDTO().id(id).nameOfStation(nameOfStation);
+    }
+
+    private Station createEntity(){
+        return new Station();
+    }
+
+    private Station createEntity(String nameOfStation){
+        return new Station().nameOfStation(nameOfStation);
+    }
+
+    private Station createEntity(int id, String nameOfStation){
+        return new Station().id(id).nameOfStation(nameOfStation);
+    }
+
     @BeforeEach
     void setUp() {
         stationMapper = new StationMapper();
 
-        stationDTO = new StationDTO().nameOfStation("Львівський");
-        station = new Station().nameOfStation("Київський");
+        stationDTO = new StationDTO().nameOfStation(STATION_VINNYTSIA);
+        station = new Station().nameOfStation(STATION_KYIV);
     }
 
     @Test
     void testToDTO() {
-        assertEquals(stationMapper.toDTO(station), new StationDTO().nameOfStation("Львівський"));
-        assertEquals(stationMapper.toDTO(new Station()), new StationDTO());
-        assertInstanceOf(StationDTO.class, stationMapper.toDTO(new Station()));
+        assertEquals(stationMapper.toDTO(station), createDTO(STATION_VINNYTSIA));
+        assertEquals(stationMapper.toDTO(createEntity()), createDTO());
+        assertInstanceOf(StationDTO.class, stationMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
-        Station station2 = new Station().id(3).nameOfStation("Львівський");
+        Station station2 = createEntity(3, STATION_VINNYTSIA);
         List<Station> stations = List.of(station, station2);
-        List<StationDTO> expectedDTOs = List.of(new StationDTO().nameOfStation("Львівський"), new StationDTO().id(3).nameOfStation("Київський"));
+        List<StationDTO> expectedDTOs = List.of(createDTO(STATION_VINNYTSIA), createDTO(3, STATION_KYIV));
         assertEquals(stationMapper.toDTO(stations), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<Station> station = Optional.of(new Station().id(1).nameOfStation("Львівський"));
-        assertEquals(stationMapper.toDTO(station), Optional.of(new StationDTO().id(1).nameOfStation("Львівський")));
+        Optional<Station> station = Optional.of(createEntity(1, STATION_VINNYTSIA));
+        assertEquals(stationMapper.toDTO(station), Optional.of(createDTO(1, STATION_VINNYTSIA)));
     }
 
     @Test
     void testToEntity() {
-        assertEquals(stationMapper.toEntity(stationDTO), new Station().nameOfStation("Львівський"));
-        assertInstanceOf(Station.class, stationMapper.toEntity(new StationDTO()));
+        assertEquals(stationMapper.toEntity(stationDTO), createEntity(STATION_VINNYTSIA));
+        assertInstanceOf(Station.class, stationMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
-        StationDTO station2DTO = new StationDTO().id(3).nameOfStation("Львівський");
+        StationDTO station2DTO = createDTO(3,STATION_VINNYTSIA);
         List<StationDTO> stationsDTO = List.of(stationDTO, station2DTO);
-        List<Station> expectedEntities = List.of(new Station().nameOfStation("Львівський"), new Station().id(3).nameOfStation("Львівський"));
+        List<Station> expectedEntities = List.of(createEntity(STATION_VINNYTSIA), createEntity(3, STATION_VINNYTSIA));
         assertEquals(stationMapper.toEntity(stationsDTO), expectedEntities);
     }
 }

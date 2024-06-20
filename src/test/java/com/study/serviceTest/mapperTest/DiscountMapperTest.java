@@ -13,57 +13,86 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
- * Test class for {@link DiscountMapper}.
- * This class contains unit tests for the {@link DiscountMapper} class which converts
- * between {@link Discount} and {@link DiscountDTO} objects.
+ * This class contains unit tests for the {@link DiscountMapper} class.
+ * The tests cover various operations such as converting entities to DTOs,
+ * converting DTOs to entities, and handling optional and list conversions.
  */
 public class DiscountMapperTest {
+
+    private final String DISCOUNT_TYPE_SOCIAL = "Social Discount";
+    private final String DISCOUNT_TYPE_MILITARY = "Military Discount";
+    private final String DISCOUNT_TYPE_CHILDREN = "Children Discount";
+
 
     private DiscountMapper discountMapper;
 
     private DiscountDTO discountDTO;
     private Discount discount;
 
+    private DiscountDTO createDTO(){
+        return new DiscountDTO();
+    }
+
+    private DiscountDTO createDTO(String type){
+        return new DiscountDTO().type(type);
+    }
+
+    private DiscountDTO createDTO(int id, String type){
+        return new DiscountDTO().id(id).type(type);
+    }
+
+    private Discount createEntity(){
+        return new Discount();
+    }
+
+    private Discount createEntity(String type){
+        return new Discount().type(type);
+    }
+
+    private Discount createEntity(int id, String type){
+        return new Discount().id(id).type(type);
+    }
+
     @BeforeEach
     void setUp() {
         discountMapper = new DiscountMapper();
 
-        discountDTO = new DiscountDTO().type("Пенсійний");
-        discount = new Discount().type("Військовим");
+        discountDTO = createDTO(DISCOUNT_TYPE_SOCIAL);
+        discount = createEntity(DISCOUNT_TYPE_MILITARY);
     }
 
     @Test
     void testToDTO() {
-        assertEquals(discountMapper.toDTO(discount), new DiscountDTO().type("Військовим"));
-        assertEquals(discountMapper.toDTO(new Discount()), new DiscountDTO());
-        assertInstanceOf(DiscountDTO.class, discountMapper.toDTO(new Discount()));
+        assertEquals(discountMapper.toDTO(discount), createDTO(DISCOUNT_TYPE_MILITARY));
+        assertEquals(discountMapper.toDTO(createEntity()), createDTO());
+        assertInstanceOf(DiscountDTO.class, discountMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
-        Discount discount2 = new Discount().id(3).type("Сиротам");
+        Discount discount2 = createEntity(3, DISCOUNT_TYPE_CHILDREN);
         List<Discount> discounts = List.of(discount, discount2);
-        List<DiscountDTO> expectedDTOs = List.of(new DiscountDTO().type("Пенсійний"), new DiscountDTO().id(3).type("Дитина"));
+        List<DiscountDTO> expectedDTOs = List.of(createDTO(DISCOUNT_TYPE_SOCIAL), createDTO(3, DISCOUNT_TYPE_CHILDREN));
         assertEquals(discountMapper.toDTO(discounts), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<Discount> discount = Optional.of(new Discount().id(1).type("Пенсійний"));
-        assertEquals(discountMapper.toDTO(discount), Optional.of(new DiscountDTO().id(1).type("Пенсійний")));
+        Optional<Discount> discount = Optional.of(createEntity(1,DISCOUNT_TYPE_SOCIAL));
+        assertEquals(discountMapper.toDTO(discount), Optional.of(createDTO(1,DISCOUNT_TYPE_SOCIAL)));
     }
 
     @Test
     void testToEntity() {
-        assertEquals(discountMapper.toEntity(discountDTO), new Discount().type("Пенсійний"));
-        assertInstanceOf(Discount.class, discountMapper.toEntity(new DiscountDTO()));
+        assertEquals(discountMapper.toEntity(discountDTO), createEntity(DISCOUNT_TYPE_SOCIAL));
+        assertInstanceOf(Discount.class, discountMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
-        DiscountDTO discount2DTO = new DiscountDTO().id(3).type("Сиротам");
+        DiscountDTO discount2DTO = createDTO(3, DISCOUNT_TYPE_CHILDREN);
         List<DiscountDTO> discountsDTO = List.of(discountDTO, discount2DTO);
-        List<Discount> expectedEntities = List.of(new Discount().type("Пенсійний"), new Discount().id(3).type("Сиротам"));
+        List<Discount> expectedEntities = List.of(createEntity(DISCOUNT_TYPE_SOCIAL), createEntity(3,DISCOUNT_TYPE_CHILDREN));
         assertEquals(discountMapper.toEntity(discountsDTO), expectedEntities);
     }
 }

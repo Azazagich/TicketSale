@@ -13,57 +13,85 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
- * Test class for {@link TrainMapper}.
- * This class contains unit tests for the {@link TrainMapper} class which converts
- * between {@link Train} and {@link TrainDTO} objects.
+ * This class contains unit tests for the {@link TrainMapper} class.
+ * The tests cover various operations such as converting entities to DTOs,
+ * converting DTOs to entities, and handling optional and list conversions.
  */
 public class TrainMapperTest {
+
+    private final int MAX_AMOUNT_SEATS_TRAIN = 120;
+    private final int AVERAGE_SEATS_TRAIN = 70;
+    private final int MIN_AMOUNT_SEATS_TRAIN = 40;
 
     private TrainMapper trainMapper;
 
     private TrainDTO trainDTO;
     private Train train;
 
+    private TrainDTO createDTO(){
+        return new TrainDTO();
+    }
+
+    private TrainDTO createDTO(int amountOfSeats){
+        return new TrainDTO().amountOfSeats(amountOfSeats);
+    }
+
+    private TrainDTO createDTO(int id, int amountOfSeats){
+        return new TrainDTO().id(id).amountOfSeats(amountOfSeats);
+    }
+
+    private Train createEntity(){
+        return new Train();
+    }
+
+    private Train createEntity(int amountOfSeats){
+        return new Train().amountOfSeats(amountOfSeats);
+    }
+
+    private Train createEntity(int id, int amountOfSeats){
+        return new Train().id(id).amountOfSeats(amountOfSeats);
+    }
+
     @BeforeEach
     void setUp() {
         trainMapper = new TrainMapper();
 
-        trainDTO = new TrainDTO().amountOfSeats(50);
-        train = new Train().amountOfSeats(35);
+        trainDTO = createDTO(MAX_AMOUNT_SEATS_TRAIN);
+        train = createEntity(MIN_AMOUNT_SEATS_TRAIN);
     }
 
     @Test
     void testToDTO() {
-        assertEquals(trainMapper.toDTO(train), new TrainDTO().amountOfSeats(50));
-        assertEquals(trainMapper.toDTO(new Train()), new TrainDTO());
-        assertInstanceOf(TrainDTO.class, trainMapper.toDTO(new Train()));
+        assertEquals(trainMapper.toDTO(train), createDTO(MAX_AMOUNT_SEATS_TRAIN));
+        assertEquals(trainMapper.toDTO(createEntity()), createDTO());
+        assertInstanceOf(TrainDTO.class, trainMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
-        Train train2 = new Train().id(3).amountOfSeats(25);
+        Train train2 = createEntity(3, AVERAGE_SEATS_TRAIN);
         List<Train> trains = List.of(train, train2);
-        List<TrainDTO> expectedDTOs = List.of(new TrainDTO().amountOfSeats(50), new TrainDTO().id(3).amountOfSeats(25));
+        List<TrainDTO> expectedDTOs = List.of(createDTO(MAX_AMOUNT_SEATS_TRAIN), createDTO(3, AVERAGE_SEATS_TRAIN));
         assertEquals(trainMapper.toDTO(trains), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<Train> train = Optional.of(new Train().id(1).amountOfSeats(25));
-        assertEquals(trainMapper.toDTO(train), Optional.of(new TrainDTO().id(1)));
+        Optional<Train> train = Optional.of(createEntity(1, AVERAGE_SEATS_TRAIN));
+        assertEquals(trainMapper.toDTO(train), Optional.of(createDTO().id(1)));
     }
 
     @Test
     void testToEntity() {
-        assertEquals(trainMapper.toEntity(trainDTO), new Train().amountOfSeats(50));
-        assertInstanceOf(Train.class, trainMapper.toEntity(new TrainDTO()));
+        assertEquals(trainMapper.toEntity(trainDTO), createEntity(MAX_AMOUNT_SEATS_TRAIN));
+        assertInstanceOf(Train.class, trainMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
-        TrainDTO train2DTO = new TrainDTO().id(3).amountOfSeats(50);
+        TrainDTO train2DTO = createDTO(3, MAX_AMOUNT_SEATS_TRAIN);
         List<TrainDTO> trainsDTO = List.of(trainDTO, train2DTO);
-        List<Train> expectedEntities = List.of(new Train().amountOfSeats(50), new Train().id(3).amountOfSeats(50));
+        List<Train> expectedEntities = List.of(createEntity(MAX_AMOUNT_SEATS_TRAIN), createEntity(3, MAX_AMOUNT_SEATS_TRAIN));
         assertEquals(trainMapper.toEntity(trainsDTO), expectedEntities);
     }
 }

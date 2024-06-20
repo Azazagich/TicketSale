@@ -18,51 +18,78 @@ import java.util.Optional;
  */
 class AgeGroupMapperTest {
 
+    private final String AGE_GROUP_ADULT_TYPE = "Дорослий";
+    private final String AGE_GROUP_CHILD_TYPE = "Дитина";
+
     private AgeGroupMapper ageGroupMapper;
 
     private AgeGroupDTO ageGroupDTO;
     private AgeGroup ageGroup;
 
+    private AgeGroupDTO createDTO(){
+        return new AgeGroupDTO();
+    }
+
+    private AgeGroupDTO createDTO(String type){
+        return new AgeGroupDTO().type(type);
+    }
+
+    private AgeGroupDTO createDTO(int id, String type){
+        return new AgeGroupDTO().id(id).type(type);
+    }
+
+    private AgeGroup createEntity(){
+        return new AgeGroup();
+    }
+
+    private AgeGroup createEntity(String type){
+        return new AgeGroup().type(type);
+    }
+
+    private AgeGroup createEntity(int id, String type){
+        return new AgeGroup().id(id).type(type);
+    }
+
     @BeforeEach
     void setUp() {
         ageGroupMapper = new AgeGroupMapper();
 
-        ageGroupDTO = new AgeGroupDTO().type("Дитина");
-        ageGroup = new AgeGroup().type("Пенсіонер");
+        ageGroupDTO = createDTO(AGE_GROUP_CHILD_TYPE);
+        ageGroup = createEntity(AGE_GROUP_ADULT_TYPE);
     }
 
     @Test
     void testToDTO() {
-        assertEquals(ageGroupMapper.toDTO(ageGroup), new AgeGroupDTO().type("Пенсіонер"));
-        assertEquals(ageGroupMapper.toDTO(new AgeGroup()), new AgeGroupDTO());
-        assertInstanceOf(AgeGroupDTO.class, ageGroupMapper.toDTO(new AgeGroup()));
+        assertEquals(ageGroupMapper.toDTO(ageGroup), createDTO(AGE_GROUP_ADULT_TYPE));
+        assertEquals(ageGroupMapper.toDTO(createEntity()), createDTO());
+        assertInstanceOf(AgeGroupDTO.class, ageGroupMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
-        AgeGroup ageGroup2 = new AgeGroup().id(3).type("Дитина");
+        AgeGroup ageGroup2 = createEntity(3, AGE_GROUP_ADULT_TYPE);
         List<AgeGroup> ageGroups = List.of(ageGroup, ageGroup2);
-        List<AgeGroupDTO> expectedDTOs = List.of(new AgeGroupDTO().type("Пенсіонер"), new AgeGroupDTO().id(3).type("Дитина"));
+        List<AgeGroupDTO> expectedDTOs = List.of(createDTO(AGE_GROUP_ADULT_TYPE), createDTO(3, AGE_GROUP_CHILD_TYPE));
         assertEquals(ageGroupMapper.toDTO(ageGroups), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<AgeGroup> ageGroup = Optional.of(new AgeGroup().id(1).type("Пенсіонер"));
-        assertEquals(ageGroupMapper.toDTO(ageGroup), Optional.of(new AgeGroupDTO().id(1).type("Пенсіонер")));
+        Optional<AgeGroup> ageGroup = Optional.of(createEntity(1, AGE_GROUP_ADULT_TYPE));
+        assertEquals(ageGroupMapper.toDTO(ageGroup), Optional.of(createDTO(1, AGE_GROUP_ADULT_TYPE)));
     }
 
     @Test
     void testToEntity() {
-        assertEquals(ageGroupMapper.toEntity(ageGroupDTO), new AgeGroup().type("Дитина"));
-        assertInstanceOf(AgeGroup.class, ageGroupMapper.toEntity(new AgeGroupDTO()));
+        assertEquals(ageGroupMapper.toEntity(ageGroupDTO), createEntity(AGE_GROUP_CHILD_TYPE));
+        assertInstanceOf(AgeGroup.class, ageGroupMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
-        AgeGroupDTO ageGroup2DTO = new AgeGroupDTO().id(3).type("Дитина");
+        AgeGroupDTO ageGroup2DTO = createDTO(3, AGE_GROUP_CHILD_TYPE);
         List<AgeGroupDTO> ageGroupsDTO = List.of(ageGroupDTO, ageGroup2DTO);
-        List<AgeGroup> expectedEntities = List.of(new AgeGroup().type("Дитина"), new AgeGroup().id(3).type("Дитина"));
+        List<AgeGroup> expectedEntities = List.of(createEntity(AGE_GROUP_CHILD_TYPE), createEntity(3, AGE_GROUP_CHILD_TYPE));
         assertEquals(ageGroupMapper.toEntity(ageGroupsDTO), expectedEntities);
     }
 }
