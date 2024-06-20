@@ -117,7 +117,6 @@ public class Station {
                 ", nameOfStation='" + nameOfStation + '\'' +
                 ", addressLocation='" + addressLocation + '\'' +
                 ", stationPhone='" + stationPhone + '\'' +
-                ", ticket=" + tickets +
                 '}';
     }
 
