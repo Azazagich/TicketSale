@@ -27,6 +27,8 @@ public class TicketMapperTest {
     private final String ECONOMY_CLASS_STANDARD = "Стандарт";
     private final String ECONOMY_CLASS_ECONOMY = "Економ";
 
+    private final int ID_3 = 3;
+
     private TicketMapper ticketMapper;
 
     private TicketDTO ticketDTO;
@@ -90,10 +92,10 @@ public class TicketMapperTest {
 
     @Test
     void testToDTOs() {
-        Ticket ticket2 = createEntity(3, ADULT_TICKET_PRICE);
+        Ticket ticket2 = createEntity(ID_3, ADULT_TICKET_PRICE);
         List<Ticket> tickets = List.of(ticket, ticket2);
         EconomyDTO economy = createEconomyDTO(ECONOMY_CLASS_ECONOMY);
-        TicketDTO ticketDTO1 = createDTO(3, ADULT_TICKET_PRICE);
+        TicketDTO ticketDTO1 = createDTO(ID_3, ADULT_TICKET_PRICE);
         ticketDTO1.setEconomy(economy);
         List<TicketDTO> expectedDTOs = List.of(ticketDTO, ticketDTO1);
         assertEquals(ticketMapper.toDTO(tickets), expectedDTOs);
@@ -116,9 +118,9 @@ public class TicketMapperTest {
 
     @Test
     void testToEntities() {
-        TicketDTO ticket2DTO = createDTO(3, ADULT_TICKET_PRICE);
+        TicketDTO ticket2DTO = createDTO(ID_3, ADULT_TICKET_PRICE);
         List<TicketDTO> ticketsDTO = List.of(ticketDTO, ticket2DTO);
-        List<Ticket> expectedEntities = List.of(createEntity(CHILD_TICKET_PRICE), createEntity(3, CHILD_TICKET_PRICE));
+        List<Ticket> expectedEntities = List.of(createEntity(CHILD_TICKET_PRICE), createEntity(ID_3, CHILD_TICKET_PRICE));
         assertEquals(ticketMapper.toEntity(ticketsDTO), expectedEntities);
     }
 }
