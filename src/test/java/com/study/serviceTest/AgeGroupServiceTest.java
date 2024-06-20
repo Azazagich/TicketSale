@@ -29,6 +29,9 @@ public class AgeGroupServiceTest {
     private final int SECOND_ELEMENT_AGE_GROUP = 1;
     private final int PRIMARY_LIST_AGE_GROUP_SIZE = 3;
 
+    private final int EXPECTED_SIZE_ADDITION = 1;
+    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
+
     private AgeGroupDTO ageGroupDTO1;
     private AgeGroupDTO ageGroupDTO2;
     private AgeGroupDTO ageGroupDTO3;
@@ -61,6 +64,7 @@ public class AgeGroupServiceTest {
 
     @Test
     void save() {
+        int sizeBeforeSave = ageGroupService.findAll().size();
         AgeGroupDTO saved = ageGroupService.save(createDTO(AGE_GROUP_NAME_BABIES_TYPE));
 
         assertTrue(ageGroupService.existById(saved.getId()));
@@ -69,11 +73,13 @@ public class AgeGroupServiceTest {
 
         assertEquals(AGE_GROUP_NAME_BABIES_TYPE, saved.getType());
         assertEquals(saved2.getType(), saved.getType());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, ageGroupService.findAll().size());
     }
 
      @Test
     void saveAll() {
-        List<AgeGroupDTO> ageGroupsDTO = new ArrayList<>();
+         int sizeBeforeSaveAll = ageGroupService.findAll().size();
+         List<AgeGroupDTO> ageGroupsDTO = new ArrayList<>();
 
         AgeGroupDTO ageGroupDTO4 = createDTO(AGE_GROUP_NAME_BABIES_TYPE);
         AgeGroupDTO ageGroupDTO5 = createDTO(AGE_GROUP_RETIREE_TYPE);
@@ -87,7 +93,8 @@ public class AgeGroupServiceTest {
         assertTrue(ageGroupService.existById(ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getId()));
         assertEquals(ageGroupDTO4.getType(), ageGroupDTOS.get(FIRST_ELEMENT_AGE_GROUP).getType());
         assertEquals(ageGroupDTO5.getType(), ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getType());
-    }
+        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, ageGroupService.findAll().size());
+     }
 
     @Test
     void findById() {
@@ -108,22 +115,28 @@ public class AgeGroupServiceTest {
 
     @Test
     void updateId() {
+        int sizeBeforeUpdate = ageGroupService.findAll().size();
         AgeGroupDTO ageGroupDTO4 = createDTO(AGE_GROUP_NAME_BABIES_TYPE);
 
         assertTrue(ageGroupService.updateId(ageGroupDTO2.getId(), ageGroupDTO4));
         assertTrue(ageGroupService.existById(ageGroupDTO4.getId()));
         assertEquals(ageGroupDTO4.getType(), ageGroupService.findById(ageGroupDTO4.getId()).get().getType());
+        assertEquals(sizeBeforeUpdate, ageGroupService.findAll().size());
     }
 
     @Test
     void delete() {
+        int sizeBeforeDelete = ageGroupService.findAll().size();
+
         assertTrue(ageGroupService.existById(ageGroupDTO1.getId()));
         ageGroupService.delete(ageGroupDTO1);
         assertFalse(ageGroupService.existById(ageGroupDTO1.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, ageGroupService.findAll().size());
     }
 
     @Test
     void deleteAll() {
+        int sizeBeforeDeleteAll = ageGroupService.findAll().size();
         List<AgeGroupDTO> ageGroupsDTODelete = List.of(ageGroupDTO1, ageGroupDTO2);
 
         assertTrue(ageGroupService.existById(ageGroupDTO1.getId()));
@@ -134,5 +147,6 @@ public class AgeGroupServiceTest {
         assertFalse(ageGroupService.existById(ageGroupDTO1.getId()));
         assertFalse(ageGroupService.existById(ageGroupDTO2.getId()));
         assertTrue(ageGroupService.existById(ageGroupDTO3.getId()));
+        assertEquals(sizeBeforeDeleteAll - EXPECTED_SIZE_ADDITION_LIST, ageGroupService.findAll().size());
     }
 }
