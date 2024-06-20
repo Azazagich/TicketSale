@@ -19,7 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
  */
 public class UserMapperTest {
 
-    private final String[] NAMES_USERS = {"Олександр", "Андрій"};
+    private final String TEST_NAME_USER_1 = "Олександр";
+    private final String TEST_NAME_USER_2 = "Андрій";
+
+
+    private final int ID_1 = 1;
+    private final int ID_3 = 3;
 
     private UserMapper userMapper;
 
@@ -54,42 +59,42 @@ public class UserMapperTest {
     void setUp() {
         userMapper = new UserMapper();
 
-        userDTO = new UserDTO().firstName(NAMES_USERS[1]);
-        user = new User().firstName(NAMES_USERS[0]);
+        userDTO = new UserDTO().firstName(TEST_NAME_USER_2);
+        user = new User().firstName(TEST_NAME_USER_1);
     }
 
     @Test
     void testToDTO() {
-        assertEquals(userMapper.toDTO(user), createDTO(NAMES_USERS[0]));
+        assertEquals(userMapper.toDTO(user), createDTO(TEST_NAME_USER_1));
         assertEquals(userMapper.toDTO(createEntity()), createDTO());
         assertInstanceOf(UserDTO.class, userMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
-        User user2 = createEntity(3, NAMES_USERS[0]);
+        User user2 = createEntity(ID_3, TEST_NAME_USER_1);
         List<User> users = List.of(user, user2);
-        List<UserDTO> expectedDTOs = List.of(createDTO(NAMES_USERS[0]), createDTO(3, NAMES_USERS[0]));
+        List<UserDTO> expectedDTOs = List.of(createDTO(TEST_NAME_USER_1), createDTO(ID_3, TEST_NAME_USER_1));
         assertEquals(userMapper.toDTO(users), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<User> user = Optional.of(createEntity(1, NAMES_USERS[1]));
-        assertEquals(userMapper.toDTO(user), Optional.of(createDTO().id(1)));
+        Optional<User> user = Optional.of(createEntity(ID_1, TEST_NAME_USER_2));
+        assertEquals(userMapper.toDTO(user), Optional.of(createDTO().id(ID_1)));
     }
 
     @Test
     void testToEntity() {
-        assertEquals(userMapper.toEntity(userDTO), createEntity(NAMES_USERS[1]));
+        assertEquals(userMapper.toEntity(userDTO), createEntity(TEST_NAME_USER_2));
         assertInstanceOf(User.class, userMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
-        UserDTO user2DTO = createDTO(3, NAMES_USERS[1]);
+        UserDTO user2DTO = createDTO(ID_3, TEST_NAME_USER_2);
         List<UserDTO> usersDTO = List.of(userDTO, user2DTO);
-        List<User> expectedEntities = List.of(createEntity(NAMES_USERS[1]), createEntity(3, NAMES_USERS[1]));
+        List<User> expectedEntities = List.of(createEntity(TEST_NAME_USER_2), createEntity(ID_3, TEST_NAME_USER_2));
         assertEquals(userMapper.toEntity(usersDTO), expectedEntities);
     }
 }
