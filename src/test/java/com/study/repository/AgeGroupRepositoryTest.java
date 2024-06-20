@@ -1,7 +1,6 @@
-package com.study.repositoryTest;
+package com.study.repository;
 
 import com.study.domain.*;
-import com.study.repository.AgeGroupRepository;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;

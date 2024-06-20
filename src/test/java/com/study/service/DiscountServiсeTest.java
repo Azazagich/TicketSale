@@ -1,7 +1,6 @@
-package com.study.serviceTest;
+package com.study.service;
 
 import com.study.repository.DiscountRepository;
-import com.study.service.DiscountService;
 import com.study.service.dto.DiscountDTO;
 import com.study.service.mapper.DiscountMapper;
 import org.junit.jupiter.api.AfterEach;

@@ -1,7 +1,6 @@
-package com.study.serviceTest;
+package com.study.service;
 
 import com.study.repository.StationRepository;
-import com.study.service.StationService;
 import com.study.service.dto.StationDTO;
 import com.study.service.mapper.StationMapper;
 import org.junit.jupiter.api.AfterEach;

@@ -1,8 +1,7 @@
-package com.study.serviceTest.mapperTest;
+package com.study.service.mapper;
 
 import com.study.domain.Train;
 import com.study.service.dto.TrainDTO;
-import com.study.service.mapper.TrainMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

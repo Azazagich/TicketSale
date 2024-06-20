@@ -1,7 +1,6 @@
-package com.study.serviceTest;
+package com.study.service;
 
 import com.study.repository.EconomyRepository;
-import com.study.service.EconomyService;
 import com.study.service.dto.EconomyDTO;
 import com.study.service.mapper.EconomyMapper;
 import org.junit.jupiter.api.AfterEach;

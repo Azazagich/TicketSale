@@ -1,7 +1,6 @@
-package com.study.repositoryTest;
+package com.study.repository;
 
 import com.study.domain.User;
-import com.study.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

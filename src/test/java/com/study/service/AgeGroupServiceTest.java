@@ -1,7 +1,6 @@
-package com.study.serviceTest;
+package com.study.service;
 
 import com.study.repository.AgeGroupRepository;
-import com.study.service.AgeGroupService;
 import com.study.service.dto.AgeGroupDTO;
 import static org.junit.jupiter.api.Assertions.*;
 

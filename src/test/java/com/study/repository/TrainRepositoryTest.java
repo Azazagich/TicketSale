@@ -1,7 +1,6 @@
-package com.study.repositoryTest;
+package com.study.repository;
 
 import com.study.domain.Train;
-import com.study.repository.TrainRepository;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
-package com.study.serviceTest.mapperTest;
+package com.study.service.mapper;
 
 import com.study.domain.Discount;
 import com.study.service.dto.DiscountDTO;
-import com.study.service.mapper.DiscountMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

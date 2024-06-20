@@ -1,8 +1,7 @@
-package com.study.serviceTest.mapperTest;
+package com.study.service.mapper;
 
 import com.study.domain.AgeGroup;
 import com.study.service.dto.AgeGroupDTO;
-import com.study.service.mapper.AgeGroupMapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;

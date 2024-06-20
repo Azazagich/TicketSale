@@ -1,8 +1,7 @@
-package com.study.serviceTest.mapperTest;
+package com.study.service.mapper;
 
 import com.study.domain.User;
 import com.study.service.dto.UserDTO;
-import com.study.service.mapper.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

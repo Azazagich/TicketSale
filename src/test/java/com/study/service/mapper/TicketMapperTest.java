@@ -1,10 +1,9 @@
-package com.study.serviceTest.mapperTest;
+package com.study.service.mapper;
 
 import com.study.domain.Economy;
 import com.study.domain.Ticket;
 import com.study.service.dto.EconomyDTO;
 import com.study.service.dto.TicketDTO;
-import com.study.service.mapper.TicketMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

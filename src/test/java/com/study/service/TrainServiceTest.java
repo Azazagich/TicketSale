@@ -1,7 +1,6 @@
-package com.study.serviceTest;
+package com.study.service;
 
 import com.study.repository.TrainRepository;
-import com.study.service.TrainService;
 import com.study.service.dto.TrainDTO;
 import com.study.service.mapper.TrainMapper;
 import org.junit.jupiter.api.AfterEach;

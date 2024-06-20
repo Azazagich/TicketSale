@@ -1,7 +1,6 @@
-package com.study.serviceTest;
+package com.study.service;
 
 import com.study.repository.TicketRepository;
-import com.study.service.TicketService;
 import com.study.service.dto.TicketDTO;
 import com.study.service.mapper.TicketMapper;
 import org.junit.jupiter.api.AfterEach;
