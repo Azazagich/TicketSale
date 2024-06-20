@@ -85,7 +85,6 @@ public class AgeGroup {
         return "AgeGroup {" +
                 "id" + id +
                 "type" + type +
-                ", ticket=" + tickets +
                 "}";
     }
 
