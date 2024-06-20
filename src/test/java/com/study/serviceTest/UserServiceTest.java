@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This class contains unit tests for the {@link UserService} class.
@@ -21,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserServiceTest {
 
     private final String[] NAMES_USERS = {"Євген", "Олександр", "Петро", "Сергій"};
+
+    private final int EXPECTED_SIZE_ADDITION = 1;
+    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
 
     private final int FIRST_ELEMENT_TRAIN = 0;
     private final int SECOND_ELEMENT_TRAIN = 1;
@@ -57,6 +61,7 @@ public class UserServiceTest {
 
     @Test
     void save() {
+        int sizeBeforeSave = userService.findAll().size();
         UserDTO saved = userService.save(createDTO(NAMES_USERS[3]));
 
         assertTrue(userService.existById(saved.getId()));
@@ -65,10 +70,12 @@ public class UserServiceTest {
 
         assertEquals(NAMES_USERS[3], saved.getFirstName());
         assertEquals(saved2.getFirstName(), saved.getFirstName());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, userService.findAll().size());
     }
 
     @Test
     void saveAll() {
+        int sizeBeforeSaveAll = userService.findAll().size();
         List<UserDTO> usersDTO = new ArrayList<>();
 
         UserDTO userDTO4 = createDTO(NAMES_USERS[3]);
@@ -83,6 +90,7 @@ public class UserServiceTest {
         assertTrue(userService.existById(userDTOS.get(SECOND_ELEMENT_TRAIN).getId()));
         assertEquals(userDTO4.getFirstName(), userDTOS.get(FIRST_ELEMENT_TRAIN).getFirstName());
         assertEquals(userDTO5.getFirstName(), userDTOS.get(SECOND_ELEMENT_TRAIN).getFirstName());
+        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, userService.findAll().size());
     }
 
     @Test
@@ -102,22 +110,28 @@ public class UserServiceTest {
 
     @Test
     void updateId() {
+        int sizeBeforeUpdate = userService.findAll().size();
         UserDTO userDTO4 = createDTO(NAMES_USERS[3]);
 
         assertTrue(userService.updateId(userDTO2.getId(), userDTO4));
         assertTrue(userService.existById(userDTO4.getId()));
         assertEquals(userDTO4.getFirstName(), userService.findById(userDTO4.getId()).get().getFirstName());
+        assertEquals(sizeBeforeUpdate, userService.findAll().size());
     }
 
     @Test
     void delete() {
+        int sizeBeforeDelete = userService.findAll().size();
+
         assertTrue(userService.existById(userDTO1.getId()));
         userService.delete(userDTO1);
         assertFalse(userService.existById(userDTO1.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, userService.findAll().size());
     }
 
     @Test
     void deleteAll() {
+        int sizeBeforeDeleteAll = userService.findAll().size();
         List<UserDTO> usersDTODelete = List.of(userDTO1, userDTO2);
 
         assertTrue(userService.existById(userDTO1.getId()));
@@ -128,5 +142,6 @@ public class UserServiceTest {
         assertFalse(userService.existById(userDTO1.getId()));
         assertFalse(userService.existById(userDTO2.getId()));
         assertTrue(userService.existById(userDTO3.getId()));
+        assertEquals(sizeBeforeDeleteAll - EXPECTED_SIZE_ADDITION_LIST, userService.findAll().size());
     }
 }
