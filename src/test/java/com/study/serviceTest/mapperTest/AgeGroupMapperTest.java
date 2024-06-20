@@ -21,6 +21,9 @@ class AgeGroupMapperTest {
     private final String AGE_GROUP_ADULT_TYPE = "Дорослий";
     private final String AGE_GROUP_CHILD_TYPE = "Дитина";
 
+    private final int ID_1 = 1;
+    private final int ID_3 = 3;
+
     private AgeGroupMapper ageGroupMapper;
 
     private AgeGroupDTO ageGroupDTO;
@@ -67,16 +70,16 @@ class AgeGroupMapperTest {
 
     @Test
     void testToDTOs() {
-        AgeGroup ageGroup2 = createEntity(3, AGE_GROUP_ADULT_TYPE);
+        AgeGroup ageGroup2 = createEntity(ID_3, AGE_GROUP_ADULT_TYPE);
         List<AgeGroup> ageGroups = List.of(ageGroup, ageGroup2);
-        List<AgeGroupDTO> expectedDTOs = List.of(createDTO(AGE_GROUP_ADULT_TYPE), createDTO(3, AGE_GROUP_CHILD_TYPE));
+        List<AgeGroupDTO> expectedDTOs = List.of(createDTO(AGE_GROUP_ADULT_TYPE), createDTO(ID_3, AGE_GROUP_CHILD_TYPE));
         assertEquals(ageGroupMapper.toDTO(ageGroups), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<AgeGroup> ageGroup = Optional.of(createEntity(1, AGE_GROUP_ADULT_TYPE));
-        assertEquals(ageGroupMapper.toDTO(ageGroup), Optional.of(createDTO(1, AGE_GROUP_ADULT_TYPE)));
+        Optional<AgeGroup> ageGroup = Optional.of(createEntity(ID_1, AGE_GROUP_ADULT_TYPE));
+        assertEquals(ageGroupMapper.toDTO(ageGroup), Optional.of(createDTO(ID_1, AGE_GROUP_ADULT_TYPE)));
     }
 
     @Test
@@ -87,9 +90,9 @@ class AgeGroupMapperTest {
 
     @Test
     void testToEntities() {
-        AgeGroupDTO ageGroup2DTO = createDTO(3, AGE_GROUP_CHILD_TYPE);
+        AgeGroupDTO ageGroup2DTO = createDTO(ID_3, AGE_GROUP_CHILD_TYPE);
         List<AgeGroupDTO> ageGroupsDTO = List.of(ageGroupDTO, ageGroup2DTO);
-        List<AgeGroup> expectedEntities = List.of(createEntity(AGE_GROUP_CHILD_TYPE), createEntity(3, AGE_GROUP_CHILD_TYPE));
+        List<AgeGroup> expectedEntities = List.of(createEntity(AGE_GROUP_CHILD_TYPE), createEntity(ID_3, AGE_GROUP_CHILD_TYPE));
         assertEquals(ageGroupMapper.toEntity(ageGroupsDTO), expectedEntities);
     }
 }
