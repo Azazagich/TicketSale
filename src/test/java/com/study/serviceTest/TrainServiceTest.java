@@ -29,6 +29,9 @@ public class TrainServiceTest {
     private final int SECOND_ELEMENT_TRAIN = 1;
     private final int PRIMARY_LIST_TRAIN_SIZE = 3;
 
+    private final int EXPECTED_SIZE_ADDITION = 1;
+    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
+
     private TrainDTO trainDTO1;
     private TrainDTO trainDTO2;
     private TrainDTO trainDTO3;
@@ -60,6 +63,7 @@ public class TrainServiceTest {
 
     @Test
     void save() {
+        int sizeBeforeSave = trainService.findAll().size();
         TrainDTO saved = trainService.save(createDTO(AVERAGE_MAX_AMOUNT_SEATS_TRAIN));
 
         assertTrue(trainService.existById(saved.getId()));
@@ -68,10 +72,12 @@ public class TrainServiceTest {
 
         assertEquals(AVERAGE_MAX_AMOUNT_SEATS_TRAIN, saved.getAmountOfSeats());
         assertEquals(saved2.getAmountOfSeats(), saved.getAmountOfSeats());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, trainService.findAll().size());
     }
 
     @Test
     void saveAll() {
+        int sizeBeforeSaveAll = trainService.findAll().size();
         List<TrainDTO> trainsDTO = new ArrayList<>();
 
         TrainDTO trainDTO4 = createDTO(AVERAGE_MAX_AMOUNT_SEATS_TRAIN);
@@ -86,6 +92,7 @@ public class TrainServiceTest {
         assertTrue(trainService.existById(stationDTOS.get(SECOND_ELEMENT_TRAIN).getId()));
         assertEquals(trainDTO4.getAmountOfSeats(), stationDTOS.get(FIRST_ELEMENT_TRAIN).getAmountOfSeats());
         assertEquals(trainDTO5.getAmountOfSeats(), stationDTOS.get(SECOND_ELEMENT_TRAIN).getAmountOfSeats());
+        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, trainService.findAll().size());
     }
 
     @Test
@@ -105,22 +112,28 @@ public class TrainServiceTest {
 
     @Test
     void updateId() {
+        int sizeBeforeUpdate = trainService.findAll().size();
         TrainDTO trainDTO4 = createDTO(AVERAGE_MAX_AMOUNT_SEATS_TRAIN);
 
         assertTrue(trainService.updateId(trainDTO2.getId(), trainDTO4));
         assertTrue(trainService.existById(trainDTO4.getId()));
         assertEquals(trainDTO4.getAmountOfSeats(), trainService.findById(trainDTO4.getId()).get().getAmountOfSeats());
+        assertEquals(sizeBeforeUpdate, trainService.findAll().size());
     }
 
     @Test
     void delete() {
+        int sizeBeforeDelete = trainService.findAll().size();
         assertTrue(trainService.existById(trainDTO1.getId()));
         trainService.delete(trainDTO1);
         assertFalse(trainService.existById(trainDTO1.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, trainService.findAll().size());
     }
 
     @Test
     void deleteAll() {
+        int sizeBeforeDelete = trainService.findAll().size();
+
         List<TrainDTO> trainsDTODelete = List.of(trainDTO1, trainDTO2);
 
         assertTrue(trainService.existById(trainDTO1.getId()));
@@ -131,5 +144,6 @@ public class TrainServiceTest {
         assertFalse(trainService.existById(trainDTO1.getId()));
         assertFalse(trainService.existById(trainDTO2.getId()));
         assertTrue(trainService.existById(trainDTO3.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION_LIST, trainService.findAll().size());
     }
 }
