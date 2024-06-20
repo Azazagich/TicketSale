@@ -22,6 +22,9 @@ public class StationMapperTest {
     private final String STATION_KYIV = "KYIV Station";
     private final String STATION_VINNYTSIA = "Vinnytsia Station";
 
+    private final int ID_1 = 1;
+    private final int ID_3 = 3;
+
     private StationMapper stationMapper;
 
     private StationDTO stationDTO;
@@ -68,16 +71,16 @@ public class StationMapperTest {
 
     @Test
     void testToDTOs() {
-        Station station2 = createEntity(3, STATION_VINNYTSIA);
+        Station station2 = createEntity(ID_3, STATION_VINNYTSIA);
         List<Station> stations = List.of(station, station2);
-        List<StationDTO> expectedDTOs = List.of(createDTO(STATION_VINNYTSIA), createDTO(3, STATION_KYIV));
+        List<StationDTO> expectedDTOs = List.of(createDTO(STATION_VINNYTSIA), createDTO(ID_3, STATION_KYIV));
         assertEquals(stationMapper.toDTO(stations), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<Station> station = Optional.of(createEntity(1, STATION_VINNYTSIA));
-        assertEquals(stationMapper.toDTO(station), Optional.of(createDTO(1, STATION_VINNYTSIA)));
+        Optional<Station> station = Optional.of(createEntity(ID_1, STATION_VINNYTSIA));
+        assertEquals(stationMapper.toDTO(station), Optional.of(createDTO(ID_1, STATION_VINNYTSIA)));
     }
 
     @Test
@@ -88,9 +91,9 @@ public class StationMapperTest {
 
     @Test
     void testToEntities() {
-        StationDTO station2DTO = createDTO(3,STATION_VINNYTSIA);
+        StationDTO station2DTO = createDTO(ID_3,STATION_VINNYTSIA);
         List<StationDTO> stationsDTO = List.of(stationDTO, station2DTO);
-        List<Station> expectedEntities = List.of(createEntity(STATION_VINNYTSIA), createEntity(3, STATION_VINNYTSIA));
+        List<Station> expectedEntities = List.of(createEntity(STATION_VINNYTSIA), createEntity(ID_3, STATION_VINNYTSIA));
         assertEquals(stationMapper.toEntity(stationsDTO), expectedEntities);
     }
 }
