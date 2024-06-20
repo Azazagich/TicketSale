@@ -22,6 +22,9 @@ public class EconomyMapperTest {
     private final String ECONOMY_CLASS_STANDARD = "Стандарт";
     private final String ECONOMY_CLASS_ECONOMY = "Економ";
 
+    private final int ID_1 = 1;
+    private final int ID_3 = 3;
+
     private EconomyMapper economyMapper;
 
     private EconomyDTO economyDTO;
@@ -68,16 +71,16 @@ public class EconomyMapperTest {
 
     @Test
     void testToDTOs() {
-        Economy economy2 = createEntity(3,ECONOMY_CLASS_STANDARD);
+        Economy economy2 = createEntity(ID_3,ECONOMY_CLASS_STANDARD);
         List<Economy> economies = List.of(economy, economy2);
-        List<EconomyDTO> expectedDTOs = List.of(createDTO(ECONOMY_CLASS_ECONOMY), createDTO(3,ECONOMY_CLASS_STANDARD));
+        List<EconomyDTO> expectedDTOs = List.of(createDTO(ECONOMY_CLASS_ECONOMY), createDTO(ID_3,ECONOMY_CLASS_STANDARD));
         assertEquals(economyMapper.toDTO(economies), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<Economy> economy = Optional.of(createEntity(1,ECONOMY_CLASS_STANDARD));
-        assertEquals(economyMapper.toDTO(economy), Optional.of(createDTO(1, ECONOMY_CLASS_STANDARD)));
+        Optional<Economy> economy = Optional.of(createEntity(ID_1,ECONOMY_CLASS_STANDARD));
+        assertEquals(economyMapper.toDTO(economy), Optional.of(createDTO(ID_1, ECONOMY_CLASS_STANDARD)));
     }
 
     @Test
@@ -88,9 +91,9 @@ public class EconomyMapperTest {
 
     @Test
     void testToEntities() {
-        EconomyDTO economy2DTO = createDTO(3, ECONOMY_CLASS_STANDARD);
+        EconomyDTO economy2DTO = createDTO(ID_3, ECONOMY_CLASS_STANDARD);
         List<EconomyDTO> economiesDTO = List.of(economyDTO, economy2DTO);
-        List<Economy> expectedEntities = List.of(createEntity(ECONOMY_CLASS_ECONOMY), createEntity(3,ECONOMY_CLASS_STANDARD));
+        List<Economy> expectedEntities = List.of(createEntity(ECONOMY_CLASS_ECONOMY), createEntity(ID_3,ECONOMY_CLASS_STANDARD));
         assertEquals(economyMapper.toEntity(economiesDTO), expectedEntities);
     }
 }
