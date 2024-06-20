@@ -11,8 +11,8 @@ import java.util.Optional;
 
 
 /**
- * Service class for managing AgeGroupDTO entities.
- * Provides methods for CRUD operations and other business logic related to AgeGroups.
+ * Service class responsible for managing {@link AgeGroupDTO} entities.
+ * Implements {@link CrudService} to provide CRUD operations for AgeGroupDTO objects.
  */
 public class AgeGroupService implements CrudService<AgeGroupDTO>{
 
