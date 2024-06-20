@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * updating, deleting, and saving {@link Economy} entities in the repository.
  * */
 public class EconomyRepositoryTest {
-    private final String ECONOMY_CLASS_COMFORT = "Дорослий";
-    private final String ECONOMY_CLASS_STANDARD = "Дитина";
-    private final String ECONOMY_CLASS_ECONOMY = "Пенсіонер";
+    private final String ECONOMY_CLASS_COMFORT = "Комфорт";
+    private final String ECONOMY_CLASS_STANDARD = "Стандарт";
+    private final String ECONOMY_CLASS_ECONOMY = "Економ";
 
     private Economy economy1;
     private Economy economy2;
