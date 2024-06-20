@@ -29,6 +29,9 @@ public class EconomyServiceTest {
     private final int SECOND_ELEMENT_ECONOMY = 1;
     private final int PRIMARY_LIST_ECONOMY_SIZE = 3;
 
+    private final int EXPECTED_SIZE_ADDITION = 1;
+    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
+
     private EconomyDTO economyDTO1;
     private EconomyDTO economyDTO2;
     private EconomyDTO economyDTO3;
@@ -60,6 +63,7 @@ public class EconomyServiceTest {
 
     @Test
     void save() {
+        int sizeBeforeSave = economyService.findAll().size();
         EconomyDTO saved = economyService.save(createDTO(ECONOMY_CLASS_PREMIUM));
 
         assertTrue(economyService.existById(saved.getId()));
@@ -68,10 +72,12 @@ public class EconomyServiceTest {
 
         assertEquals(ECONOMY_CLASS_PREMIUM, saved.getType());
         assertEquals(saved2.getType(), saved.getType());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, economyService.findAll().size());
     }
 
     @Test
     void saveAll() {
+        int sizeBeforeSaveAll = economyService.findAll().size();
         List<EconomyDTO> economiesDTO = new ArrayList<>();
 
         EconomyDTO economyDTO4 = createDTO(ECONOMY_CLASS_PREMIUM);
@@ -86,6 +92,7 @@ public class EconomyServiceTest {
         assertTrue(economyService.existById(economyDTOS.get(SECOND_ELEMENT_ECONOMY).getId()));
         assertEquals(economyDTO4.getType(), economyDTOS.get(FIRST_ELEMENT_ECONOMY).getType());
         assertEquals(economyDTO5.getType(), economyDTOS.get(SECOND_ELEMENT_ECONOMY).getType());
+        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, economyService.findAll().size());
     }
 
     @Test
@@ -106,22 +113,28 @@ public class EconomyServiceTest {
 
     @Test
     void updateId() {
+        int sizeBeforeUpdate = economyService.findAll().size();
         EconomyDTO economyDTO4 = createDTO(ECONOMY_CLASS_PREMIUM);
 
         assertTrue(economyService.updateId(economyDTO2.getId(), economyDTO4));
         assertTrue(economyService.existById(economyDTO4.getId()));
         assertEquals(economyDTO4.getType(), economyService.findById(economyDTO4.getId()).get().getType());
+        assertEquals(sizeBeforeUpdate, economyService.findAll().size());
     }
 
     @Test
     void delete() {
+        int sizeBeforeDelete = economyService.findAll().size();
+
         assertTrue(economyService.existById(economyDTO1.getId()));
         economyService.delete(economyDTO1);
         assertFalse(economyService.existById(economyDTO1.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, economyService.findAll().size());
     }
 
     @Test
     void deleteAll() {
+        int sizeBeforeDeleteAll = economyService.findAll().size();
         List<EconomyDTO> economiesDTODelete = List.of(economyDTO1, economyDTO2);
 
         assertTrue(economyService.existById(economyDTO1.getId()));
@@ -132,5 +145,7 @@ public class EconomyServiceTest {
         assertFalse(economyService.existById(economyDTO1.getId()));
         assertFalse(economyService.existById(economyDTO2.getId()));
         assertTrue(economyService.existById(economyDTO3.getId()));
+        assertEquals(sizeBeforeDeleteAll - EXPECTED_SIZE_ADDITION_LIST, economyService.findAll().size());
+
     }
 }
