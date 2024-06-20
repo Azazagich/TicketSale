@@ -19,15 +19,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * updating, deleting, and saving {@link UserDTO} entities using the service layer.
  */
 public class UserServiceTest {
-
-    private final String[] NAMES_USERS = {"Євген", "Олександр", "Петро", "Сергій"};
-
+    
     private final int EXPECTED_SIZE_ADDITION = 1;
     private final int EXPECTED_SIZE_ADDITION_LIST = 2;
 
     private final int FIRST_ELEMENT_TRAIN = 0;
     private final int SECOND_ELEMENT_TRAIN = 1;
     private final int PRIMARY_LIST_TRAIN_SIZE = 3;
+
+    private final String TEST_NAME_USER_1 = "Євген";
+    private final String TEST_NAME_USER_2 = "Олександр";
+    private final String TEST_NAME_USER_3 = "Петро";
+    private final String TEST_NAME_USER_4 = "Сергій";
 
     private UserDTO userDTO1;
     private UserDTO userDTO2;
@@ -48,9 +51,9 @@ public class UserServiceTest {
 
         userService = new UserService(userRepository, userMapper);
 
-        userDTO1 = userService.save(createDTO(NAMES_USERS[0]));
-        userDTO2 = userService.save(createDTO(NAMES_USERS[1]));
-        userDTO3 = userService.save(createDTO(NAMES_USERS[2]));
+        userDTO1 = userService.save(createDTO(TEST_NAME_USER_1));
+        userDTO2 = userService.save(createDTO(TEST_NAME_USER_2));
+        userDTO3 = userService.save(createDTO(TEST_NAME_USER_3));
     }
 
     @AfterEach
@@ -61,13 +64,13 @@ public class UserServiceTest {
     @Test
     void save() {
         int sizeBeforeSave = userService.findAll().size();
-        UserDTO saved = userService.save(createDTO(NAMES_USERS[3]));
+        UserDTO saved = userService.save(createDTO(TEST_NAME_USER_4));
 
         assertTrue(userService.existById(saved.getId()));
 
         UserDTO saved2 = userService.findById(saved.getId()).orElseThrow();
 
-        assertEquals(NAMES_USERS[3], saved.getFirstName());
+        assertEquals(TEST_NAME_USER_4, saved.getFirstName());
         assertEquals(saved2.getFirstName(), saved.getFirstName());
         assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, userService.findAll().size());
     }
@@ -77,8 +80,8 @@ public class UserServiceTest {
         int sizeBeforeSaveAll = userService.findAll().size();
         List<UserDTO> usersDTO = new ArrayList<>();
 
-        UserDTO userDTO4 = createDTO(NAMES_USERS[3]);
-        UserDTO userDTO5 = createDTO(NAMES_USERS[2]);
+        UserDTO userDTO4 = createDTO(TEST_NAME_USER_4);
+        UserDTO userDTO5 = createDTO(TEST_NAME_USER_3);
 
         usersDTO.add(userDTO4);
         usersDTO.add(userDTO5);
@@ -110,7 +113,7 @@ public class UserServiceTest {
     @Test
     void updateId() {
         int sizeBeforeUpdate = userService.findAll().size();
-        UserDTO userDTO4 = createDTO(NAMES_USERS[3]);
+        UserDTO userDTO4 = createDTO(TEST_NAME_USER_4);
 
         assertTrue(userService.updateId(userDTO2.getId(), userDTO4));
         assertTrue(userService.existById(userDTO4.getId()));
