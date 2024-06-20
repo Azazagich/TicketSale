@@ -29,6 +29,9 @@ public class DiscountServiсeTest {
     private final int SECOND_ELEMENT_DISCOUNT = 1;
     private final int PRIMARY_LIST_DISCOUNT_SIZE = 3;
 
+    private final int EXPECTED_SIZE_ADDITION = 1;
+    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
+
     private DiscountDTO discountDTO1;
     private DiscountDTO discountDTO2;
     private DiscountDTO discountDTO3;
@@ -60,6 +63,7 @@ public class DiscountServiсeTest {
 
     @Test
     void save() {
+        int sizeBeforeSave = discountService.findAll().size();
         DiscountDTO saved = discountService.save(createDTO(DISCOUNT_TYPE_RETIREE));
 
         assertTrue(discountService.existById(saved.getId()));
@@ -68,10 +72,12 @@ public class DiscountServiсeTest {
 
         assertEquals(DISCOUNT_TYPE_RETIREE, saved.getType());
         assertEquals(saved2.getType(), saved.getType());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, discountService.findAll().size());
     }
 
     @Test
     void saveAll() {
+        int sizeBeforeSaveAll = discountService.findAll().size();
         List<DiscountDTO> discountsDTO = new ArrayList<>();
 
         DiscountDTO discountDTO4 = createDTO(DISCOUNT_TYPE_RETIREE);
@@ -86,6 +92,7 @@ public class DiscountServiсeTest {
         assertTrue(discountService.existById(discountDTOS.get(SECOND_ELEMENT_DISCOUNT).getId()));
         assertEquals(discountDTO4.getType(), discountDTOS.get(FIRST_ELEMENT_DISCOUNT).getType());
         assertEquals(discountDTO5.getType(), discountDTOS.get(SECOND_ELEMENT_DISCOUNT).getType());
+        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, discountService.findAll().size());
     }
 
     @Test
@@ -106,22 +113,28 @@ public class DiscountServiсeTest {
 
     @Test
     void updateId() {
+        int sizeBeforeUpdate = discountService.findAll().size();
         DiscountDTO discountDTO4 = createDTO(DISCOUNT_TYPE_RETIREE);
 
         assertTrue(discountService.updateId(discountDTO2.getId(), discountDTO4));
         assertTrue(discountService.existById(discountDTO4.getId()));
         assertEquals(discountDTO4.getType(), discountService.findById(discountDTO4.getId()).get().getType());
+        assertEquals(sizeBeforeUpdate, discountService.findAll().size());
     }
 
     @Test
     void delete() {
+        int sizeBeforeDelete = discountService.findAll().size();
+
         assertTrue(discountService.existById(discountDTO1.getId()));
         discountService.delete(discountDTO1);
         assertFalse(discountService.existById(discountDTO1.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, discountService.findAll().size());
     }
 
     @Test
     void deleteAll() {
+        int sizeBeforeDeleteAll = discountService.findAll().size();
         List<DiscountDTO> discountsDTODelete = List.of(discountDTO1, discountDTO2);
 
         assertTrue(discountService.existById(discountDTO1.getId()));
@@ -132,5 +145,6 @@ public class DiscountServiсeTest {
         assertFalse(discountService.existById(discountDTO1.getId()));
         assertFalse(discountService.existById(discountDTO2.getId()));
         assertTrue(discountService.existById(discountDTO3.getId()));
+        assertEquals(sizeBeforeDeleteAll - EXPECTED_SIZE_ADDITION_LIST, discountService.findAll().size());
     }
 }
