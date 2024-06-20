@@ -23,6 +23,9 @@ public class TrainMapperTest {
     private final int AVERAGE_SEATS_TRAIN = 70;
     private final int MIN_AMOUNT_SEATS_TRAIN = 40;
 
+    private final int ID_1 = 1;
+    private final int ID_3 = 3;
+
     private TrainMapper trainMapper;
 
     private TrainDTO trainDTO;
@@ -69,16 +72,16 @@ public class TrainMapperTest {
 
     @Test
     void testToDTOs() {
-        Train train2 = createEntity(3, AVERAGE_SEATS_TRAIN);
+        Train train2 = createEntity(ID_3, AVERAGE_SEATS_TRAIN);
         List<Train> trains = List.of(train, train2);
-        List<TrainDTO> expectedDTOs = List.of(createDTO(MAX_AMOUNT_SEATS_TRAIN), createDTO(3, AVERAGE_SEATS_TRAIN));
+        List<TrainDTO> expectedDTOs = List.of(createDTO(MAX_AMOUNT_SEATS_TRAIN), createDTO(ID_3, AVERAGE_SEATS_TRAIN));
         assertEquals(trainMapper.toDTO(trains), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<Train> train = Optional.of(createEntity(1, AVERAGE_SEATS_TRAIN));
-        assertEquals(trainMapper.toDTO(train), Optional.of(createDTO().id(1)));
+        Optional<Train> train = Optional.of(createEntity(ID_1, AVERAGE_SEATS_TRAIN));
+        assertEquals(trainMapper.toDTO(train), Optional.of(createDTO().id(ID_1)));
     }
 
     @Test
@@ -89,9 +92,9 @@ public class TrainMapperTest {
 
     @Test
     void testToEntities() {
-        TrainDTO train2DTO = createDTO(3, MAX_AMOUNT_SEATS_TRAIN);
+        TrainDTO train2DTO = createDTO(ID_3, MAX_AMOUNT_SEATS_TRAIN);
         List<TrainDTO> trainsDTO = List.of(trainDTO, train2DTO);
-        List<Train> expectedEntities = List.of(createEntity(MAX_AMOUNT_SEATS_TRAIN), createEntity(3, MAX_AMOUNT_SEATS_TRAIN));
+        List<Train> expectedEntities = List.of(createEntity(MAX_AMOUNT_SEATS_TRAIN), createEntity(ID_3, MAX_AMOUNT_SEATS_TRAIN));
         assertEquals(trainMapper.toEntity(trainsDTO), expectedEntities);
     }
 }
