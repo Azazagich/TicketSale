@@ -23,6 +23,8 @@ public class DiscountMapperTest {
     private final String DISCOUNT_TYPE_MILITARY = "Military Discount";
     private final String DISCOUNT_TYPE_CHILDREN = "Children Discount";
 
+    private final int ID_1 = 1;
+    private final int ID_3 = 3;
 
     private DiscountMapper discountMapper;
 
@@ -70,16 +72,16 @@ public class DiscountMapperTest {
 
     @Test
     void testToDTOs() {
-        Discount discount2 = createEntity(3, DISCOUNT_TYPE_CHILDREN);
+        Discount discount2 = createEntity(ID_3, DISCOUNT_TYPE_CHILDREN);
         List<Discount> discounts = List.of(discount, discount2);
-        List<DiscountDTO> expectedDTOs = List.of(createDTO(DISCOUNT_TYPE_SOCIAL), createDTO(3, DISCOUNT_TYPE_CHILDREN));
+        List<DiscountDTO> expectedDTOs = List.of(createDTO(DISCOUNT_TYPE_SOCIAL), createDTO(ID_3, DISCOUNT_TYPE_CHILDREN));
         assertEquals(discountMapper.toDTO(discounts), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
-        Optional<Discount> discount = Optional.of(createEntity(1,DISCOUNT_TYPE_SOCIAL));
-        assertEquals(discountMapper.toDTO(discount), Optional.of(createDTO(1,DISCOUNT_TYPE_SOCIAL)));
+        Optional<Discount> discount = Optional.of(createEntity(ID_1,DISCOUNT_TYPE_SOCIAL));
+        assertEquals(discountMapper.toDTO(discount), Optional.of(createDTO(ID_1,DISCOUNT_TYPE_SOCIAL)));
     }
 
     @Test
@@ -90,9 +92,9 @@ public class DiscountMapperTest {
 
     @Test
     void testToEntities() {
-        DiscountDTO discount2DTO = createDTO(3, DISCOUNT_TYPE_CHILDREN);
+        DiscountDTO discount2DTO = createDTO(ID_3, DISCOUNT_TYPE_CHILDREN);
         List<DiscountDTO> discountsDTO = List.of(discountDTO, discount2DTO);
-        List<Discount> expectedEntities = List.of(createEntity(DISCOUNT_TYPE_SOCIAL), createEntity(3,DISCOUNT_TYPE_CHILDREN));
+        List<Discount> expectedEntities = List.of(createEntity(DISCOUNT_TYPE_SOCIAL), createEntity(ID_3,DISCOUNT_TYPE_CHILDREN));
         assertEquals(discountMapper.toEntity(discountsDTO), expectedEntities);
     }
 }
