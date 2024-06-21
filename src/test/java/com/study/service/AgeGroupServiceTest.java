@@ -31,114 +31,108 @@ public class AgeGroupServiceTest {
     private static final int EXPECTED_SIZE_ADDITION = 1;
     private static final int EXPECTED_SIZE_ADDITION_LIST = 2;
 
-    private AgeGroup ageGroup1;
-    private AgeGroup ageGroup2;
-    private AgeGroup ageGroup3;
+    private AgeGroupDTO ageGroupDTO1;
+    private AgeGroupDTO ageGroupDTO2;
+    private AgeGroupDTO ageGroupDTO3;
 
     private AgeGroupService ageGroupService;
-    private AgeGroupMapper ageGroupMapper;
-    private AgeGroupRepository ageGroupRepository;
 
-    private AgeGroup createEntity(String type){
-        return new AgeGroup().type(type);
+    private AgeGroupDTO createDTO(String type){
+        return new AgeGroupDTO().type(type);
     }
 
     @BeforeEach
     void setUp() {
-        ageGroupRepository = new AgeGroupRepository();
-        ageGroupMapper = new AgeGroupMapper();
 
-        ageGroupService = new AgeGroupService(ageGroupRepository, ageGroupMapper);
+        ageGroupService = new AgeGroupService();
 
-        ageGroup1 = ageGroupRepository.save(createEntity(AGE_GROUP_ADULT_TYPE));
-        ageGroup2 = ageGroupRepository.save(createEntity(AGE_GROUP_RETIREE_TYPE));
-        ageGroup3 = ageGroupRepository.save(createEntity(AGE_GROUP_NAME_CHILD_TYPE));
+        ageGroupDTO1 = ageGroupService.save(createDTO(AGE_GROUP_ADULT_TYPE));
+        ageGroupDTO2 = ageGroupService.save(createDTO(AGE_GROUP_RETIREE_TYPE));
+        ageGroupDTO3 = ageGroupService.save(createDTO(AGE_GROUP_NAME_CHILD_TYPE));
     }
 
     @AfterEach
     void tearDown() {
-        ageGroupRepository.deleteAll();
+        ageGroupService.deleteAll();
     }
 
     @Test
     void save() {
-        int sizeBeforeSave = ageGroupRepository.findAll().size();
-        AgeGroupDTO saved = ageGroupService.save(ageGroupMapper.toDTO(createEntity(AGE_GROUP_NAME_BABIES_TYPE)));
+        int sizeBeforeSave = ageGroupService.findAll().size();
+        AgeGroupDTO expectedDTO = createDTO(AGE_GROUP_NAME_BABIES_TYPE);
+        AgeGroupDTO saved = ageGroupService.save(expectedDTO);
 
-        assertTrue(ageGroupRepository.existById(saved.getId()));
+        assertTrue(ageGroupService.existById(saved.getId()));
 
-        AgeGroup saved2 = ageGroupRepository.findById(saved.getId()).orElseThrow();
-
-        assertEquals(AGE_GROUP_NAME_BABIES_TYPE, saved.getType());
-        assertEquals(saved2.getType(), saved.getType());
-        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, ageGroupRepository.findAll().size());
+        assertEquals(expectedDTO.getType(), saved.getType());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, ageGroupService.findAll().size());
     }
 
      @Test
     void saveAll() {
-         int sizeBeforeSaveAll = ageGroupRepository.findAll().size();
+         int sizeBeforeSaveAll = ageGroupService.findAll().size();
          List<AgeGroupDTO> ageGroupsDTO = new ArrayList<>();
 
-        AgeGroupDTO ageGroupDTO4 = ageGroupMapper.toDTO(createEntity(AGE_GROUP_NAME_BABIES_TYPE));
-        AgeGroupDTO ageGroupDTO5 = ageGroupMapper.toDTO(createEntity(AGE_GROUP_RETIREE_TYPE));
+        AgeGroupDTO ageGroupDTO4 = createDTO(AGE_GROUP_NAME_BABIES_TYPE);
+        AgeGroupDTO ageGroupDTO5 = createDTO(AGE_GROUP_RETIREE_TYPE);
 
         ageGroupsDTO.add(ageGroupDTO4);
         ageGroupsDTO.add(ageGroupDTO5);
 
         List<AgeGroupDTO> ageGroupDTOS = ageGroupService.saveAll(ageGroupsDTO);
 
-        assertTrue(ageGroupRepository.existById(ageGroupDTOS.getFirst().getId()));
-        assertTrue(ageGroupRepository.existById(ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getId()));
+        assertTrue(ageGroupService.existById(ageGroupDTOS.getFirst().getId()));
+        assertTrue(ageGroupService.existById(ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getId()));
         assertEquals(ageGroupDTO4.getType(), ageGroupDTOS.getFirst().getType());
         assertEquals(ageGroupDTO5.getType(), ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getType());
-        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, ageGroupRepository.findAll().size());
+        assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, ageGroupService.findAll().size());
      }
 
     @Test
     void findById() {
-        assertTrue(ageGroupRepository.existById(ageGroup1.getId()));
-        AgeGroupDTO saved = ageGroupService.findById(ageGroup1.getId()).orElseThrow();
-        assertEquals(ageGroup1.getType(), saved.getType());
+        assertTrue(ageGroupService.existById(ageGroupDTO1.getId()));
+        AgeGroupDTO saved = ageGroupService.findById(ageGroupDTO1.getId()).orElseThrow();
+        assertEquals(ageGroupDTO1.getType(), saved.getType());
     }
 
     @Test
     void findAll() {
         List<AgeGroupDTO> ageGroupDTOS = ageGroupService.findAll();
         assertEquals(PRIMARY_LIST_AGE_GROUP_SIZE, ageGroupService.findAll().size());
-        assertTrue(ageGroupRepository.existById(ageGroupDTOS.getFirst().getId()));
-        assertTrue(ageGroupRepository.existById(ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getId()));
-        assertEquals(ageGroup1.getType(), ageGroupDTOS.getFirst().getType());
+        assertTrue(ageGroupService.existById(ageGroupDTOS.getFirst().getId()));
+        assertTrue(ageGroupService.existById(ageGroupDTOS.get(SECOND_ELEMENT_AGE_GROUP).getId()));
+        assertEquals(ageGroupDTO1.getType(), ageGroupDTOS.getFirst().getType());
     }
 
     @Test
     void updateId() {
-        int sizeBeforeUpdate = ageGroupRepository.findAll().size();
-        AgeGroupDTO ageGroupDTO4 = ageGroupMapper.toDTO(createEntity(AGE_GROUP_NAME_BABIES_TYPE));
+        int sizeBeforeUpdate = ageGroupService.findAll().size();
+        AgeGroupDTO ageGroupDTO4 = createDTO(AGE_GROUP_NAME_BABIES_TYPE);
 
-        assertTrue(ageGroupService.updateId(ageGroup2.getId(), ageGroupDTO4));
-        assertTrue(ageGroupRepository.existById(ageGroupDTO4.getId()));
-        assertEquals(ageGroupDTO4.getType(), ageGroupRepository.findById(ageGroupDTO4.getId()).get().getType());
-        assertEquals(sizeBeforeUpdate, ageGroupRepository.findAll().size());
+        assertTrue(ageGroupService.updateId(ageGroupDTO2.getId(), ageGroupDTO4));
+        assertTrue(ageGroupService.existById(ageGroupDTO4.getId()));
+        assertEquals(ageGroupDTO4.getType(), ageGroupService.findById(ageGroupDTO4.getId()).get().getType());
+        assertEquals(sizeBeforeUpdate, ageGroupService.findAll().size());
     }
 
     @Test
     void delete() {
-        int sizeBeforeDelete = ageGroupRepository.findAll().size();
+        int sizeBeforeDelete = ageGroupService.findAll().size();
 
-        ageGroupService.delete(ageGroupMapper.toDTO(ageGroup1));
-        assertFalse(ageGroupRepository.existById(ageGroup1.getId()));
-        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, ageGroupRepository.findAll().size());
+        ageGroupService.delete(ageGroupDTO1);
+        assertFalse(ageGroupService.existById(ageGroupDTO1.getId()));
+        assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, ageGroupService.findAll().size());
     }
 
     @Test
     void deleteAll() {
-        int sizeBeforeDeleteAll = ageGroupRepository.findAll().size();
-        List<AgeGroupDTO> ageGroupsDTODelete = List.of(ageGroupMapper.toDTO(ageGroup1), ageGroupMapper.toDTO(ageGroup2));
+        int sizeBeforeDeleteAll = ageGroupService.findAll().size();
+        List<AgeGroupDTO> ageGroupsDTODelete = List.of(ageGroupDTO1, ageGroupDTO2);
 
         ageGroupService.deleteAll(ageGroupsDTODelete);
-        assertFalse(ageGroupRepository.existById(ageGroup1.getId()));
-        assertFalse(ageGroupRepository.existById(ageGroup2.getId()));
-        assertTrue(ageGroupRepository.existById(ageGroup3.getId()));
-        assertEquals(sizeBeforeDeleteAll - EXPECTED_SIZE_ADDITION_LIST, ageGroupRepository.findAll().size());
+        assertFalse(ageGroupService.existById(ageGroupDTO1.getId()));
+        assertFalse(ageGroupService.existById(ageGroupDTO2.getId()));
+        assertTrue(ageGroupService.existById(ageGroupDTO3.getId()));
+        assertEquals(sizeBeforeDeleteAll - EXPECTED_SIZE_ADDITION_LIST, ageGroupService.findAll().size());
     }
 }
