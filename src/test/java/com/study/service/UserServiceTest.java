@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * updating, deleting, and saving {@link UserDTO} entities using the service layer.
  */
 public class UserServiceTest {
-    
+
     private final int EXPECTED_SIZE_ADDITION = 1;
     private final int EXPECTED_SIZE_ADDITION_LIST = 2;
 
