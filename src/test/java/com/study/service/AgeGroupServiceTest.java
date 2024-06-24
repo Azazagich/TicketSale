@@ -1,11 +1,8 @@
 package com.study.service;
 
-import com.study.domain.AgeGroup;
-import com.study.repository.AgeGroupRepository;
 import com.study.service.dto.AgeGroupDTO;
-import static org.junit.jupiter.api.Assertions.*;
 
-import com.study.service.mapper.AgeGroupMapper;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +40,6 @@ public class AgeGroupServiceTest {
 
     @BeforeEach
     void setUp() {
-
         ageGroupService = new AgeGroupService();
 
         ageGroupDTO1 = ageGroupService.save(createDTO(AGE_GROUP_ADULT_TYPE));
