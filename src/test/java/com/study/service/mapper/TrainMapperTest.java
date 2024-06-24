@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains unit tests for the {@link TrainMapper} class.
@@ -18,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
  */
 public class TrainMapperTest {
 
-    private final int MAX_AMOUNT_SEATS_TRAIN = 120;
-    private final int AVERAGE_SEATS_TRAIN = 70;
-    private final int MIN_AMOUNT_SEATS_TRAIN = 40;
+    private static final int MAX_AMOUNT_SEATS_TRAIN = 120;
+    private static final int AVERAGE_SEATS_TRAIN = 70;
+    private static final int MIN_AMOUNT_SEATS_TRAIN = 40;
 
-    private final int ID_1 = 1;
-    private final int ID_3 = 3;
+    private static final int ID_1 = 1;
+    private static final int ID_3 = 3;
 
     private TrainMapper trainMapper;
 
@@ -66,34 +65,34 @@ public class TrainMapperTest {
     void testToDTO() {
         assertEquals(trainMapper.toDTO(train), createDTO(MAX_AMOUNT_SEATS_TRAIN));
         assertEquals(trainMapper.toDTO(createEntity()), createDTO());
-        assertInstanceOf(TrainDTO.class, trainMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
         Train train2 = createEntity(ID_3, AVERAGE_SEATS_TRAIN);
         List<Train> trains = List.of(train, train2);
-        List<TrainDTO> expectedDTOs = List.of(createDTO(MAX_AMOUNT_SEATS_TRAIN), createDTO(ID_3, AVERAGE_SEATS_TRAIN));
-        assertEquals(trainMapper.toDTO(trains), expectedDTOs);
+        List<TrainDTO> expectedDTOs = List.of(createDTO(MAX_AMOUNT_SEATS_TRAIN),
+                createDTO(ID_3, AVERAGE_SEATS_TRAIN));
+        assertIterableEquals(trainMapper.toDTO(trains), expectedDTOs);
     }
 
     @Test
     void testToOptionalDTO() {
         Optional<Train> train = Optional.of(createEntity(ID_1, AVERAGE_SEATS_TRAIN));
-        assertEquals(trainMapper.toDTO(train), Optional.of(createDTO().id(ID_1)));
+        assertEquals(trainMapper.toDTO(train), Optional.of(createDTO(ID_1, AVERAGE_SEATS_TRAIN)));
     }
 
     @Test
     void testToEntity() {
         assertEquals(trainMapper.toEntity(trainDTO), createEntity(MAX_AMOUNT_SEATS_TRAIN));
-        assertInstanceOf(Train.class, trainMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
         TrainDTO train2DTO = createDTO(ID_3, MAX_AMOUNT_SEATS_TRAIN);
         List<TrainDTO> trainsDTO = List.of(trainDTO, train2DTO);
-        List<Train> expectedEntities = List.of(createEntity(MAX_AMOUNT_SEATS_TRAIN), createEntity(ID_3, MAX_AMOUNT_SEATS_TRAIN));
-        assertEquals(trainMapper.toEntity(trainsDTO), expectedEntities);
+        List<Train> expectedEntities = List.of(createEntity(MAX_AMOUNT_SEATS_TRAIN),
+                createEntity(ID_3, MAX_AMOUNT_SEATS_TRAIN));
+        assertIterableEquals(trainMapper.toEntity(trainsDTO), expectedEntities);
     }
 }
