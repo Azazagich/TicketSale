@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains unit tests for the {@link TicketMapper} class.
@@ -20,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
  */
 public class TicketMapperTest {
 
-    private final double ADULT_TICKET_PRICE = 250.5;
-    private final double CHILD_TICKET_PRICE = 50.0;
+    private static final double ADULT_TICKET_PRICE = 250.5;
+    private static final double CHILD_TICKET_PRICE = 50.0;
 
-    private final String ECONOMY_CLASS_STANDARD = "Стандарт";
-    private final String ECONOMY_CLASS_ECONOMY = "Економ";
+    private static final String ECONOMY_CLASS_STANDARD = "Стандарт";
+    private static final String ECONOMY_CLASS_ECONOMY = "Економ";
 
-    private final int ID_3 = 3;
+    private static final int ID_3 = 3;
 
     private TicketMapper ticketMapper;
 
@@ -86,7 +85,6 @@ public class TicketMapperTest {
     void testToDTO() {
         assertEquals(ticketMapper.toDTO(ticket), createDTO(CHILD_TICKET_PRICE));
         assertEquals(ticketMapper.toDTO(createEntity()), createDTO());
-        assertInstanceOf(TicketDTO.class, ticketMapper.toDTO(createEntity()));
     }
 
     @Test
@@ -97,7 +95,7 @@ public class TicketMapperTest {
         TicketDTO ticketDTO1 = createDTO(ID_3, ADULT_TICKET_PRICE);
         ticketDTO1.setEconomy(economy);
         List<TicketDTO> expectedDTOs = List.of(ticketDTO, ticketDTO1);
-        assertEquals(ticketMapper.toDTO(tickets), expectedDTOs);
+        assertIterableEquals(ticketMapper.toDTO(tickets), expectedDTOs);
     }
 
     @Test
@@ -112,14 +110,14 @@ public class TicketMapperTest {
     @Test
     void testToEntity() {
         assertEquals(ticketMapper.toEntity(ticketDTO), createEntity(ADULT_TICKET_PRICE));
-        assertInstanceOf(Ticket.class, ticketMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
         TicketDTO ticket2DTO = createDTO(ID_3, ADULT_TICKET_PRICE);
         List<TicketDTO> ticketsDTO = List.of(ticketDTO, ticket2DTO);
-        List<Ticket> expectedEntities = List.of(createEntity(CHILD_TICKET_PRICE), createEntity(ID_3, CHILD_TICKET_PRICE));
-        assertEquals(ticketMapper.toEntity(ticketsDTO), expectedEntities);
+        List<Ticket> expectedEntities = List.of(createEntity(CHILD_TICKET_PRICE),
+                createEntity(ID_3, CHILD_TICKET_PRICE));
+        assertIterableEquals(ticketMapper.toEntity(ticketsDTO), expectedEntities);
     }
 }
