@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains unit tests for the {@link StationMapper} class.
@@ -18,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
  */
 public class StationMapperTest {
 
-    private final String STATION_KYIV = "KYIV Station";
-    private final String STATION_VINNYTSIA = "Vinnytsia Station";
+    private static final String STATION_KYIV = "KYIV Station";
+    private static final String STATION_VINNYTSIA = "Vinnytsia Station";
 
-    private final int ID_1 = 1;
-    private final int ID_3 = 3;
+    private static final int ID_1 = 1;
+    private static final int ID_3 = 3;
 
     private StationMapper stationMapper;
 
@@ -65,7 +64,6 @@ public class StationMapperTest {
     void testToDTO() {
         assertEquals(stationMapper.toDTO(station), createDTO(STATION_VINNYTSIA));
         assertEquals(stationMapper.toDTO(createEntity()), createDTO());
-        assertInstanceOf(StationDTO.class, stationMapper.toDTO(createEntity()));
     }
 
     @Test
@@ -73,7 +71,7 @@ public class StationMapperTest {
         Station station2 = createEntity(ID_3, STATION_VINNYTSIA);
         List<Station> stations = List.of(station, station2);
         List<StationDTO> expectedDTOs = List.of(createDTO(STATION_VINNYTSIA), createDTO(ID_3, STATION_KYIV));
-        assertEquals(stationMapper.toDTO(stations), expectedDTOs);
+        assertIterableEquals(stationMapper.toDTO(stations), expectedDTOs);
     }
 
     @Test
@@ -85,14 +83,14 @@ public class StationMapperTest {
     @Test
     void testToEntity() {
         assertEquals(stationMapper.toEntity(stationDTO), createEntity(STATION_VINNYTSIA));
-        assertInstanceOf(Station.class, stationMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
         StationDTO station2DTO = createDTO(ID_3,STATION_VINNYTSIA);
         List<StationDTO> stationsDTO = List.of(stationDTO, station2DTO);
-        List<Station> expectedEntities = List.of(createEntity(STATION_VINNYTSIA), createEntity(ID_3, STATION_VINNYTSIA));
-        assertEquals(stationMapper.toEntity(stationsDTO), expectedEntities);
+        List<Station> expectedEntities = List.of(createEntity(STATION_VINNYTSIA),
+                createEntity(ID_3, STATION_VINNYTSIA));
+        assertIterableEquals(stationMapper.toEntity(stationsDTO), expectedEntities);
     }
 }
