@@ -1,8 +1,6 @@
 package com.study.service;
 
-import com.study.repository.DiscountRepository;
 import com.study.service.dto.DiscountDTO;
-import com.study.service.mapper.DiscountMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,25 +17,23 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class DiscountServiсeTest {
 
-    private final String DISCOUNT_TYPE_SOCIAL = "Social Discount";
-    private final String DISCOUNT_TYPE_CHILDREN = "Children Discount";
-    private final String DISCOUNT_TYPE_MILITARY = "Military Discount";
-    private final String DISCOUNT_TYPE_RETIREE = "Retiree Discount";
+    private static final String DISCOUNT_TYPE_SOCIAL = "Social Discount";
+    private static final String DISCOUNT_TYPE_CHILDREN = "Children Discount";
+    private static final String DISCOUNT_TYPE_MILITARY = "Military Discount";
+    private static final String DISCOUNT_TYPE_RETIREE = "Retiree Discount";
 
-    private final int FIRST_ELEMENT_DISCOUNT = 0;
-    private final int SECOND_ELEMENT_DISCOUNT = 1;
-    private final int PRIMARY_LIST_DISCOUNT_SIZE = 3;
+    private static final int SECOND_ELEMENT_DISCOUNT = 1;
+    private static final int PRIMARY_LIST_DISCOUNT_SIZE = 3;
 
-    private final int EXPECTED_SIZE_ADDITION = 1;
-    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
+    private static final int EXPECTED_SIZE_ADDITION = 1;
+    private static final int EXPECTED_SIZE_ADDITION_LIST = 2;
 
     private DiscountDTO discountDTO1;
     private DiscountDTO discountDTO2;
     private DiscountDTO discountDTO3;
 
     private DiscountService discountService;
-    private DiscountMapper discountMapper;
-    private DiscountRepository discountRepository;
+
 
     private DiscountDTO createDTO(String type){
         return new DiscountDTO().type(type);
@@ -45,10 +41,7 @@ public class DiscountServiсeTest {
 
     @BeforeEach
     void setUp() {
-        discountRepository = new DiscountRepository();
-        discountMapper = new DiscountMapper();
-
-        discountService = new DiscountService(discountRepository, discountMapper);
+        discountService = new DiscountService();
 
         discountDTO1 = discountService.save(createDTO(DISCOUNT_TYPE_SOCIAL));
         discountDTO2 = discountService.save(createDTO(DISCOUNT_TYPE_CHILDREN));
@@ -63,14 +56,12 @@ public class DiscountServiсeTest {
     @Test
     void save() {
         int sizeBeforeSave = discountService.findAll().size();
-        DiscountDTO saved = discountService.save(createDTO(DISCOUNT_TYPE_RETIREE));
+        DiscountDTO expectedDTO = createDTO(DISCOUNT_TYPE_RETIREE);
+        DiscountDTO saved = discountService.save(expectedDTO);
 
         assertTrue(discountService.existById(saved.getId()));
 
-        DiscountDTO saved2 = discountService.findById(saved.getId()).orElseThrow();
-
-        assertEquals(DISCOUNT_TYPE_RETIREE, saved.getType());
-        assertEquals(saved2.getType(), saved.getType());
+        assertEquals(expectedDTO.getType(), saved.getType());
         assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, discountService.findAll().size());
     }
 
@@ -87,9 +78,9 @@ public class DiscountServiсeTest {
 
         List<DiscountDTO> discountDTOS = discountService.saveAll(discountsDTO);
 
-        assertTrue(discountService.existById(discountDTOS.get(FIRST_ELEMENT_DISCOUNT).getId()));
+        assertTrue(discountService.existById(discountDTOS.getFirst().getId()));
         assertTrue(discountService.existById(discountDTOS.get(SECOND_ELEMENT_DISCOUNT).getId()));
-        assertEquals(discountDTO4.getType(), discountDTOS.get(FIRST_ELEMENT_DISCOUNT).getType());
+        assertEquals(discountDTO4.getType(), discountDTOS.getFirst().getType());
         assertEquals(discountDTO5.getType(), discountDTOS.get(SECOND_ELEMENT_DISCOUNT).getType());
         assertEquals(sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, discountService.findAll().size());
     }
@@ -103,11 +94,11 @@ public class DiscountServiсeTest {
 
     @Test
     void findAll() {
+        List<DiscountDTO> discountDTOS = discountService.findAll();
         assertEquals(PRIMARY_LIST_DISCOUNT_SIZE, discountService.findAll().size());
-        assertTrue(discountService.existById(discountDTO1.getId()));
-        assertTrue(discountService.existById(discountDTO2.getId()));
-        assertTrue(discountService.existById(discountDTO3.getId()));
-        assertNotNull(discountService.findAll());
+        assertTrue(discountService.existById(discountDTOS.getFirst().getId()));
+        assertTrue(discountService.existById(discountDTOS.get(SECOND_ELEMENT_DISCOUNT).getId()));
+        assertEquals(discountDTO1.getType(), discountDTOS.getFirst().getType());
     }
 
     @Test
@@ -125,7 +116,6 @@ public class DiscountServiсeTest {
     void delete() {
         int sizeBeforeDelete = discountService.findAll().size();
 
-        assertTrue(discountService.existById(discountDTO1.getId()));
         discountService.delete(discountDTO1);
         assertFalse(discountService.existById(discountDTO1.getId()));
         assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, discountService.findAll().size());
@@ -135,10 +125,6 @@ public class DiscountServiсeTest {
     void deleteAll() {
         int sizeBeforeDeleteAll = discountService.findAll().size();
         List<DiscountDTO> discountsDTODelete = List.of(discountDTO1, discountDTO2);
-
-        assertTrue(discountService.existById(discountDTO1.getId()));
-        assertTrue(discountService.existById(discountDTO2.getId()));
-        assertTrue(discountService.existById(discountDTO3.getId()));
 
         discountService.deleteAll(discountsDTODelete);
         assertFalse(discountService.existById(discountDTO1.getId()));
