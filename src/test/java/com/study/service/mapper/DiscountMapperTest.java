@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains unit tests for the {@link DiscountMapper} class.
@@ -18,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
  */
 public class DiscountMapperTest {
 
-    private final String DISCOUNT_TYPE_SOCIAL = "Social Discount";
-    private final String DISCOUNT_TYPE_MILITARY = "Military Discount";
-    private final String DISCOUNT_TYPE_CHILDREN = "Children Discount";
+    private static final String DISCOUNT_TYPE_SOCIAL = "Social Discount";
+    private static final String DISCOUNT_TYPE_MILITARY = "Military Discount";
+    private static final String DISCOUNT_TYPE_CHILDREN = "Children Discount";
 
-    private final int ID_1 = 1;
-    private final int ID_3 = 3;
+    private static final int ID_1 = 1;
+    private static final int ID_3 = 3;
 
     private DiscountMapper discountMapper;
 
@@ -66,15 +65,15 @@ public class DiscountMapperTest {
     void testToDTO() {
         assertEquals(discountMapper.toDTO(discount), createDTO(DISCOUNT_TYPE_MILITARY));
         assertEquals(discountMapper.toDTO(createEntity()), createDTO());
-        assertInstanceOf(DiscountDTO.class, discountMapper.toDTO(createEntity()));
     }
 
     @Test
     void testToDTOs() {
         Discount discount2 = createEntity(ID_3, DISCOUNT_TYPE_CHILDREN);
         List<Discount> discounts = List.of(discount, discount2);
-        List<DiscountDTO> expectedDTOs = List.of(createDTO(DISCOUNT_TYPE_SOCIAL), createDTO(ID_3, DISCOUNT_TYPE_CHILDREN));
-        assertEquals(discountMapper.toDTO(discounts), expectedDTOs);
+        List<DiscountDTO> expectedDTOs = List.of(createDTO(DISCOUNT_TYPE_SOCIAL),
+                createDTO(ID_3, DISCOUNT_TYPE_CHILDREN));
+        assertIterableEquals(discountMapper.toDTO(discounts), expectedDTOs);
     }
 
     @Test
@@ -86,14 +85,14 @@ public class DiscountMapperTest {
     @Test
     void testToEntity() {
         assertEquals(discountMapper.toEntity(discountDTO), createEntity(DISCOUNT_TYPE_SOCIAL));
-        assertInstanceOf(Discount.class, discountMapper.toEntity(createDTO()));
     }
 
     @Test
     void testToEntities() {
         DiscountDTO discount2DTO = createDTO(ID_3, DISCOUNT_TYPE_CHILDREN);
         List<DiscountDTO> discountsDTO = List.of(discountDTO, discount2DTO);
-        List<Discount> expectedEntities = List.of(createEntity(DISCOUNT_TYPE_SOCIAL), createEntity(ID_3,DISCOUNT_TYPE_CHILDREN));
-        assertEquals(discountMapper.toEntity(discountsDTO), expectedEntities);
+        List<Discount> expectedEntities = List.of(createEntity(DISCOUNT_TYPE_SOCIAL),
+                createEntity(ID_3,DISCOUNT_TYPE_CHILDREN));
+        assertIterableEquals(discountMapper.toEntity(discountsDTO), expectedEntities);
     }
 }
