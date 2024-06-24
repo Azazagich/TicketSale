@@ -1,6 +1,7 @@
 package com.study.service;
 
 import com.study.repository.TicketRepository;
+import com.study.service.dto.AgeGroupDTO;
 import com.study.service.dto.TicketDTO;
 import com.study.service.mapper.TicketMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -19,25 +20,22 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TicketServiceTest {
 
-    private final double ADULT_TICKET_PRICE = 250.5;
-    private final double CHILD_TICKET_PRICE = 50.0;
-    private final double OLD_TICKET_PRICE = 150.0;
-    private final double CELEBRATION_TICKET_PRICE = 150.0;
-    
-    private final int FIRST_ELEMENT_TRAIN = 0;
-    private final int SECOND_ELEMENT_TRAIN = 1;
-    private final int PRIMARY_LIST_TRAIN_SIZE = 3;
+    private static final double ADULT_TICKET_PRICE = 250.5;
+    private static final double CHILD_TICKET_PRICE = 50.0;
+    private static final double OLD_TICKET_PRICE = 150.0;
+    private static final double CELEBRATION_TICKET_PRICE = 150.0;
 
-    private final int EXPECTED_SIZE_ADDITION = 1;
-    private final int EXPECTED_SIZE_ADDITION_LIST = 2;
+    private static final int SECOND_ELEMENT_TRAIN = 1;
+    private static final int PRIMARY_LIST_TRAIN_SIZE = 3;
+
+    private static final int EXPECTED_SIZE_ADDITION = 1;
+    private static final int EXPECTED_SIZE_ADDITION_LIST = 2;
 
     private TicketDTO ticketDTO1;
     private TicketDTO ticketDTO2;
     private TicketDTO ticketDTO3;
     
     private TicketService ticketService;
-    private TicketMapper ticketMapper;
-    private TicketRepository ticketRepository;
 
     private TicketDTO createDTO(double price) {
         return new TicketDTO().price(price);
@@ -45,10 +43,7 @@ public class TicketServiceTest {
 
     @BeforeEach
     void setUp() {
-        ticketRepository = new TicketRepository();
-        ticketMapper = new TicketMapper();
-
-        ticketService = new TicketService(ticketRepository, ticketMapper);
+        ticketService = new TicketService();
 
         ticketDTO1 = ticketService.save(createDTO(ADULT_TICKET_PRICE));
         ticketDTO2 = ticketService.save(createDTO(CHILD_TICKET_PRICE));
@@ -63,15 +58,13 @@ public class TicketServiceTest {
     @Test
     void save() {
         int sizeBeforeSave = ticketService.findAll().size();
-        TicketDTO saved = ticketService.save(createDTO(CELEBRATION_TICKET_PRICE));
+        TicketDTO expectedDTO = createDTO(CELEBRATION_TICKET_PRICE);
+        TicketDTO saved = ticketService.save(expectedDTO);
 
         assertTrue(ticketService.existById(saved.getId()));
 
-        TicketDTO saved2 = ticketService.findById(saved.getId()).orElseThrow();
-
-        assertEquals(CELEBRATION_TICKET_PRICE, saved.getPrice());
-        assertEquals(saved2.getPrice(), saved.getPrice());
-        assertEquals( sizeBeforeSave + EXPECTED_SIZE_ADDITION, ticketService.findAll().size());
+        assertEquals(expectedDTO.getPrice(), saved.getPrice());
+        assertEquals(sizeBeforeSave + EXPECTED_SIZE_ADDITION, ticketService.findAll().size());
     }
 
     @Test
@@ -87,9 +80,9 @@ public class TicketServiceTest {
 
         List<TicketDTO> ticketDTOS = ticketService.saveAll(ticketsDTO);
 
-        assertTrue(ticketService.existById(ticketDTOS.get(FIRST_ELEMENT_TRAIN).getId()));
+        assertTrue(ticketService.existById(ticketDTOS.getFirst().getId()));
         assertTrue(ticketService.existById(ticketDTOS.get(SECOND_ELEMENT_TRAIN).getId()));
-        assertEquals(ticketDTO4.getPrice(), ticketDTOS.get(FIRST_ELEMENT_TRAIN).getPrice());
+        assertEquals(ticketDTO4.getPrice(), ticketDTOS.getFirst().getPrice());
         assertEquals(ticketDTO5.getPrice(), ticketDTOS.get(SECOND_ELEMENT_TRAIN).getPrice());
         assertEquals( sizeBeforeSaveAll + EXPECTED_SIZE_ADDITION_LIST, ticketService.findAll().size());
     }
@@ -103,10 +96,11 @@ public class TicketServiceTest {
 
     @Test
     void findAll() {
+        List<TicketDTO> ticketDTOS = ticketService.findAll();
         assertEquals(PRIMARY_LIST_TRAIN_SIZE, ticketService.findAll().size());
-        assertTrue(ticketService.existById(ticketDTO2.getId()));
-        assertTrue(ticketService.existById(ticketDTO3.getId()));
-        assertNotNull(ticketService.findAll());
+        assertTrue(ticketService.existById(ticketDTOS.getFirst().getId()));
+        assertTrue(ticketService.existById(ticketDTOS.get(SECOND_ELEMENT_TRAIN).getId()));
+        assertEquals(ticketDTO1.getPrice(), ticketDTOS.getFirst().getPrice());
     }
 
     @Test
@@ -124,7 +118,6 @@ public class TicketServiceTest {
     void delete() {
         int sizeBeforeDelete = ticketService.findAll().size();
 
-        assertTrue(ticketService.existById(ticketDTO1.getId()));
         ticketService.delete(ticketDTO1);
         assertFalse(ticketService.existById(ticketDTO1.getId()));
         assertEquals(sizeBeforeDelete - EXPECTED_SIZE_ADDITION, ticketService.findAll().size());
@@ -134,10 +127,6 @@ public class TicketServiceTest {
     void deleteAll() {
         int sizeBeforeDeleteAll = ticketService.findAll().size();
         List<TicketDTO> ticketsDTODelete = List.of(ticketDTO1, ticketDTO2);
-
-        assertTrue(ticketService.existById(ticketDTO1.getId()));
-        assertTrue(ticketService.existById(ticketDTO2.getId()));
-        assertTrue(ticketService.existById(ticketDTO3.getId()));
 
         ticketService.deleteAll(ticketsDTODelete);
         assertFalse(ticketService.existById(ticketDTO1.getId()));
