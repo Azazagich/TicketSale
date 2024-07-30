@@ -1,18 +1,18 @@
-package com.study.domain;
+package com.study.service.dto;
 
+import com.study.domain.Ticket;
+import com.study.domain.User;
+
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
-
+import java.util.Set;
 
 /**
- * Represents a user in the system with personal details and a ticket.
- *
- * The User class contains information about a user such as name, date of birth, gender, contact details,
- * and an associated ticket. The class provides constructors for creating users with fields and
- * optional methods to set additional fields.
- * */
-
-public class User {
+ * A DTO for the {@link com.study.domain.User} entity.
+ */
+public class UserDTO implements Serializable {
     private int id;
     private String firstName;
     private String middleName; //optional
@@ -22,11 +22,10 @@ public class User {
     private String email;
     private String phoneNumber; //optional
     private String password;
-    private Ticket ticket;
 
-    public User(){ }
+    public UserDTO(){ }
 
-    public User(int id, String firstName, String lastName, LocalDate dateOfBirth, String email, String password) {
+    public UserDTO(int id, String firstName, String lastName, LocalDate dateOfBirth, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,17 +46,17 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public User gender(String gender) {
+    public UserDTO gender(String gender) {
         this.gender = gender;
         return this;
     }
 
-    public User middleName(String middleName){
+    public UserDTO middleName(String middleName){
         this.middleName = middleName;
         return this;
     }
 
-    public User phoneNumber(String phoneNumber){
+    public UserDTO phoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
         return this;
     }
@@ -66,7 +65,7 @@ public class User {
         return id;
     }
 
-    public User id(int id) {
+    public UserDTO id(int id) {
         this.id = id;
         return this;
     }
@@ -79,7 +78,7 @@ public class User {
         return firstName;
     }
 
-    public User firstName(String firstName) {
+    public UserDTO firstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -92,7 +91,7 @@ public class User {
         return middleName;
     }
 
-    public User lastName(String lastName){
+    public UserDTO lastName(String lastName){
         this.lastName = lastName;
         return this;
     }
@@ -109,7 +108,7 @@ public class User {
         return dateOfBirth;
     }
 
-    public User dateOfBirth(LocalDate dateOfBirth) {
+    public UserDTO dateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         return this;
     }
@@ -126,7 +125,7 @@ public class User {
         return email;
     }
 
-    public User email(String email) {
+    public UserDTO email(String email) {
         this.email = email;
         return this;
     }
@@ -143,7 +142,7 @@ public class User {
         return password;
     }
 
-    public User password(String password) {
+    public UserDTO password(String password) {
         this.password = password;
         return this;
     }
@@ -152,23 +151,11 @@ public class User {
         this.password = password;
     }
 
-    public Ticket getTicket() {
-        return ticket;
-    }
 
-    /**
-     * Sets the ticket associated with the user.
-     *
-     * @param ticket the ticket to set
-     * */
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-        //ticket.setUser(this);
-    }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
@@ -178,27 +165,24 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
-                ", ticket=" + ticket +
                 '}';
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && Objects.equals(firstName, user.firstName)
-                && Objects.equals(middleName, user.middleName)
-                && Objects.equals(lastName, user.lastName)
-                && Objects.equals(dateOfBirth, user.dateOfBirth)
-                && Objects.equals(gender, user.gender)
-                && Objects.equals(email, user.email)
-                && Objects.equals(phoneNumber, user.phoneNumber)
-                && Objects.equals(password, user.password);
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof UserDTO)){
+            return false;
+        }
+        return id == ((UserDTO)o).id;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, middleName, lastName, dateOfBirth, gender, email, phoneNumber, password);
+        return getClass().hashCode();
     }
 }

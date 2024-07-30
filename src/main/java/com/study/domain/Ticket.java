@@ -1,8 +1,15 @@
 package com.study.domain;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
+
+
+/**
+ * Represents a ticket for a train journey. A ticket includes details such as
+ * booking dates, registration dates, price, and associated entities like user, station,
+ * train, economy class, age group, and discounts.
+ * */
 
 public class Ticket {
     private int id;
@@ -12,29 +19,36 @@ public class Ticket {
     private LocalDate returnDateTicket; //optional
     private double price;
     private User user;
-    private Station station;
+    private Station startStation;
+    private Station endStation;
     private Train train;
     private Economy economy;
     private AgeGroup ageGroup;
-    private List<Discount> discount; //optional
+    private Set<Discount> discounts = new HashSet<>(); //optional
 
     public Ticket(){ }
 
     public Ticket(int id, LocalDate departDateBooking, LocalDate registrationDateTicket, double price,
-                  User user, Station station, Train train, Economy economy, AgeGroup ageGroup) {
+                  User user, Station startStation, Station endStation, Train train, Economy economy, AgeGroup ageGroup) {
         this.id = id;
         this.departDateBooking = departDateBooking;
         this.registrationDateTicket = registrationDateTicket;
         this.price = price;
         this.user = user;
-        this.station = station;
+        this.startStation = startStation;
+        this.endStation = endStation;
         this.train = train;
         this.economy = economy;
         this.ageGroup = ageGroup;
     }
 
-    public Ticket discount(List<Discount> discount) {
-        this.discount = discount;
+    public Ticket price(double price) {
+        this.price = price;
+        return this;
+    }
+
+    public Ticket discount(Set<Discount> discount) {
+        this.discounts = discount;
         return this;
     }
 
@@ -56,56 +70,121 @@ public class Ticket {
         this.returnDateTicket = returnDateTicket;
     }
 
-    public void setDiscount(List<Discount> discount) {
-        this.discount = discount;
+    /**
+     * Sets the set of discounts associated with the ticket.
+     * If the ticket already has discounts, it disassociates them before setting the new discounts.
+     *
+     * @param discounts the set of discounts to associate with the ticket
+     * */
+    public void setDiscounts(Set<Discount> discounts) {
+        if (this.discounts != null){
+            for (Discount discount : this.discounts) {
+                discount.setTickets(null);
+            }
+        }
+        if (discounts != null){
+            for (Discount discount : discounts){
+                discount.addTicket(this);
+            }
+        }
+        this.discounts = discounts;
     }
 
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets the user associated with the ticket.
+     *
+     * @param user the user to set
+     */
     public void setUser(User user) {
         this.user = user;
+        user.setTicket(this);
     }
 
-    public Station getStation() {
-        return station;
+    public Station getStartStation() {
+        return startStation;
     }
 
-    public void setStation(Station station) {
-        this.station = station;
+    /**
+     * Sets the starting station of the journey.
+     *
+     * @param startStation the starting station to set
+     */
+    public void setStartStation(Station startStation) {
+        this.startStation = startStation;
+        startStation.addTicket(this);
+    }
+
+    public Station getEndStation() {
+        return endStation;
+    }
+
+    /**
+     * Sets the ending station of the journey.
+     *
+     * @param endStation the ending station to set
+     */
+    public void setEndStation(Station endStation) {
+        this.endStation = endStation;
+        endStation.addTicket(this);
     }
 
     public Train getTrain() {
         return train;
     }
 
+    /**
+     * Sets the train associated with the ticket.
+     *
+     * @param train the train to set
+     */
     public void setTrain(Train train) {
         this.train = train;
+        train.addTicket(this);
     }
 
     public Economy getEconomy() {
         return economy;
     }
 
+    /**
+     * Sets the economy class associated with the ticket.
+     *
+     * @param economy the economy class to set
+     */
     public void setEconomy(Economy economy) {
         this.economy = economy;
+        economy.addTicket(this);
     }
 
     public AgeGroup getAgeGroup() {
         return ageGroup;
     }
 
+    /**
+     * Sets the age group associated with the ticket.
+     *
+     * @param ageGroup the age group to set
+     */
     public void setAgeGroup(AgeGroup ageGroup) {
         this.ageGroup = ageGroup;
+        ageGroup.addTicket(this);
     }
 
-    public List<Discount> getDiscount() {
-        return discount;
+    public Set<Discount> getDiscounts() {
+        return discounts;
     }
 
     public int getId() {
         return id;
+    }
+
+    public Ticket id(int id){
+        this.id = id;
+        return this;
     }
 
     public void setId(int id) {
@@ -114,6 +193,11 @@ public class Ticket {
 
     public LocalDate getDepartDateBooking() {
         return departDateBooking;
+    }
+
+    public Ticket departDateBooking(LocalDate departDateBooking) {
+        this.departDateBooking = departDateBooking;
+        return this;
     }
 
     public void setDepartDateBooking(LocalDate departDateBooking) {
@@ -126,6 +210,11 @@ public class Ticket {
 
     public LocalDate getRegistrationDateTicket() {
         return registrationDateTicket;
+    }
+
+    public Ticket registrationDateTicket(LocalDate registrationDateTicket) {
+        this.registrationDateTicket = registrationDateTicket;
+        return this;
     }
 
     public void setRegistrationDateTicket(LocalDate registrationDateTicket) {
@@ -144,6 +233,14 @@ public class Ticket {
         this.price = price;
     }
 
+    public void addDiscount(Discount discount) {
+        this.discounts.add(discount);
+    }
+
+    public void removeDiscount(Discount discount) {
+        discounts.remove(discount);
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
@@ -154,36 +251,28 @@ public class Ticket {
                 ", returnDateTicket=" + returnDateTicket +
                 ", price=" + price +
                 ", user=" + user +
-                ", station=" + station +
+                ", startStation=" + startStation +
+                ", endStation=" + endStation +
                 ", train=" + train +
                 ", economy=" + economy +
                 ", ageGroup=" + ageGroup +
-                ", discount=" + discount +
+                ", discount=" + discounts +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ticket ticket = (Ticket) o;
-        return id == ticket.id &&
-                Double.compare(price, ticket.price) == 0 &&
-                Objects.equals(departDateBooking, ticket.departDateBooking) &&
-                Objects.equals(returnDateBooking, ticket.returnDateBooking) &&
-                Objects.equals(registrationDateTicket, ticket.registrationDateTicket) &&
-                Objects.equals(returnDateTicket, ticket.returnDateTicket) &&
-                Objects.equals(user, ticket.user) &&
-                Objects.equals(station, ticket.station) &&
-                Objects.equals(train, ticket.train) &&
-                Objects.equals(economy, ticket.economy) &&
-                Objects.equals(ageGroup, ticket.ageGroup) &&
-                Objects.equals(discount, ticket.discount);
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof Ticket)){
+            return false;
+        }
+        return id == ((Ticket)o).id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, departDateBooking, returnDateBooking, registrationDateTicket,
-                returnDateTicket, price, user, station, train, economy, ageGroup, discount);
+        return getClass().hashCode();
     }
 }

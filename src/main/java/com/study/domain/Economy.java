@@ -1,14 +1,16 @@
 package com.study.domain;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represents an economy class with an ID, type, and a set of associated tickets.
+ * */
 public class Economy {
     private int id;
     private String type;
-
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
 
     public Economy() { }
 
@@ -21,12 +23,22 @@ public class Economy {
         return id;
     }
 
+    public Economy id(int id){
+        this.id = id;
+        return this;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
     public String getType() {
         return type;
+    }
+
+    public Economy type(String type) {
+        this.type = type;
+        return this;
     }
 
     public void setType(String type) {
@@ -37,8 +49,32 @@ public class Economy {
         return tickets;
     }
 
+    /**
+     * Sets the set of tickets associated with the economy class.
+     * If the economy class already has tickets, it disassociates them before setting the new tickets.
+     *
+     * @param tickets the set of tickets to associate with the economy class
+     * */
     public void setTickets(Set<Ticket> tickets) {
+        if (this.tickets != null){
+            for (Ticket ticket : this.tickets){
+                ticket.setEconomy(null);
+            }
+        }
+        if (tickets != null){
+            for (Ticket ticket : tickets){
+                ticket.setEconomy(this);
+            }
+        }
         this.tickets = tickets;
+    }
+
+    public void addTicket(Ticket ticket){
+        tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket){
+        tickets.remove(ticket);
     }
 
     @Override
